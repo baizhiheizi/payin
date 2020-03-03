@@ -1,21 +1,22 @@
 {
+  "typeRoots": ["app/javascript/apps/types", "./node_modules/@types"],
   "compilerOptions": {
+    "rootDir": ".",
     "allowSyntheticDefaultImports": true,
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["es6", "dom"],
-    "module": "es6",
+    "lib": ["es6", "dom", "dom.iterable", "esnext"],
+    "module": "esnext",
     "moduleResolution": "node",
     "sourceMap": true,
     "target": "es5",
-    "jsx": "react"
+    "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["app/javascript/apps/*"]
+    }
   },
-  "exclude": [
-    "**/*.spec.ts",
-    "node_modules",
-    "vendor",
-    "public"
-  ],
+  "exclude": ["**/*.spec.ts", "node_modules", "vendor", "public"],
   "compileOnSave": false
 }

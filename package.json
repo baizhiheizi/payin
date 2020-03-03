@@ -1,6 +1,10 @@
 {
   "name": "payin",
   "private": true,
+  "scripts": {
+    "lint": "prettier --write app/**/*.{tsx,ts,js,gql}",
+    "lint-check": "prettier --check app/**/*.{tsx,ts,js,gql}"
+  },
   "dependencies": {
     "@babel/preset-react": "^7.8.3",
     "@rails/actioncable": "^6.0.0",
@@ -25,6 +29,7 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "prettier": "^1.19.1",
     "webpack-dev-server": "^3.10.3"
   }
 }

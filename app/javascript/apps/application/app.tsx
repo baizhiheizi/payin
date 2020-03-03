@@ -1,33 +1,30 @@
-import React from "react";
-import { Layout, Menu } from "antd";
+import { IStyles } from '@/shared';
+import { Layout, Menu } from 'antd';
+import React from 'react';
 
-type IClass = {
-  [className: string]: React.CSSProperties;
-};
-
-const style: IClass = {
-  menu: {
-    lineHeight: "inherit"
-  },
-  page: {
-    minHeight: "calc(100vh - 64px)",
-    padding: "1rem"
-  },
+const style: IStyles = {
   content: {
-    background: "#fff",
-    padding: "1rem"
+    background: '#fff',
+    padding: '1rem',
   },
   footer: {
-    textAlign: "center"
-  }
+    textAlign: 'center',
+  },
+  menu: {
+    lineHeight: 'inherit',
+  },
+  page: {
+    minHeight: 'calc(100vh - 64px)',
+    padding: '1rem',
+  },
 };
 
 export default function App(_props: any) {
   return (
     <Layout>
       <Layout.Header>
-        <Menu style={style.menu} theme="dark" mode="horizontal">
-          <Menu.Item key="home">Home</Menu.Item>
+        <Menu style={style.menu} theme='dark' mode='horizontal'>
+          <Menu.Item key='home'>Home</Menu.Item>
         </Menu>
       </Layout.Header>
       <Layout style={style.page}>
