@@ -8,7 +8,7 @@ const WebpackAssetsManifest = require("webpack-assets-manifest");
 
 environment.loaders.insert("less", lessLoader, { after: "css" });
 environment.loaders.prepend("tsx", tsxLoader);
-environment.loaders.prepend("ts", tsLoader);
+// environment.loaders.prepend("ts", tsLoader);
 environment.loaders.append("graphql", graphql);
 environment.config.merge(customizedConfig);
 

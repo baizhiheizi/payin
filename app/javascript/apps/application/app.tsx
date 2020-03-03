@@ -16,6 +16,9 @@ const style: IClass = {
   content: {
     background: "#fff",
     padding: "1rem"
+  },
+  footer: {
+    textAlign: "center"
   }
 };
 
@@ -31,7 +34,7 @@ export default function App(_props: any) {
         <Layout.Content style={style.content}>
           hello world from antd.
         </Layout.Content>
-        <Layout.Footer style={{ textAlign: "center" }}>
+        <Layout.Footer style={style.footer}>
           Payin created by an-lee
         </Layout.Footer>
       </Layout>
