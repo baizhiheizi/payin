@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_06_102437) do
+ActiveRecord::Schema.define(version: 2020_03_06_102750) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,23 @@ ActiveRecord::Schema.define(version: 2020_03_06_102437) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["asset_id"], name: "index_assets_on_asset_id", unique: true
+  end
+
+  create_table "mixin_messages", force: :cascade do |t|
+    t.string "action"
+    t.string "category"
+    t.string "content"
+    t.string "representative_id"
+    t.string "quote_message_id"
+    t.string "conversation_id"
+    t.string "user_id"
+    t.string "message_id"
+    t.json "raw"
+    t.datetime "processed_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["message_id"], name: "index_mixin_messages_on_message_id", unique: true
+    t.index ["user_id"], name: "index_mixin_messages_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
