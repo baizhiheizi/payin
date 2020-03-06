@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_06_091111) do
+ActiveRecord::Schema.define(version: 2020_03_06_095603) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,19 @@ ActiveRecord::Schema.define(version: 2020_03_06_091111) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_administrators_on_name", unique: true
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "avatar"
+    t.string "mixin_id"
+    t.string "mixin_uuid"
+    t.string "access_token", comment: "access token authorized by mixin messenger user"
+    t.json "raw", comment: "mixin user raw profile"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["mixin_id"], name: "index_users_on_mixin_id", unique: true
+    t.index ["mixin_uuid"], name: "index_users_on_mixin_uuid", unique: true
   end
 
 end
