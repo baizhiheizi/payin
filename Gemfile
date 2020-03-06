@@ -63,7 +63,7 @@ gem 'activestorage-aliyun'
 gem 'kaminari'
 
 # Simple, efficient background processing for Ruby http://sidekiq.org
-gem 'sidekiq', '~> 5.0'
+gem 'sidekiq', '< 7'
 
 # Background job scheduler
 gem 'clockwork', require: false
