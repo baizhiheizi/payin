@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'bundler/setup'
+require "#{File.dirname __FILE__}/../config/environment"
+
+EM.run {
+  MixinBot.api.start_blaze_connect do
+    def on_open(ws, _event)
+      puts [Time.current, :open]
+      ws.send MixinBot.api.list_pending_message
+    end
+
+    def on_message(ws, event)
+      raw = JSON.parse MixinBot.api.read_ws_message(event.data)
+      puts [Time.current, :message, raw&.[]('action')]
+
+      data = raw['data']
+      return if data.blank?
+
+      # 消息统一处理
+      res = HandleMixinMessageService.new.call(raw)
+
+      # 发送回执
+      ws.send MixinBot.api.acknowledge_message_receipt(data['message_id']) if data&.[]('message_id').present?
+
+      # 发送即时回复
+      ws.send MixinBot.api.write_ws_message(res) if res.present?
+    end
+  end
+}

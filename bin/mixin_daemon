@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'bundler/setup'
+require 'daemons'
+
+pid_dir = if ENV['RAILS_ENV'] == 'production'
+      File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', 'shared', 'tmp', 'pids'))
+    else
+      File.expand_path(File.join(File.dirname(__FILE__), '..', 'tmp', 'pids'))
+    end
+
+log_dir = if ENV['RAILS_ENV'] == 'production'
+      File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', 'shared', 'log'))
+    else
+      File.expand_path(File.join(File.dirname(__FILE__), '..', 'log'))
+    end
+
+Daemons.run "#{File.dirname __FILE__}/mixin_blaze",
+  dir: pid_dir,
+  dir_mode: :normal,
+  log_output: true,
+  log_dir: log_dir,
+  output_logfilename: 'mixin_blaze.log',
+  logfilename: 'mixin_blaze.log'
