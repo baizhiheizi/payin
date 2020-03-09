@@ -1,3 +1,4 @@
+import { Login } from '@/admin/pages';
 import { apolloClient, IStyles } from '@/shared';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { Layout, Menu } from 'antd';
@@ -20,24 +21,28 @@ const style: IStyles = {
   },
 };
 
-export default function App(_props: any) {
+export default function App(props: any) {
   return (
     <ApolloProvider client={apolloClient('/admin')}>
-      <Layout>
-        <Layout.Header>
-          <Menu style={style.menu} theme='dark' mode='horizontal'>
-            <Menu.Item key='home'>Home</Menu.Item>
-          </Menu>
-        </Layout.Header>
-        <Layout style={style.page}>
-          <Layout.Content style={style.content}>
-            hello world from antd.
-          </Layout.Content>
-          <Layout.Footer style={style.footer}>
-            Payin created by an-lee
-          </Layout.Footer>
+      {props.currentAdmin ? (
+        <Layout>
+          <Layout.Header>
+            <Menu style={style.menu} theme='dark' mode='horizontal'>
+              <Menu.Item key='home'>Home</Menu.Item>
+            </Menu>
+          </Layout.Header>
+          <Layout style={style.page}>
+            <Layout.Content style={style.content}>
+              hello world from antd.
+            </Layout.Content>
+            <Layout.Footer style={style.footer}>
+              Payin created by an-lee
+            </Layout.Footer>
+          </Layout>
         </Layout>
-      </Layout>
+      ) : (
+        <Login />
+      )}
     </ApolloProvider>
   );
 }

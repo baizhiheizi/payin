@@ -1,0 +1,5 @@
+mutation AdminLogout($input: AdminLogoutInput!) {
+  adminLogout(input: $input) {
+    msg
+  }
+}

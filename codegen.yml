@@ -1,0 +1,16 @@
+overwrite: true
+generates:
+  app/javascript/apps/graphql/admin/documents.ts:
+    schema:
+      - http://localhost:3000/admin/graphql:
+          headers:
+            Authorization: 9ac42e05e64ff49ee5cef1fc5ebc172ea6d7735f9fab0061f0463dc4e60393a1
+    documents: app/javascript/apps/graphql/admin/**/*.{gql,graphql}
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-document-nodes"
+      - "fragment-matcher"
+    ./graphql.schema.json:
+      plugins:
+        - "introspection"
