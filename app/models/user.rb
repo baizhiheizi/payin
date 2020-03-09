@@ -20,4 +20,5 @@
 #  index_users_on_mixin_uuid  (mixin_uuid) UNIQUE
 #
 class User < ApplicationRecord
+  include Authenticatable
 end

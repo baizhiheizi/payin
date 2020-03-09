@@ -14,3 +14,17 @@ generates:
     ./graphql.schema.json:
       plugins:
         - "introspection"
+  app/javascript/apps/graphql/application/documents.ts:
+    schema:
+      - http://localhost:3000/graphql:
+          headers:
+            Authorization: 9ac42e05e64ff49ee5cef1fc5ebc172ea6d7735f9fab0061f0463dc4e60393a1
+    documents: app/javascript/apps/graphql/application/**/*.{gql,graphql}
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-document-nodes"
+      - "fragment-matcher"
+    ./graphql.schema.json:
+      plugins:
+        - "introspection"
