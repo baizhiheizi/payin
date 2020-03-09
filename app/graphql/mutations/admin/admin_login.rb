@@ -2,6 +2,10 @@
 
 module Mutations
   class Admin::AdminLogin < Admin::BaseMutation
+    def self.authorized?(_obj, _ctx)
+      true
+    end
+
     argument :name, String, required: true
     argument :password, String, required: true
 
