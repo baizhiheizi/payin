@@ -33,7 +33,12 @@ export function AppLayout(props: any) {
       {props.currentAdmin ? (
         <Layout>
           <Layout.Header>
-            <Menu style={style.menu} theme='dark' mode='horizontal'>
+            <Menu
+              style={style.menu}
+              theme='dark'
+              mode='horizontal'
+              defaultSelectedKeys={['home']}
+            >
               <Menu.Item key='home'>Home</Menu.Item>
               <Menu.Item
                 key='logout'
