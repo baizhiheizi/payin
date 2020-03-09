@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   # login
   get 'login', to: 'sessions#new', as: :login
   match '/auth/mixin/callback', to: 'sessions#create', via: %i[get post]
-  delete '/logout', to: 'sessions#destroy', as: :logout
+  match '/logout', to: 'sessions#destroy', as: :logout, via: %i[get delete]
 
   root to: 'home#index'
 

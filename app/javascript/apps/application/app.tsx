@@ -45,6 +45,16 @@ export default function App(props: IProps) {
               mode='horizontal'
             >
               <Menu.Item key='home'>Home</Menu.Item>
+              {currentUser && (
+                <Menu.Item
+                  key='logout'
+                  onClick={() => {
+                    location.href = '/logout';
+                  }}
+                >
+                  Logout
+                </Menu.Item>
+              )}
             </Menu>
           </Layout.Header>
           <Layout style={style.page}>
@@ -59,7 +69,11 @@ export default function App(props: IProps) {
       ) : (
         <Result
           title='Please login.'
-        extra={<Button type='primary' href='/login'>Log In</Button>}
+          extra={
+            <Button type='primary' href='/login'>
+              Log In
+            </Button>
+          }
         />
       )}
     </ApolloProvider>

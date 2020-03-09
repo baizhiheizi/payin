@@ -38,6 +38,8 @@ class ApplicationController < ActionController::Base
   end
 
   def base_props
+    return {} if current_user.blank?
+
     {
       currentUser: {
         name: current_user&.name,
