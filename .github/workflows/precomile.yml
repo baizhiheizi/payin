@@ -1,0 +1,57 @@
+name: Precompile for deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  precompile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Ruby 2.7
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Use cached node_modules
+        uses: actions/cache@v1
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Increasing the amount of inotify watchers
+        run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+
+      - name: Precompile
+        env:
+          RAILS_ENV: production
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: |
+          sudo apt-get -yqq install libpq-dev
+          gem install bundler:2.1.4
+          bundle install --jobs 4 --retry 3
+          yarn install
+          bin/rails assets:precompile
+
+      - name: Push to release branch
+        uses: demurgos/ga-deploy-git@v1
+        with:
+          accessToken: ${{ secrets.ACCESS_TOKEN }}
+          destBranch: release
+          commitUser: an-lee
+          commitEmail: an.lee.work@gmail.com
