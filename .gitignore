@@ -22,12 +22,16 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+/config/credentials/development.key
 
-/public/packs
+# Ingore development & test packs
+/public/packs-dev
 /public/packs-test
+/public/assets-dev
+
+# Misc
 /node_modules
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
-
-/config/credentials/development.key
+.DS_Store
