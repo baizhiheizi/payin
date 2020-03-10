@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_06_102750) do
+ActiveRecord::Schema.define(version: 2020_03_10_070557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,26 @@ ActiveRecord::Schema.define(version: 2020_03_06_102750) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["message_id"], name: "index_mixin_messages_on_message_id", unique: true
     t.index ["user_id"], name: "index_mixin_messages_on_user_id"
+  end
+
+  create_table "multisign_account_members", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "multisign_account_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["multisign_account_id"], name: "index_multisign_account_members_on_multisign_account_id"
+    t.index ["user_id"], name: "index_multisign_account_members_on_user_id"
+  end
+
+  create_table "multisign_accounts", force: :cascade do |t|
+    t.bigint "creator_id"
+    t.string "name"
+    t.string "introduction"
+    t.integer "threshold"
+    t.json "member_uuids", comment: "sort before saved"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["creator_id"], name: "index_multisign_accounts_on_creator_id"
   end
 
   create_table "users", force: :cascade do |t|
