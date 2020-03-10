@@ -95,11 +95,11 @@ gem 'pg_query', '>= 0.9.0'
 gem 'pghero'
 
 # deploy
-gem 'mina', '~> 1.2.2', require: false
+gem 'mina', require: false
 gem 'mina-clockwork', require: false
-gem 'mina-logs', '~> 1.1.0', require: false
-gem 'mina-multistage'
-gem 'mina-ng-puma'
+gem 'mina-logs', require: false
+gem 'mina-multistage', require: false
+gem 'mina-ng-puma', require: false
 
 # Ruby implementation of GraphQL http://graphql-ruby.org
 gem 'graphql'
