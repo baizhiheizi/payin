@@ -98,9 +98,8 @@ gem 'pghero'
 gem 'mina', '~> 1.2.2', require: false
 gem 'mina-clockwork', require: false
 gem 'mina-logs', '~> 1.1.0', require: false
-gem 'mina-multistage', '~> 1.0.3', require: false
-gem 'mina-ng-puma', '~> 1.2.0', require: false
-gem 'mina-sidekiq', '~> 1.0.3', require: false
+gem 'mina-multistage'
+gem 'mina-ng-puma'
 
 # Ruby implementation of GraphQL http://graphql-ruby.org
 gem 'graphql'
