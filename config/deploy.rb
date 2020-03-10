@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+set :stages, %w[production]
+set :default_stage, 'production'
+
 require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
@@ -8,9 +11,6 @@ require 'mina/puma'
 require 'mina/clockwork'
 require 'mina/logs'
 require 'mina/multistage'
-
-set :stages, %w[production]
-set :default_stage, 'production'
 
 # Shared dirs and files will be symlinked into the app-folder by the 'deploy:link_shared_paths' step.
 # Some plugins already add folders to shared_dirs like `mina/rails` add `public/assets`, `vendor/bundle` and many more
