@@ -1,4 +1,4 @@
-name: Linter & Code Analysis
+name: Lint
 
 on:
   push:
