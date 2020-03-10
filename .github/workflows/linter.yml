@@ -1,0 +1,35 @@
+name: Linter & Code Analysis
+
+on:
+  push:
+    branches-ignore:
+      - 'release'
+
+jobs:
+  linter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Ruby 2.7
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Lint rb
+        run: |
+          sudo apt-get -yyq install libpq-dev
+          gem install bundler:2.1.4
+          gem install rubocop-rails
+          gem install rubocop-rspec
+          rubocop
+
+      - name: Lint js/ts
+        run: |
+          sudo yarn global add prettier
+          prettier --check app/**/*.{ts,tsx,js,gql}
