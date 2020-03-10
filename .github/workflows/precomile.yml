@@ -1,4 +1,4 @@
-name: Precompile for deploy
+name: Precompile
 
 on:
   push:
