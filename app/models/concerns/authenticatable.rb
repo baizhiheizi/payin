@@ -22,7 +22,7 @@ module Authenticatable
     def create_by_profile(profile, access_token = nil)
       user = create_with(raw: profile).find_or_create_by!(mixin_uuid: profile['user_id'])
       user.raw = profile
-      user.update! raw: raw if user.raw_changed?
+      user.update! raw: profile if user.raw_changed?
       user.update access_token: access_token if access_token.present?
 
       user

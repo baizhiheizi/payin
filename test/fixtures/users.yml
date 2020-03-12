@@ -22,8 +22,9 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+
+an-lee:
+  name: 李安
+  mixin_id: 1051445
+  mixin_uuid: 7ed9292d-7c95-4333-aa48-a8c640064186
+  avatar: https://mixin-images.zeromesh.net/9tMscDkZuXyLKMRChmFi5IiFF2XuQHO8PQpED8zKOCBDGKGSVB9J2eqzyjhgJKPDVunXiT-DPiisImX_bhBDPi4=s256

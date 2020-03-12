@@ -24,4 +24,24 @@ class User < ApplicationRecord
 
   has_many :multisign_account_members, dependent: :nullify
   has_many :multisign_accounts, through: :multisign_account_members
+
+  before_validation :set_attributes, on: :create
+
+  validates :mixin_id, presence: true, uniqueness: true
+  validates :mixin_uuid, presence: true, uniqueness: true
+  validates :name, presence: true
+  validates :raw, presence: true
+
+  private
+
+  def set_attributes
+    return unless new_record?
+
+    assign_attributes(
+      name: raw['full_name'],
+      avatar: raw['avatar_url'],
+      mixin_id: raw['identity_number'],
+      mixin_uuid: raw['user_id']
+    )
+  end
 end
