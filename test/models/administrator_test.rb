@@ -17,7 +17,11 @@
 require 'test_helper'
 
 class AdministratorTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  setup do
+    @admin = Administrator.create!(name: 'admin_test', password: 'password')
+  end
+
+  test 'admin auth' do
+    assert @admin.authenticate('password')
+  end
 end

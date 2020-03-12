@@ -9,7 +9,7 @@ module Mutations
     def resolve
       context[:session][:current_admin_id] = nil
       {
-        msg: 'ok'
+        msg: 'success'
       }
     end
   end

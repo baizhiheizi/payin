@@ -29,6 +29,9 @@
 /public/packs-test
 /public/assets-dev
 
+# test result
+/coverage
+
 # Misc
 /node_modules
 /yarn-error.log
