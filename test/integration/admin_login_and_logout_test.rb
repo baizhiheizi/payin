@@ -34,6 +34,6 @@ class AdminLoginAndLogoutTest < ActionDispatch::IntegrationTest
                }
              )
     assert_nil result.context[:session][:current_admin_id]
-    assert result['data']['adminLogout']['msg'] == 'ok'
+    assert result['data']['adminLogout']['msg'] == 'success'
   end
 end
