@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_073024) do
     t.string "name"
     t.string "category"
     t.uuid "participant_uuids", array: true
-    t.json "raw"
+    t.json "data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["conversation_id"], name: "index_mixin_groups_on_conversation_id"
@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_073024) do
     t.string "memo"
     t.string "status"
     t.uuid "receivers", array: true
-    t.json "raw"
+    t.json "data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["creator_id"], name: "index_multisig_payments_on_creator_id"
@@ -118,7 +118,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_073024) do
     t.string "state"
     t.uuid "request_id"
     t.uuid "code_id"
-    t.json "raw"
+    t.json "data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["code_id"], name: "index_multisig_requests_on_code_id"
@@ -151,8 +151,8 @@ ActiveRecord::Schema.define(version: 2020_03_13_073024) do
     t.string "avatar"
     t.string "mixin_id"
     t.uuid "mixin_uuid"
-    t.string "access_token", comment: "access token authorized by mixin messenger user"
-    t.json "raw", comment: "mixin user raw profile"
+    t.string "access_token"
+    t.json "data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["mixin_id"], name: "index_users_on_mixin_id", unique: true

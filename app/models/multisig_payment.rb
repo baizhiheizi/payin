@@ -6,8 +6,8 @@
 #
 #  id                   :uuid             not null, primary key
 #  amount               :decimal(, )
+#  data                 :json
 #  memo                 :string
-#  raw                  :json
 #  receivers            :uuid             is an Array
 #  status               :string
 #  threshold            :integer
@@ -37,7 +37,7 @@ class MultisigPayment < ApplicationRecord
   validates :asset_id, presence: true
   validates :code_id, presence: true, uniqueness: true
   validates :trace_id, presence: true, uniqueness: true
-  validates :raw, presence: true
+  validates :data, presence: true
 
   private
 
@@ -45,14 +45,14 @@ class MultisigPayment < ApplicationRecord
     return unless new_record?
 
     assign_attributes(
-      amount: raw['amount'],
-      asset_id: raw['asset_id'],
-      code_id: raw['code_id'],
-      memo: raw['memo'],
-      receivers: raw['receivers'],
-      status: raw['status'],
-      threshold: raw['threshold'],
-      trace_id: raw['trace_id']
+      amount: data['amount'],
+      asset_id: data['asset_id'],
+      code_id: data['code_id'],
+      memo: data['memo'],
+      receivers: data['receivers'],
+      status: data['status'],
+      threshold: data['threshold'],
+      trace_id: data['trace_id']
     )
   end
 end

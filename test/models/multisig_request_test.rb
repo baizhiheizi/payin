@@ -6,7 +6,7 @@
 #
 #  id                       :uuid             not null, primary key
 #  action                   :string
-#  raw                      :json
+#  data                     :json
 #  state                    :string
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null

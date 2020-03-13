@@ -6,9 +6,9 @@
 #
 #  id                :uuid             not null, primary key
 #  category          :string
+#  data              :json
 #  name              :string
 #  participant_uuids :uuid             is an Array
-#  raw               :json
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  code_id           :uuid
@@ -42,26 +42,26 @@ class MixinGroup < ApplicationRecord
     return if r['data'].blank?
     return unless r['data']['category'] == 'GROUP'
 
-    create! raw: r['data']
+    create! data: r['data']
   end
 
   def refresh!
     r = MixinBot.api.read_conversation conversation_id
     return if r['data'].blank?
 
-    update! raw: r['data']
+    update! data: r['data']
   end
 
   private
 
   def set_attributes
     assign_attributes(
-      conversation_id: raw['conversation_id'],
-      creator_id: raw['creator_id'],
-      category: raw['category'],
-      code_id: raw['code_id'],
-      name: raw['name'],
-      participant_uuids: raw['participants'].map(&->(participant) { participant['user_id'] })
+      conversation_id: data['conversation_id'],
+      creator_id: data['creator_id'],
+      category: data['category'],
+      code_id: data['code_id'],
+      name: data['name'],
+      participant_uuids: data['participants'].map(&->(participant) { participant['user_id'] })
     )
   end
 end

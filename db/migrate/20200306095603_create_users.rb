@@ -5,8 +5,8 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :avatar
       t.string :mixin_id
       t.uuid :mixin_uuid
-      t.string :access_token, comment: 'access token authorized by mixin messenger user'
-      t.json :raw, comment: 'mixin user raw profile'
+      t.string :access_token
+      t.json :data
 
       t.timestamps
     end

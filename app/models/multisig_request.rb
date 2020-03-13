@@ -6,7 +6,7 @@
 #
 #  id                       :uuid             not null, primary key
 #  action                   :string
-#  raw                      :json
+#  data                     :json
 #  state                    :string
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
@@ -28,7 +28,7 @@ class MultisigRequest < ApplicationRecord
   before_validation :set_attributes
 
   validates :action, presence: true
-  validates :raw, presence: true
+  validates :data, presence: true
   validates :code_id, presence: true, uniqueness: true
   validates :request_id, presence: true, uniqueness: true
 
@@ -36,9 +36,9 @@ class MultisigRequest < ApplicationRecord
 
   def set_attributes
     assign_attributes(
-      code_id: raw['code_id'],
-      request_id: raw['request_id'],
-      state: raw['state']
+      code_id: data['code_id'],
+      request_id: data['request_id'],
+      state: data['state']
     )
   end
 end

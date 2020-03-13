@@ -4,9 +4,9 @@
 #
 #  id                :uuid             not null, primary key
 #  category          :string
+#  data              :json
 #  name              :string
 #  participant_uuids :uuid             is an Array
-#  raw               :json
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  code_id           :uuid

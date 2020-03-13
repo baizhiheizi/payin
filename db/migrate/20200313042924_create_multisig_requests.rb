@@ -7,7 +7,7 @@ class CreateMultisigRequests < ActiveRecord::Migration[6.0]
       t.string :state
       t.uuid :request_id
       t.uuid :code_id, index: true, unique: true
-      t.json :raw
+      t.json :data
 
       t.timestamps
     end

@@ -4,15 +4,15 @@
 #
 # Table name: users
 #
-#  id                                                            :uuid             not null, primary key
-#  access_token(access token authorized by mixin messenger user) :string
-#  avatar                                                        :string
-#  mixin_uuid                                                    :uuid
-#  name                                                          :string
-#  raw(mixin user raw profile)                                   :json
-#  created_at                                                    :datetime         not null
-#  updated_at                                                    :datetime         not null
-#  mixin_id                                                      :string
+#  id           :uuid             not null, primary key
+#  access_token :string
+#  avatar       :string
+#  data         :json
+#  mixin_uuid   :uuid
+#  name         :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  mixin_id     :string
 #
 # Indexes
 #

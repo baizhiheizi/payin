@@ -4,15 +4,15 @@
 #
 # Table name: users
 #
-#  id                                                            :uuid             not null, primary key
-#  access_token(access token authorized by mixin messenger user) :string
-#  avatar                                                        :string
-#  mixin_uuid                                                    :uuid
-#  name                                                          :string
-#  raw(mixin user raw profile)                                   :json
-#  created_at                                                    :datetime         not null
-#  updated_at                                                    :datetime         not null
-#  mixin_id                                                      :string
+#  id           :uuid             not null, primary key
+#  access_token :string
+#  avatar       :string
+#  data         :json
+#  mixin_uuid   :uuid
+#  name         :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  mixin_id     :string
 #
 # Indexes
 #
@@ -31,7 +31,7 @@ class User < ApplicationRecord
   validates :mixin_id, presence: true, uniqueness: true
   validates :mixin_uuid, presence: true, uniqueness: true
   validates :name, presence: true
-  validates :raw, presence: true
+  validates :data, presence: true
 
   private
 
@@ -39,10 +39,10 @@ class User < ApplicationRecord
     return unless new_record?
 
     assign_attributes(
-      name: raw['full_name'],
-      avatar: raw['avatar_url'],
-      mixin_id: raw['identity_number'],
-      mixin_uuid: raw['user_id']
+      name: data['full_name'],
+      avatar: data['avatar_url'],
+      mixin_id: data['identity_number'],
+      mixin_uuid: data['user_id']
     )
   end
 end

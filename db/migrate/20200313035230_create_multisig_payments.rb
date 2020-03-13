@@ -11,7 +11,7 @@ class CreateMultisigPayments < ActiveRecord::Migration[6.0]
       t.string :memo
       t.string :status
       t.uuid :receivers, array: true, index: true, using: 'gin'
-      t.json :raw
+      t.json :data
 
       t.timestamps
     end

@@ -6,8 +6,8 @@
 #
 #  id                   :uuid             not null, primary key
 #  amount               :decimal(, )
+#  data                 :json
 #  memo                 :string
-#  raw                  :json
 #  receivers            :uuid             is an Array
 #  status               :string
 #  threshold            :integer

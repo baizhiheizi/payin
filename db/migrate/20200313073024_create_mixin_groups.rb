@@ -7,7 +7,7 @@ class CreateMixinGroups < ActiveRecord::Migration[6.0]
       t.string :name
       t.string :category
       t.uuid :participant_uuids, array: true
-      t.json :raw
+      t.json :data
 
       t.timestamps
     end
