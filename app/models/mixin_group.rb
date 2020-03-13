@@ -37,14 +37,6 @@ class MixinGroup < ApplicationRecord
       )
   end
 
-  def self.create_from_mixin!
-    r = MixinBot.api.read_conversation conversation_id
-    return if r['data'].blank?
-    return unless r['data']['category'] == 'GROUP'
-
-    create! data: r['data']
-  end
-
   def refresh!
     r = MixinBot.api.read_conversation conversation_id
     return if r['data'].blank?
@@ -55,13 +47,22 @@ class MixinGroup < ApplicationRecord
   private
 
   def set_attributes
+    read_conversation if data.blank?
+
     assign_attributes(
-      conversation_id: data['conversation_id'],
       creator_id: data['creator_id'],
       category: data['category'],
       code_id: data['code_id'],
       name: data['name'],
       participant_uuids: data['participants'].map(&->(participant) { participant['user_id'] })
     )
+  end
+
+  def read_conversation
+    r = MixinBot.api.read_conversation conversation_id
+    return if r['data'].blank?
+    return unless r['data']['category'] == 'GROUP'
+
+    self.data = r['data']
   end
 end

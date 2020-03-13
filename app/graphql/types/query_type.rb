@@ -6,5 +6,7 @@ module Types
     def current_user
       context[:current_user]
     end
+
+    field :current_group, resolver: Resolvers::CurrentGroup
   end
 end

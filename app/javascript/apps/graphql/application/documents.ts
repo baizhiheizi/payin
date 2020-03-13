@@ -26,6 +26,18 @@ export type CreateMultisigAccountPayload = {
 };
 
 
+export type MixinGroup = {
+   __typename?: 'MixinGroup',
+  category: Scalars['String'],
+  codeId: Scalars['String'],
+  conversationId: Scalars['String'],
+  createdAt: Scalars['ISO8601DateTime'],
+  creator: User,
+  id: Scalars['ID'],
+  name: Scalars['String'],
+  participantUuids: Array<Scalars['String']>,
+};
+
 export type MultisigAccount = {
    __typename?: 'MultisigAccount',
   createdAt: Scalars['ISO8601DateTime'],
@@ -50,7 +62,13 @@ export type MutationCreateMultisigAccountArgs = {
 
 export type Query = {
    __typename?: 'Query',
+  currentGroup?: Maybe<MixinGroup>,
   currentUser?: Maybe<User>,
+};
+
+
+export type QueryCurrentGroupArgs = {
+  conversationId: Scalars['String']
 };
 
 export type User = {
@@ -81,6 +99,23 @@ export type CreateMultisigAccountMutation = (
   )> }
 );
 
+export type CurrentGroupQueryVariables = {
+  conversationId: Scalars['String']
+};
+
+
+export type CurrentGroupQuery = (
+  { __typename?: 'Query' }
+  & { currentGroup: Maybe<(
+    { __typename?: 'MixinGroup' }
+    & Pick<MixinGroup, 'conversationId' | 'name' | 'participantUuids'>
+    & { creator: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name' | 'avatar' | 'mixinUuid'>
+    ) }
+  )> }
+);
+
 export type CurrentUserQueryVariables = {};
 
 
@@ -102,6 +137,21 @@ export const CreateMultisigAccount = gql`
       name
     }
     errors
+  }
+}
+    `;
+export const CurrentGroup = gql`
+    query CurrentGroup($conversationId: String!) {
+  currentGroup(conversationId: $conversationId) {
+    conversationId
+    name
+    participantUuids
+    creator {
+      id
+      name
+      avatar
+      mixinUuid
+    }
   }
 }
     `;

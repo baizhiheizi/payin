@@ -39,13 +39,7 @@ module MixinMessageProccessable
 
     return unless msg['action'].in? %w[ADD REMOVE ROLE]
 
-    group = MixinGroup.find_by(conversation_id: conversation_id)
-
-    if group.present?
-      group.refresh!
-    else
-      MixinGroup.create_from_mixin!(conversation_id: conversation_id)
-    end
+    MixinGroup.find_or_create_by!(conversation_id: conversation_id)
   end
 
   def process_group_conversation
