@@ -18,14 +18,15 @@ EM.run {
       data = raw['data']
       return if data.blank?
 
-      # 消息统一处理
-      res = HandleMixinMessageService.new.call(raw)
+      # create message
+      MixinMessage
+        .create_with(raw: raw)
+        .find_or_create_by!(
+          message_id: raw['data']['message_id']
+        )
 
-      # 发送回执
+      # ack
       ws.send MixinBot.api.acknowledge_message_receipt(data['message_id']) if data&.[]('message_id').present?
-
-      # 发送即时回复
-      ws.send MixinBot.api.write_ws_message(res) if res.present?
     end
   end
 }

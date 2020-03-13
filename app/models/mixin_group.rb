@@ -37,6 +37,14 @@ class MixinGroup < ApplicationRecord
       )
   end
 
+  def self.create_from_mixin!
+    r = MixinBot.api.read_conversation conversation_id
+    return if r['data'].blank?
+    return unless r['data']['category'] == 'GROUP'
+
+    create! raw: r['data']
+  end
+
   def refresh!
     r = MixinBot.api.read_conversation conversation_id
     return if r['data'].blank?

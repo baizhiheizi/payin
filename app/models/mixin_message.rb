@@ -24,7 +24,10 @@
 #  index_mixin_messages_on_user_id     (user_id)
 #
 class MixinMessage < ApplicationRecord
+  include MixinMessageProccessable
+
   before_validation :set_attributes, on: :create
+  after_create :process_async
 
   validates :message_id, presence: true
   validates :raw, presence: true
