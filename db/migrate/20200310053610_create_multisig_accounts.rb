@@ -1,7 +1,7 @@
 class CreateMultisigAccounts < ActiveRecord::Migration[6.0]
   def change
     create_table :multisig_accounts, id: :uuid do |t|
-      t.references :creator, type: :uuid, to_table: :users
+      t.references :creator, type: :uuid
       t.string :name
       t.string :introduction
       t.integer :threshold

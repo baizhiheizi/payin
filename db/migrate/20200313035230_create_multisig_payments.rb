@@ -2,7 +2,7 @@ class CreateMultisigPayments < ActiveRecord::Migration[6.0]
   def change
     create_table :multisig_payments, id: :uuid do |t|
       t.references :multisig_accounts, type: :uuid
-      t.references :creator, type: :uuid, to_table: :users
+      t.references :creator, type: :uuid
       t.uuid :trace_id
       t.uuid :asset_id
       t.uuid :code_id

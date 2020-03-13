@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_042924) do
     t.string "memo"
     t.string "status"
     t.uuid "receivers", array: true
+    t.json "raw"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["creator_id"], name: "index_multisig_payments_on_creator_id"
