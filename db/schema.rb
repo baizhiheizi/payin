@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_10_070557) do
+ActiveRecord::Schema.define(version: 2020_03_13_042924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -69,10 +69,65 @@ ActiveRecord::Schema.define(version: 2020_03_10_070557) do
     t.string "name"
     t.string "introduction"
     t.integer "threshold"
-    t.json "member_uuids", comment: "sort before saved"
+    t.uuid "member_uuids", array: true
+    t.string "hash"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["creator_id"], name: "index_multisig_accounts_on_creator_id"
+    t.index ["hash"], name: "index_multisig_accounts_on_hash"
+    t.index ["member_uuids"], name: "index_multisig_accounts_on_member_uuids"
+  end
+
+  create_table "multisig_payments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "multisig_accounts_id"
+    t.uuid "trace_id"
+    t.uuid "asset_id"
+    t.uuid "code_id"
+    t.integer "threshold"
+    t.decimal "amount"
+    t.string "memo"
+    t.string "status"
+    t.uuid "receivers", array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["multisig_accounts_id"], name: "index_multisig_payments_on_multisig_accounts_id"
+    t.index ["receivers"], name: "index_multisig_payments_on_receivers"
+  end
+
+  create_table "multisig_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "multisig_transactions_id"
+    t.uuid "users_id"
+    t.string "action"
+    t.string "state"
+    t.uuid "request_id"
+    t.uuid "code_id"
+    t.json "raw"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["code_id"], name: "index_multisig_requests_on_code_id"
+    t.index ["multisig_transactions_id"], name: "index_multisig_requests_on_multisig_transactions_id"
+    t.index ["users_id"], name: "index_multisig_requests_on_users_id"
+  end
+
+  create_table "multisig_transactions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "users_id"
+    t.uuid "multisig_accounts_id"
+    t.uuid "asset_id"
+    t.decimal "amount"
+    t.string "memo"
+    t.integer "threshold"
+    t.uuid "senders", array: true
+    t.uuid "receivers", array: true
+    t.uuid "signers", default: [], array: true
+    t.string "transaction_hash"
+    t.string "raw_transaction"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["multisig_accounts_id"], name: "index_multisig_transactions_on_multisig_accounts_id"
+    t.index ["receivers"], name: "index_multisig_transactions_on_receivers"
+    t.index ["senders"], name: "index_multisig_transactions_on_senders"
+    t.index ["users_id"], name: "index_multisig_transactions_on_users_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

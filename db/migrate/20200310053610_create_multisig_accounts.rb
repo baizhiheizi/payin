@@ -5,7 +5,8 @@ class CreateMultisigAccounts < ActiveRecord::Migration[6.0]
       t.string :name
       t.string :introduction
       t.integer :threshold
-      t.json :member_uuids, comment: 'sort before saved'
+      t.uuid :member_uuids, array: true, index: true, using: 'gin'
+      t.string :hash, index: true, unique: true
 
       t.timestamps
     end

@@ -4,18 +4,21 @@
 #
 # Table name: multisig_accounts
 #
-#  id                              :uuid             not null, primary key
-#  introduction                    :string
-#  member_uuids(sort before saved) :json
-#  name                            :string
-#  threshold                       :integer
-#  created_at                      :datetime         not null
-#  updated_at                      :datetime         not null
-#  creator_id                      :uuid
+#  id           :uuid             not null, primary key
+#  hash         :string
+#  introduction :string
+#  member_uuids :uuid             is an Array
+#  name         :string
+#  threshold    :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  creator_id   :uuid
 #
 # Indexes
 #
-#  index_multisig_accounts_on_creator_id  (creator_id)
+#  index_multisig_accounts_on_creator_id    (creator_id)
+#  index_multisig_accounts_on_hash          (hash)
+#  index_multisig_accounts_on_member_uuids  (member_uuids)
 #
 class MultisigAccount < ApplicationRecord
   belongs_to :creator, class_name: 'User', foreign_key: :creator_id, inverse_of: false
