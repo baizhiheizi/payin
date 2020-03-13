@@ -8,14 +8,14 @@ class HandleMixinMessageService
     # hanlde create_message only
     return unless raw['action'] == 'CREATE_MESSAGE'
 
-    # ignore group message
-    return unless MixinBot.api.unique_conversation_id(raw['data']['user_id']) == raw['data']['conversation_id']
-
     message = MixinMessage
               .create_with(raw: raw)
               .find_or_create_by!(
                 message_id: raw['data']['message_id']
               )
+
+    # ignore group message
+    return unless MixinBot.api.unique_conversation_id(raw['data']['user_id']) == raw['data']['conversation_id']
 
     # process plain message only
     return unless message.plain?
