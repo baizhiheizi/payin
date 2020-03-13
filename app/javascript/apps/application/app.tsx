@@ -1,7 +1,9 @@
+import { Account, AccountList, AccountNew } from '@/application/pages';
 import { apolloClient, IStyles } from '@/shared';
 import { ApolloProvider } from '@apollo/react-hooks';
-import { Layout, Menu, Result, Button } from 'antd';
+import { Button, Layout, Menu, Result } from 'antd';
 import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 const style: IStyles = {
   content: {
@@ -37,35 +39,47 @@ export default function App(props: IProps) {
   return (
     <ApolloProvider client={apolloClient()}>
       {currentUser ? (
-        <Layout>
-          <Layout.Header style={style.header}>
-            <Menu
-              style={style.menu}
-              defaultSelectedKeys={['home']}
-              mode='horizontal'
-            >
-              <Menu.Item key='home'>Home</Menu.Item>
-              {currentUser && (
-                <Menu.Item
-                  key='logout'
-                  onClick={() => {
-                    location.href = '/logout';
-                  }}
-                >
-                  Logout
-                </Menu.Item>
-              )}
-            </Menu>
-          </Layout.Header>
-          <Layout style={style.page}>
-            <Layout.Content style={style.content}>
-              hello world from antd.
-            </Layout.Content>
-            <Layout.Footer style={style.footer}>
-              Payin created by an-lee
-            </Layout.Footer>
+        <Router>
+          <Layout>
+            <Layout.Header style={style.header}>
+              <Menu
+                style={style.menu}
+                defaultSelectedKeys={['home']}
+                mode='horizontal'
+              >
+                <Menu.Item key='home'>Home</Menu.Item>
+                {currentUser && (
+                  <Menu.Item
+                    key='logout'
+                    onClick={() => {
+                      location.href = '/logout';
+                    }}
+                  >
+                    Logout
+                  </Menu.Item>
+                )}
+              </Menu>
+            </Layout.Header>
+            <Layout style={style.page}>
+              <Layout.Content style={style.content}>
+                <Route path='/accounts' exact>
+                  <AccountList {...props} />
+                </Route>
+                <Switch>
+                  <Route path='/accounts/new' exact>
+                    <AccountNew {...props} />
+                  </Route>
+                  <Route path='/accounts/:id' exact>
+                    <Account {...props} />
+                  </Route>
+                </Switch>
+              </Layout.Content>
+              <Layout.Footer style={style.footer}>
+                Payin created by an-lee
+              </Layout.Footer>
+            </Layout>
           </Layout>
-        </Layout>
+        </Router>
       ) : (
         <Result
           title='Please login.'
