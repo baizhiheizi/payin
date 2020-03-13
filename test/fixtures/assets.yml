@@ -2,7 +2,7 @@
 #
 # Table name: assets
 #
-#  id         :bigint           not null, primary key
+#  id         :uuid             not null, primary key
 #  icon_url   :string
 #  name       :string
 #  price_btc  :string
@@ -10,8 +10,8 @@
 #  symbol     :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  asset_id   :string
-#  chain_id   :string
+#  asset_id   :uuid
+#  chain_id   :uuid
 #  mixin_id   :string
 #
 # Indexes

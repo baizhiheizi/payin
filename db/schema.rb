@@ -13,9 +13,10 @@
 ActiveRecord::Schema.define(version: 2020_03_10_070557) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "administrators", force: :cascade do |t|
+  create_table "administrators", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.string "password_digest", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -23,13 +24,13 @@ ActiveRecord::Schema.define(version: 2020_03_10_070557) do
     t.index ["name"], name: "index_administrators_on_name", unique: true
   end
 
-  create_table "assets", force: :cascade do |t|
+  create_table "assets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "symbol"
     t.string "icon_url"
     t.string "mixin_id"
-    t.string "asset_id"
-    t.string "chain_id"
+    t.uuid "asset_id"
+    t.uuid "chain_id"
     t.string "price_btc"
     t.string "price_usd"
     t.datetime "created_at", precision: 6, null: false
@@ -37,15 +38,15 @@ ActiveRecord::Schema.define(version: 2020_03_10_070557) do
     t.index ["asset_id"], name: "index_assets_on_asset_id", unique: true
   end
 
-  create_table "mixin_messages", force: :cascade do |t|
+  create_table "mixin_messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "action"
     t.string "category"
     t.string "content"
-    t.string "representative_id"
-    t.string "quote_message_id"
-    t.string "conversation_id"
-    t.string "user_id"
-    t.string "message_id"
+    t.uuid "representative_id"
+    t.uuid "quote_message_id"
+    t.uuid "conversation_id"
+    t.uuid "user_id"
+    t.uuid "message_id"
     t.json "raw"
     t.datetime "processed_at"
     t.datetime "created_at", precision: 6, null: false
@@ -54,17 +55,17 @@ ActiveRecord::Schema.define(version: 2020_03_10_070557) do
     t.index ["user_id"], name: "index_mixin_messages_on_user_id"
   end
 
-  create_table "multisign_account_members", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "multisign_account_id"
+  create_table "multisign_account_members", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id"
+    t.uuid "multisign_account_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["multisign_account_id"], name: "index_multisign_account_members_on_multisign_account_id"
     t.index ["user_id"], name: "index_multisign_account_members_on_user_id"
   end
 
-  create_table "multisign_accounts", force: :cascade do |t|
-    t.bigint "creator_id"
+  create_table "multisign_accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "creator_id"
     t.string "name"
     t.string "introduction"
     t.integer "threshold"
@@ -74,11 +75,11 @@ ActiveRecord::Schema.define(version: 2020_03_10_070557) do
     t.index ["creator_id"], name: "index_multisign_accounts_on_creator_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "avatar"
     t.string "mixin_id"
-    t.string "mixin_uuid"
+    t.uuid "mixin_uuid"
     t.string "access_token", comment: "access token authorized by mixin messenger user"
     t.json "raw", comment: "mixin user raw profile"
     t.datetime "created_at", precision: 6, null: false

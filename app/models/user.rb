@@ -4,10 +4,10 @@
 #
 # Table name: users
 #
-#  id                                                            :bigint           not null, primary key
+#  id                                                            :uuid             not null, primary key
 #  access_token(access token authorized by mixin messenger user) :string
 #  avatar                                                        :string
-#  mixin_uuid                                                    :string
+#  mixin_uuid                                                    :uuid
 #  name                                                          :string
 #  raw(mixin user raw profile)                                   :json
 #  created_at                                                    :datetime         not null

@@ -2,14 +2,14 @@
 #
 # Table name: multisign_accounts
 #
-#  id                              :bigint           not null, primary key
+#  id                              :uuid             not null, primary key
 #  introduction                    :string
 #  member_uuids(sort before saved) :json
 #  name                            :string
 #  threshold                       :integer
 #  created_at                      :datetime         not null
 #  updated_at                      :datetime         not null
-#  creator_id                      :bigint
+#  creator_id                      :uuid
 #
 # Indexes
 #

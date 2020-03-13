@@ -1,14 +1,14 @@
 class CreateMixinMessages < ActiveRecord::Migration[6.0]
   def change
-    create_table :mixin_messages do |t|
+    create_table :mixin_messages, id: :uuid do |t|
       t.string :action
       t.string :category
       t.string :content
-      t.string :representative_id
-      t.string :quote_message_id
-      t.string :conversation_id
-      t.string :user_id
-      t.string :message_id
+      t.uuid :representative_id
+      t.uuid :quote_message_id
+      t.uuid :conversation_id
+      t.uuid :user_id
+      t.uuid :message_id
       t.json :raw
       t.datetime :processed_at
       t.timestamps

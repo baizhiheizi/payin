@@ -1,12 +1,12 @@
 class CreateAssets < ActiveRecord::Migration[6.0]
   def change
-    create_table :assets do |t|
+    create_table :assets, id: :uuid do |t|
       t.string :name
       t.string :symbol
       t.string :icon_url
       t.string :mixin_id
-      t.string :asset_id
-      t.string :chain_id
+      t.uuid :asset_id
+      t.uuid :chain_id
       t.string :price_btc
       t.string :price_usd
 
