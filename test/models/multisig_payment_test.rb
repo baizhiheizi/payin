@@ -14,11 +14,13 @@
 #  updated_at           :datetime         not null
 #  asset_id             :uuid
 #  code_id              :uuid
+#  creator_id           :uuid
 #  multisig_accounts_id :uuid
 #  trace_id             :uuid
 #
 # Indexes
 #
+#  index_multisig_payments_on_creator_id            (creator_id)
 #  index_multisig_payments_on_multisig_accounts_id  (multisig_accounts_id)
 #  index_multisig_payments_on_receivers             (receivers)
 #

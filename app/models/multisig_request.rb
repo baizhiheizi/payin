@@ -22,4 +22,23 @@
 #  index_multisig_requests_on_users_id                  (users_id)
 #
 class MultisigRequest < ApplicationRecord
+  belongs_to :user
+  belongs_to :multisig_transaction
+
+  before_validation :set_attributes
+
+  validates :action, presence: true
+  validates :raw, presence: true
+  validates :code_id, presence: true, uniqueness: true
+  validates :request_id, presence: true, uniqueness: true
+
+  private
+
+  def set_attributes
+    assign_attributes(
+      code_id: raw['code_id'],
+      request_id: raw['request_id'],
+      state: raw['state']
+    )
+  end
 end

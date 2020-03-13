@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_042924) do
 
   create_table "multisig_payments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "multisig_accounts_id"
+    t.uuid "creator_id"
     t.uuid "trace_id"
     t.uuid "asset_id"
     t.uuid "code_id"
@@ -90,6 +91,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_042924) do
     t.uuid "receivers", array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["creator_id"], name: "index_multisig_payments_on_creator_id"
     t.index ["multisig_accounts_id"], name: "index_multisig_payments_on_multisig_accounts_id"
     t.index ["receivers"], name: "index_multisig_payments_on_receivers"
   end
@@ -119,7 +121,6 @@ ActiveRecord::Schema.define(version: 2020_03_13_042924) do
     t.uuid "senders", array: true
     t.uuid "receivers", array: true
     t.uuid "signers", default: [], array: true
-    t.string "transaction_hash"
     t.string "raw_transaction"
     t.string "status"
     t.datetime "created_at", precision: 6, null: false

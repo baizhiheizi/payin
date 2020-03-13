@@ -24,6 +24,7 @@ class User < ApplicationRecord
 
   has_many :multisig_account_members, dependent: :nullify
   has_many :multisig_accounts, through: :multisig_account_members
+  has_many :created_payments, class_name: 'MultisigPayment', foreign_key: :creator_id, inverse_of: :creator, dependent: :nullify
 
   before_validation :set_attributes, on: :create
 
