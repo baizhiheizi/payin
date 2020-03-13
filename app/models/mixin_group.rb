@@ -21,7 +21,7 @@
 #  index_mixin_groups_on_creator_id       (creator_id)
 #
 class MixinGroup < ApplicationRecord
-  belongs_to :creator, class_name: 'User', foreign_key: :creator_id, inverse_of: false
+  belongs_to :creator, class_name: 'User', primary_key: :mixin_uuid, foreign_key: :creator_id, inverse_of: false
 
   before_validation :set_attributes
 

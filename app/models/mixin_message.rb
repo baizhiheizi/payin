@@ -26,6 +26,8 @@
 class MixinMessage < ApplicationRecord
   include MixinMessageProccessable
 
+  belongs_to :user, primary_key: :mixin_uuid, optional: true
+
   before_validation :set_attributes, on: :create
   after_create :process_async
 

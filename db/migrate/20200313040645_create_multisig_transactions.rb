@@ -7,9 +7,9 @@ class CreateMultisigTransactions < ActiveRecord::Migration[6.0]
       t.decimal :amount
       t.string :memo
       t.integer :threshold
-      t.uuid :senders, array: true, index: true, using: 'gin'
-      t.uuid :receivers, array: true, index: true, using: 'gin'
-      t.uuid :signers, array: true, default: []
+      t.uuid :sender_uuids, array: true, index: true, using: 'gin'
+      t.uuid :receiver_uuids, array: true, index: true, using: 'gin'
+      t.uuid :signer_uuids, array: true, default: []
       t.string :raw_transaction
       t.string :status
 

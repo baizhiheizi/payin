@@ -9,10 +9,43 @@ export type Scalars = {
   ISO8601DateTime: any,
 };
 
+export type CreateMultisigAccountInput = {
+  conversationId?: Maybe<Scalars['String']>,
+  name: Scalars['String'],
+  introduction?: Maybe<Scalars['String']>,
+  threshold: Scalars['Int'],
+  memberUuids: Array<Scalars['String']>,
+  clientMutationId?: Maybe<Scalars['String']>,
+};
+
+export type CreateMultisigAccountPayload = {
+   __typename?: 'CreateMultisigAccountPayload',
+  clientMutationId?: Maybe<Scalars['String']>,
+  errors?: Maybe<Scalars['String']>,
+  multisigAccount?: Maybe<MultisigAccount>,
+};
+
+
+export type MultisigAccount = {
+   __typename?: 'MultisigAccount',
+  createdAt: Scalars['ISO8601DateTime'],
+  creator: User,
+  hash: Scalars['String'],
+  id: Scalars['ID'],
+  introduction?: Maybe<Scalars['String']>,
+  memberUuids: Array<Scalars['String']>,
+  name: Scalars['String'],
+  threshold: Scalars['Int'],
+};
 
 export type Mutation = {
    __typename?: 'Mutation',
-  testField: Scalars['String'],
+  createMultisigAccount?: Maybe<CreateMultisigAccountPayload>,
+};
+
+
+export type MutationCreateMultisigAccountArgs = {
+  input: CreateMultisigAccountInput
 };
 
 export type Query = {
@@ -25,11 +58,28 @@ export type User = {
   accessToken: Scalars['String'],
   avatar?: Maybe<Scalars['String']>,
   createdAt: Scalars['ISO8601DateTime'],
-  id: Scalars['Int'],
-  mixinId: Scalars['ID'],
+  id: Scalars['ID'],
+  mixinId: Scalars['String'],
   mixinUuid: Scalars['String'],
   name: Scalars['String'],
 };
+
+export type CreateMultisigAccountMutationVariables = {
+  input: CreateMultisigAccountInput
+};
+
+
+export type CreateMultisigAccountMutation = (
+  { __typename?: 'Mutation' }
+  & { createMultisigAccount: Maybe<(
+    { __typename?: 'CreateMultisigAccountPayload' }
+    & Pick<CreateMultisigAccountPayload, 'errors'>
+    & { multisigAccount: Maybe<(
+      { __typename?: 'MultisigAccount' }
+      & Pick<MultisigAccount, 'id' | 'name'>
+    )> }
+  )> }
+);
 
 export type CurrentUserQueryVariables = {};
 
@@ -44,6 +94,17 @@ export type CurrentUserQuery = (
 
 import gql from 'graphql-tag';
 
+export const CreateMultisigAccount = gql`
+    mutation CreateMultisigAccount($input: CreateMultisigAccountInput!) {
+  createMultisigAccount(input: $input) {
+    multisigAccount {
+      id
+      name
+    }
+    errors
+  }
+}
+    `;
 export const CurrentUser = gql`
     query CurrentUser {
   currentUser {

@@ -5,7 +5,7 @@ class MultisigUtxo
 
   def initialize(record = {})
     @type = record['type']
-    @utxo_id = record['utxo_id']
+    @id = record['utxo_id']
     @user_id = record['user_id']
     @asset_id = record['asset_id']
     @transaction_hash = record['transaction_hash']

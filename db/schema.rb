@@ -133,16 +133,16 @@ ActiveRecord::Schema.define(version: 2020_03_13_073024) do
     t.decimal "amount"
     t.string "memo"
     t.integer "threshold"
-    t.uuid "senders", array: true
-    t.uuid "receivers", array: true
-    t.uuid "signers", default: [], array: true
+    t.uuid "sender_uuids", array: true
+    t.uuid "receiver_uuids", array: true
+    t.uuid "signer_uuids", default: [], array: true
     t.string "raw_transaction"
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["multisig_accounts_id"], name: "index_multisig_transactions_on_multisig_accounts_id"
-    t.index ["receivers"], name: "index_multisig_transactions_on_receivers"
-    t.index ["senders"], name: "index_multisig_transactions_on_senders"
+    t.index ["receiver_uuids"], name: "index_multisig_transactions_on_receiver_uuids"
+    t.index ["sender_uuids"], name: "index_multisig_transactions_on_sender_uuids"
     t.index ["users_id"], name: "index_multisig_transactions_on_users_id"
   end
 
