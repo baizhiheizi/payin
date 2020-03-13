@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: multisign_accounts
+# Table name: multisig_accounts
 #
 #  id                              :uuid             not null, primary key
 #  introduction                    :string
@@ -15,11 +15,11 @@
 #
 # Indexes
 #
-#  index_multisign_accounts_on_creator_id  (creator_id)
+#  index_multisig_accounts_on_creator_id  (creator_id)
 #
 require 'test_helper'
 
-class MultisignAccountTest < ActiveSupport::TestCase
+class MultisigAccountTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

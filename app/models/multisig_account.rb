@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: multisign_accounts
+# Table name: multisig_accounts
 #
 #  id                              :uuid             not null, primary key
 #  introduction                    :string
@@ -15,13 +15,13 @@
 #
 # Indexes
 #
-#  index_multisign_accounts_on_creator_id  (creator_id)
+#  index_multisig_accounts_on_creator_id  (creator_id)
 #
-class MultisignAccount < ApplicationRecord
+class MultisigAccount < ApplicationRecord
   belongs_to :creator, class_name: 'User', foreign_key: :creator_id, inverse_of: false
 
-  has_many :multisign_account_members, dependent: :nullify
-  has_many :members, through: :multisign_account_members, source: :user
+  has_many :multisig_account_members, dependent: :nullify
+  has_many :members, through: :multisig_account_members, source: :user
 
   validates :name, presence: true
   validates :threshold, numericality: { only_integer: true, greater_than: 0 }

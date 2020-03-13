@@ -22,8 +22,8 @@
 class User < ApplicationRecord
   include Authenticatable
 
-  has_many :multisign_account_members, dependent: :nullify
-  has_many :multisign_accounts, through: :multisign_account_members
+  has_many :multisig_account_members, dependent: :nullify
+  has_many :multisig_accounts, through: :multisig_account_members
 
   before_validation :set_attributes, on: :create
 

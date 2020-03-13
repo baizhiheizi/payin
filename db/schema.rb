@@ -55,16 +55,16 @@ ActiveRecord::Schema.define(version: 2020_03_10_070557) do
     t.index ["user_id"], name: "index_mixin_messages_on_user_id"
   end
 
-  create_table "multisign_account_members", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "multisig_account_members", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id"
-    t.uuid "multisign_account_id"
+    t.uuid "multisig_account_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["multisign_account_id"], name: "index_multisign_account_members_on_multisign_account_id"
-    t.index ["user_id"], name: "index_multisign_account_members_on_user_id"
+    t.index ["multisig_account_id"], name: "index_multisig_account_members_on_multisig_account_id"
+    t.index ["user_id"], name: "index_multisig_account_members_on_user_id"
   end
 
-  create_table "multisign_accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "multisig_accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "creator_id"
     t.string "name"
     t.string "introduction"
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 2020_03_10_070557) do
     t.json "member_uuids", comment: "sort before saved"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["creator_id"], name: "index_multisign_accounts_on_creator_id"
+    t.index ["creator_id"], name: "index_multisig_accounts_on_creator_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

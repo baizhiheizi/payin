@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: multisign_accounts
+# Table name: multisig_accounts
 #
 #  id                              :uuid             not null, primary key
 #  introduction                    :string
@@ -13,7 +13,7 @@
 #
 # Indexes
 #
-#  index_multisign_accounts_on_creator_id  (creator_id)
+#  index_multisig_accounts_on_creator_id  (creator_id)
 #
 
 # This model initially had no columns defined. If you add columns to the
