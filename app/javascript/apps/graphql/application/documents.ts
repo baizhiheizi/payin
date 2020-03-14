@@ -52,6 +52,22 @@ export type CreateMultisigAccountPayload = {
   multisigAccount?: Maybe<MultisigAccount>,
 };
 
+export type CreateMultisigPaymentInput = {
+  conversationId?: Maybe<Scalars['String']>,
+  accountId: Scalars['ID'],
+  amount: Scalars['Float'],
+  assetId: Scalars['String'],
+  memo?: Maybe<Scalars['String']>,
+  clientMutationId?: Maybe<Scalars['String']>,
+};
+
+export type CreateMultisigPaymentPayload = {
+   __typename?: 'CreateMultisigPaymentPayload',
+  clientMutationId?: Maybe<Scalars['String']>,
+  errors?: Maybe<Scalars['String']>,
+  multisigPayment?: Maybe<MultisigPayment>,
+};
+
 
 export type MixinGroup = {
    __typename?: 'MixinGroup',
@@ -94,6 +110,23 @@ export type MultisigAccountEdge = {
   node?: Maybe<MultisigAccount>,
 };
 
+export type MultisigPayment = {
+   __typename?: 'MultisigPayment',
+  amount: Scalars['Float'],
+  asset: Asset,
+  assetId: Scalars['String'],
+  codeId: Scalars['String'],
+  createdAt: Scalars['ISO8601DateTime'],
+  creator: User,
+  id: Scalars['ID'],
+  memo?: Maybe<Scalars['String']>,
+  multisigAccount: MultisigAccount,
+  receivers: Array<Scalars['String']>,
+  status: Scalars['String'],
+  threshold: Scalars['Int'],
+  traceId: Scalars['String'],
+};
+
 export type MultisigUtxo = {
    __typename?: 'MultisigUtxo',
   amount: Scalars['Float'],
@@ -117,11 +150,17 @@ export type MultisigUtxo = {
 export type Mutation = {
    __typename?: 'Mutation',
   createMultisigAccount?: Maybe<CreateMultisigAccountPayload>,
+  createMultisigPayment?: Maybe<CreateMultisigPaymentPayload>,
 };
 
 
 export type MutationCreateMultisigAccountArgs = {
   input: CreateMultisigAccountInput
+};
+
+
+export type MutationCreateMultisigPaymentArgs = {
+  input: CreateMultisigPaymentInput
 };
 
 export type PageInfo = {
@@ -191,6 +230,23 @@ export type CreateMultisigAccountMutation = (
     & { multisigAccount: Maybe<(
       { __typename?: 'MultisigAccount' }
       & Pick<MultisigAccount, 'id' | 'name'>
+    )> }
+  )> }
+);
+
+export type CreateMultisigPaymentMutationVariables = {
+  input: CreateMultisigPaymentInput
+};
+
+
+export type CreateMultisigPaymentMutation = (
+  { __typename?: 'Mutation' }
+  & { createMultisigPayment: Maybe<(
+    { __typename?: 'CreateMultisigPaymentPayload' }
+    & Pick<CreateMultisigPaymentPayload, 'errors'>
+    & { multisigPayment: Maybe<(
+      { __typename?: 'MultisigPayment' }
+      & Pick<MultisigPayment, 'id' | 'codeId' | 'status'>
     )> }
   )> }
 );
@@ -304,6 +360,18 @@ export const CreateMultisigAccount = gql`
     multisigAccount {
       id
       name
+    }
+    errors
+  }
+}
+    `;
+export const CreateMultisigPayment = gql`
+    mutation CreateMultisigPayment($input: CreateMultisigPaymentInput!) {
+  createMultisigPayment(input: $input) {
+    multisigPayment {
+      id
+      codeId
+      status
     }
     errors
   }

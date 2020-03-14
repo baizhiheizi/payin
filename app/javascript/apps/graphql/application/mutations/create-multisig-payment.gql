@@ -1,0 +1,10 @@
+mutation CreateMultisigPayment($input: CreateMultisigPaymentInput!) {
+  createMultisigPayment(input: $input) {
+    multisigPayment {
+      id
+      codeId
+      status
+    }
+    errors
+  }
+}

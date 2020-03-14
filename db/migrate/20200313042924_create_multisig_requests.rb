@@ -1,8 +1,8 @@
 class CreateMultisigRequests < ActiveRecord::Migration[6.0]
   def change
     create_table :multisig_requests, id: :uuid do |t|
-      t.references :multisig_transactions, type: :uuid
-      t.references :users, type: :uuid
+      t.references :multisig_transaction, type: :uuid
+      t.references :user, type: :uuid
       t.string :action
       t.string :state
       t.uuid :request_id

@@ -93,7 +93,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_073024) do
   end
 
   create_table "multisig_payments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "multisig_accounts_id"
+    t.uuid "multisig_account_id"
     t.uuid "creator_id"
     t.uuid "trace_id"
     t.uuid "asset_id"
@@ -107,13 +107,13 @@ ActiveRecord::Schema.define(version: 2020_03_13_073024) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["creator_id"], name: "index_multisig_payments_on_creator_id"
-    t.index ["multisig_accounts_id"], name: "index_multisig_payments_on_multisig_accounts_id"
+    t.index ["multisig_account_id"], name: "index_multisig_payments_on_multisig_account_id"
     t.index ["receivers"], name: "index_multisig_payments_on_receivers"
   end
 
   create_table "multisig_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "multisig_transactions_id"
-    t.uuid "users_id"
+    t.uuid "multisig_transaction_id"
+    t.uuid "user_id"
     t.string "action"
     t.string "state"
     t.uuid "request_id"
@@ -122,13 +122,13 @@ ActiveRecord::Schema.define(version: 2020_03_13_073024) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["code_id"], name: "index_multisig_requests_on_code_id"
-    t.index ["multisig_transactions_id"], name: "index_multisig_requests_on_multisig_transactions_id"
-    t.index ["users_id"], name: "index_multisig_requests_on_users_id"
+    t.index ["multisig_transaction_id"], name: "index_multisig_requests_on_multisig_transaction_id"
+    t.index ["user_id"], name: "index_multisig_requests_on_user_id"
   end
 
   create_table "multisig_transactions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "users_id"
-    t.uuid "multisig_accounts_id"
+    t.uuid "user_id"
+    t.uuid "multisig_account_id"
     t.uuid "asset_id"
     t.decimal "amount"
     t.string "memo"
@@ -140,10 +140,10 @@ ActiveRecord::Schema.define(version: 2020_03_13_073024) do
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["multisig_accounts_id"], name: "index_multisig_transactions_on_multisig_accounts_id"
+    t.index ["multisig_account_id"], name: "index_multisig_transactions_on_multisig_account_id"
     t.index ["receiver_uuids"], name: "index_multisig_transactions_on_receiver_uuids"
     t.index ["sender_uuids"], name: "index_multisig_transactions_on_sender_uuids"
-    t.index ["users_id"], name: "index_multisig_transactions_on_users_id"
+    t.index ["user_id"], name: "index_multisig_transactions_on_user_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
