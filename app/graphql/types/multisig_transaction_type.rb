@@ -18,5 +18,14 @@ module Types
     field :senders, [Types::UserType], null: false
     field :signers, [Types::UserType], null: false
     field :multisig_account, Types::MultisigAccountType, null: false
+    field :multisig_requests, Types::MultisigRequestType, null: false
+
+    def multisig_requests
+      BatchLoader::GraphQL.for(object.id).batch(default_value: []) do |multisig_transaction_ids, loader|
+        MultisigRequest.where(multisig_transaction_id: multisig_transaction_ids).each do |request|
+          loader.call(request.multisig_transaction_id) { |arr| arr << request }
+        end
+      end
+    end
   end
 end

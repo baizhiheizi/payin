@@ -19,6 +19,13 @@ module Authenticatable
       create_by_data(res['data'])
     end
 
+    def find_or_read_from_mixin(mixin_uuid)
+      user = find_by(mixin_uuid: mixin_uuid)
+      user ||= read_user_from_mixin(mixin_uuid)
+
+      user
+    end
+
     def create_by_data(data, access_token = nil)
       user = create_with(data: data).find_or_create_by!(mixin_uuid: data['user_id'])
       user.data = data

@@ -3,7 +3,7 @@ query MultisigAccounts {
     edges {
       node {
         id
-        hash
+        accountHash
         name
         introduction
         memberUuids

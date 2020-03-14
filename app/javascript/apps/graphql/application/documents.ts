@@ -36,13 +36,14 @@ export type MixinGroup = {
   id: Scalars['ID'],
   name: Scalars['String'],
   participantUuids: Array<Scalars['String']>,
+  users: Array<User>,
 };
 
 export type MultisigAccount = {
    __typename?: 'MultisigAccount',
+  accountHash: Scalars['String'],
   createdAt: Scalars['ISO8601DateTime'],
   creator: User,
-  hash: Scalars['String'],
   id: Scalars['ID'],
   introduction?: Maybe<Scalars['String']>,
   memberUuids: Array<Scalars['String']>,
@@ -146,7 +147,10 @@ export type CurrentGroupQuery = (
   & { currentGroup: Maybe<(
     { __typename?: 'MixinGroup' }
     & Pick<MixinGroup, 'conversationId' | 'name' | 'participantUuids'>
-    & { creator: (
+    & { users: Array<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name' | 'avatar' | 'mixinUuid'>
+    )>, creator: (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'name' | 'avatar' | 'mixinUuid'>
     ) }
@@ -173,7 +177,7 @@ export type MultisigAccountQuery = (
   { __typename?: 'Query' }
   & { multisigAccount: Maybe<(
     { __typename?: 'MultisigAccount' }
-    & Pick<MultisigAccount, 'id' | 'hash' | 'name' | 'introduction' | 'memberUuids' | 'threshold'>
+    & Pick<MultisigAccount, 'id' | 'accountHash' | 'name' | 'introduction' | 'memberUuids' | 'threshold'>
     & { members: Array<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'name' | 'avatar' | 'mixinUuid' | 'mixinId'>
@@ -192,7 +196,7 @@ export type MultisigAccountsQuery = (
       { __typename?: 'MultisigAccountEdge' }
       & { node: Maybe<(
         { __typename?: 'MultisigAccount' }
-        & Pick<MultisigAccount, 'id' | 'hash' | 'name' | 'introduction' | 'memberUuids' | 'threshold'>
+        & Pick<MultisigAccount, 'id' | 'accountHash' | 'name' | 'introduction' | 'memberUuids' | 'threshold'>
       )> }
     )>>> }
   ) }
@@ -217,6 +221,12 @@ export const CurrentGroup = gql`
     conversationId
     name
     participantUuids
+    users {
+      id
+      name
+      avatar
+      mixinUuid
+    }
     creator {
       id
       name
@@ -240,7 +250,7 @@ export const MultisigAccount = gql`
     query MultisigAccount($id: ID!) {
   multisigAccount(id: $id) {
     id
-    hash
+    accountHash
     name
     introduction
     memberUuids
@@ -261,7 +271,7 @@ export const MultisigAccounts = gql`
     edges {
       node {
         id
-        hash
+        accountHash
         name
         introduction
         memberUuids

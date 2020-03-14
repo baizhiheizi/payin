@@ -36,8 +36,7 @@ interface IProps {
 }
 
 function App(props: any) {
-  const { currentUser } = props;
-  const conversationId = mixinUtils.conversationId();
+  const { currentUser, conversationId } = props;
   const { error, loading, data } = useQuery(CurrentGroup, {
     variables: { conversationId },
   });
@@ -95,7 +94,10 @@ function App(props: any) {
 }
 
 export default function AppNode(props: IProps) {
-  const conversationId = mixinUtils.conversationId();
+  /** Production */
+  /* const conversationId = mixinUtils.conversationId(); */
+  /** Development */
+  const conversationId = '0c233319-52b3-4c84-8e47-15e8a3694e45';
 
   if (!props.currentUser) {
     return (

@@ -84,11 +84,11 @@ ActiveRecord::Schema.define(version: 2020_03_13_073024) do
     t.string "introduction"
     t.integer "threshold"
     t.uuid "member_uuids", array: true
-    t.string "hash"
+    t.string "account_hash"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_hash"], name: "index_multisig_accounts_on_account_hash"
     t.index ["creator_id"], name: "index_multisig_accounts_on_creator_id"
-    t.index ["hash"], name: "index_multisig_accounts_on_hash"
     t.index ["member_uuids"], name: "index_multisig_accounts_on_member_uuids"
   end
 

@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   match '/logout', to: 'sessions#destroy', as: :logout, via: %i[get delete]
 
   root to: 'home#index'
+  get '*path' => 'home#index'
 
   namespace :admin do
     get 'login', to: 'sessions#new', as: :login

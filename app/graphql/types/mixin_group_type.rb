@@ -11,5 +11,12 @@ module Types
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
 
     field :creator, Types::UserType, null: false
+    field :users, [Types::UserType], null: false
+
+    def creator
+      BatchLoader::GraphQL.for(object.creator_id).batch do |creator_ids, loader|
+        User.where(mixin_uuid: creator_ids).each { |creator| loader.call(creator.mixin_uuid, creator) }
+      end
+    end
   end
 end

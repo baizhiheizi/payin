@@ -3,6 +3,12 @@ query CurrentGroup($conversationId: String) {
     conversationId
     name
     participantUuids
+    users {
+      id
+      name
+      avatar
+      mixinUuid
+    }
     creator {
       id
       name

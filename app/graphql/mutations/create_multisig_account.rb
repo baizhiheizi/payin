@@ -12,7 +12,8 @@ module Mutations
     field :errors, String, null: true
 
     def resolve(params)
-      account = MultisigAccount.create!(
+      account = MultisigAccount.new(
+        creator: current_user,
         name: params[:name],
         introduction: params[:introduction],
         threshold: params[:threshold],
@@ -25,7 +26,7 @@ module Mutations
         }
       else
         {
-          errors: account.full_messages.join(';')
+          errors: account.errors.full_messages.join('; ')
         }
       end
     end

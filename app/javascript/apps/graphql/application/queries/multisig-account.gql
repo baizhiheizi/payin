@@ -1,7 +1,7 @@
 query MultisigAccount($id: ID!) {
   multisigAccount(id: $id) {
     id
-    hash
+    accountHash
     name
     introduction
     memberUuids

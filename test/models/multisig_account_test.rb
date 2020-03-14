@@ -5,7 +5,7 @@
 # Table name: multisig_accounts
 #
 #  id           :uuid             not null, primary key
-#  hash         :string
+#  account_hash :string
 #  introduction :string
 #  member_uuids :uuid             is an Array
 #  name         :string
@@ -16,8 +16,8 @@
 #
 # Indexes
 #
+#  index_multisig_accounts_on_account_hash  (account_hash)
 #  index_multisig_accounts_on_creator_id    (creator_id)
-#  index_multisig_accounts_on_hash          (hash)
 #  index_multisig_accounts_on_member_uuids  (member_uuids)
 #
 require 'test_helper'

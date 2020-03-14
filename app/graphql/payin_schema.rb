@@ -10,4 +10,7 @@ class PayinSchema < GraphQL::Schema
 
   # Add built-in connections for pagination
   use GraphQL::Pagination::Connections
+
+  # use batch loader to fix N+1
+  use BatchLoader::GraphQL
 end

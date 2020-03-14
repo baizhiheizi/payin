@@ -24,6 +24,7 @@ class MixinGroup < ApplicationRecord
   belongs_to :creator, class_name: 'User', primary_key: :mixin_uuid, foreign_key: :creator_id, inverse_of: false
 
   before_validation :set_attributes
+  after_create :find_or_create_participants_async
 
   validates :category, presence: true
   validates :code_id, presence: true
@@ -42,6 +43,23 @@ class MixinGroup < ApplicationRecord
     return if r['data'].blank?
 
     update! data: r['data']
+    find_or_create_participants!
+  end
+
+  def find_or_create_participants!
+    participant_uuids.each do |uuid|
+      next if uuid == MixinBot.client_id
+
+      User.find_or_read_from_mixin uuid
+    end
+  end
+
+  def find_or_create_participants_async
+    MixinGroupFindOrCreateParticipantsWorker.perform_async id
+  end
+
+  def users
+    User.where(mixin_uuid: participant_uuids - [MixinBot.client_id])
   end
 
   private
