@@ -8,7 +8,7 @@ module MixinMessageProcessable
       process_system_conversation
     elsif category == 'SYSTEM_ACCOUNT_SNAPSHOT'
       process_snapshot
-    elsif conversation == MixinBot.api.unique_conversation_id(user_id)
+    elsif conversation_id == MixinBot.api.unique_conversation_id(user_id)
       process_private_conversation
     else
       process_group_conversation

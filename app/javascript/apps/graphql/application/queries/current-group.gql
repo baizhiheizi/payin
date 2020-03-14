@@ -1,4 +1,4 @@
-query CurrentGroup($conversationId: String!) {
+query CurrentGroup($conversationId: String) {
   currentGroup(conversationId: $conversationId) {
     conversationId
     name

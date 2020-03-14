@@ -1,9 +1,10 @@
 import { Account, AccountList, AccountNew } from '@/application/pages';
-import { apolloClient, IStyles } from '@/shared';
-import { ApolloProvider } from '@apollo/react-hooks';
-import { Button, Layout, Menu, Result } from 'antd';
+import { apolloClient, IStyles, mixinUtils } from '@/shared';
+import { ApolloProvider, useQuery } from '@apollo/react-hooks';
+import { Button, Layout, Menu, Result, Spin } from 'antd';
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { CurrentGroup } from '@/graphql/application';
 
 const style: IStyles = {
   content: {
@@ -34,61 +35,87 @@ interface IProps {
   };
 }
 
-export default function App(props: IProps) {
+function App(props: any) {
   const { currentUser } = props;
+  const conversationId = mixinUtils.conversationId();
+  const { error, loading, data } = useQuery(CurrentGroup, {
+    variables: { conversationId },
+  });
+  if (loading) {
+    return <Spin />;
+  }
+  if (error) {
+    return <Result status='error' title='Something went wrong' />;
+  }
+  const currentGroup = data.currentGroup;
+
+  return (
+    <Router>
+      <Layout>
+        <Layout.Header style={style.header}>
+          <Menu
+            style={style.menu}
+            defaultSelectedKeys={['home']}
+            mode='horizontal'
+          >
+            <Menu.Item key='home'>Home</Menu.Item>
+            {currentUser && (
+              <Menu.Item
+                key='logout'
+                onClick={() => {
+                  location.href = '/logout';
+                }}
+              >
+                Logout
+              </Menu.Item>
+            )}
+          </Menu>
+        </Layout.Header>
+        <Layout style={style.page}>
+          <Layout.Content style={style.content}>
+            <Route path='/' exact>
+              <AccountList {...props} currentGroup={currentGroup} />
+            </Route>
+            <Switch>
+              <Route path='/accounts/new' exact>
+                <AccountNew {...props} currentGroup={currentGroup} />
+              </Route>
+              <Route path='/accounts/:id' exact>
+                <Account {...props} currentGroup={currentGroup} />
+              </Route>
+            </Switch>
+          </Layout.Content>
+          <Layout.Footer style={style.footer}>
+            Payin created by an-lee
+          </Layout.Footer>
+        </Layout>
+      </Layout>
+    </Router>
+  );
+}
+
+export default function AppNode(props: IProps) {
+  const conversationId = mixinUtils.conversationId();
+
+  if (!props.currentUser) {
+    return (
+      <Result
+        title='Please login.'
+        extra={
+          <Button type='primary' href='/login'>
+            Log In
+          </Button>
+        }
+      />
+    );
+  }
+
   return (
     <ApolloProvider client={apolloClient()}>
-      {currentUser ? (
-        <Router>
-          <Layout>
-            <Layout.Header style={style.header}>
-              <Menu
-                style={style.menu}
-                defaultSelectedKeys={['home']}
-                mode='horizontal'
-              >
-                <Menu.Item key='home'>Home</Menu.Item>
-                {currentUser && (
-                  <Menu.Item
-                    key='logout'
-                    onClick={() => {
-                      location.href = '/logout';
-                    }}
-                  >
-                    Logout
-                  </Menu.Item>
-                )}
-              </Menu>
-            </Layout.Header>
-            <Layout style={style.page}>
-              <Layout.Content style={style.content}>
-                <Route path='/accounts' exact>
-                  <AccountList {...props} />
-                </Route>
-                <Switch>
-                  <Route path='/accounts/new' exact>
-                    <AccountNew {...props} />
-                  </Route>
-                  <Route path='/accounts/:id' exact>
-                    <Account {...props} />
-                  </Route>
-                </Switch>
-              </Layout.Content>
-              <Layout.Footer style={style.footer}>
-                Payin created by an-lee
-              </Layout.Footer>
-            </Layout>
-          </Layout>
-        </Router>
+      {conversationId ? (
+        <App {...props} conversationId={conversationId} />
       ) : (
-        <Result
-          title='Please login.'
-          extra={
-            <Button type='primary' href='/login'>
-              Log In
-            </Button>
-          }
-        />
+        <Result status='warning' title='Please open in Mixin Messenger.' />
       )}
     </ApolloProvider>
   );

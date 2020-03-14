@@ -68,7 +68,7 @@ export type Query = {
 
 
 export type QueryCurrentGroupArgs = {
-  conversationId: Scalars['String']
+  conversationId?: Maybe<Scalars['String']>
 };
 
 export type User = {
@@ -100,7 +100,7 @@ export type CreateMultisigAccountMutation = (
 );
 
 export type CurrentGroupQueryVariables = {
-  conversationId: Scalars['String']
+  conversationId?: Maybe<Scalars['String']>
 };
 
 
@@ -141,7 +141,7 @@ export const CreateMultisigAccount = gql`
 }
     `;
 export const CurrentGroup = gql`
-    query CurrentGroup($conversationId: String!) {
+    query CurrentGroup($conversationId: String) {
   currentGroup(conversationId: $conversationId) {
     conversationId
     name
