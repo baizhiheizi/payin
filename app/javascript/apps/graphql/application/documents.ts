@@ -9,6 +9,33 @@ export type Scalars = {
   ISO8601DateTime: any,
 };
 
+export type Asset = {
+   __typename?: 'Asset',
+  assetId: Scalars['String'],
+  chainId: Scalars['String'],
+  createdAt: Scalars['ISO8601DateTime'],
+  iconUrl?: Maybe<Scalars['String']>,
+  id: Scalars['ID'],
+  mixinId: Scalars['String'],
+  name: Scalars['String'],
+  priceBtc?: Maybe<Scalars['Float']>,
+  priceUsd?: Maybe<Scalars['Float']>,
+  symbol: Scalars['String'],
+};
+
+export type AssetConnection = {
+   __typename?: 'AssetConnection',
+  edges?: Maybe<Array<Maybe<AssetEdge>>>,
+  nodes?: Maybe<Array<Maybe<Asset>>>,
+  pageInfo: PageInfo,
+};
+
+export type AssetEdge = {
+   __typename?: 'AssetEdge',
+  cursor: Scalars['String'],
+  node?: Maybe<Asset>,
+};
+
 export type CreateMultisigAccountInput = {
   conversationId?: Maybe<Scalars['String']>,
   name: Scalars['String'],
@@ -85,10 +112,19 @@ export type PageInfo = {
 
 export type Query = {
    __typename?: 'Query',
+  assets: AssetConnection,
   currentGroup?: Maybe<MixinGroup>,
   currentUser?: Maybe<User>,
   multisigAccount?: Maybe<MultisigAccount>,
   multisigAccounts: MultisigAccountConnection,
+};
+
+
+export type QueryAssetsArgs = {
+  after?: Maybe<Scalars['String']>,
+  before?: Maybe<Scalars['String']>,
+  first?: Maybe<Scalars['Int']>,
+  last?: Maybe<Scalars['Int']>
 };
 
 
@@ -137,6 +173,23 @@ export type CreateMultisigAccountMutation = (
   )> }
 );
 
+export type AssetsQueryVariables = {};
+
+
+export type AssetsQuery = (
+  { __typename?: 'Query' }
+  & { assets: (
+    { __typename?: 'AssetConnection' }
+    & { edges: Maybe<Array<Maybe<(
+      { __typename?: 'AssetEdge' }
+      & { node: Maybe<(
+        { __typename?: 'Asset' }
+        & Pick<Asset, 'assetId' | 'symbol' | 'name' | 'iconUrl'>
+      )> }
+    )>>> }
+  ) }
+);
+
 export type CurrentGroupQueryVariables = {
   conversationId?: Maybe<Scalars['String']>
 };
@@ -182,7 +235,16 @@ export type MultisigAccountQuery = (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'name' | 'avatar' | 'mixinUuid' | 'mixinId'>
     )> }
-  )> }
+  )>, assets: (
+    { __typename?: 'AssetConnection' }
+    & { edges: Maybe<Array<Maybe<(
+      { __typename?: 'AssetEdge' }
+      & { node: Maybe<(
+        { __typename?: 'Asset' }
+        & Pick<Asset, 'assetId' | 'name' | 'symbol' | 'iconUrl'>
+      )> }
+    )>>> }
+  ) }
 );
 
 export type MultisigAccountsQueryVariables = {};
@@ -216,6 +278,20 @@ export const CreateMultisigAccount = gql`
       name
     }
     errors
+  }
+}
+    `;
+export const Assets = gql`
+    query Assets {
+  assets {
+    edges {
+      node {
+        assetId
+        symbol
+        name
+        iconUrl
+      }
+    }
   }
 }
     `;
@@ -265,6 +341,16 @@ export const MultisigAccount = gql`
       avatar
       mixinUuid
       mixinId
+    }
+  }
+  assets(first: 100) {
+    edges {
+      node {
+        assetId
+        name
+        symbol
+        iconUrl
+      }
     }
   }
 }

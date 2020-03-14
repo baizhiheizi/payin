@@ -14,4 +14,14 @@ query MultisigAccount($id: ID!) {
       mixinId
     }
   }
+  assets(first: 100) {
+    edges {
+      node {
+        assetId
+        name
+        symbol
+        iconUrl
+      }
+    }
+  }
 }
