@@ -1,0 +1,14 @@
+query MultisigAccounts {
+  multisigAccounts {
+    edges {
+      node {
+        id
+        hash
+        name
+        introduction
+        memberUuids
+        threshold
+      }
+    }
+  }
+}

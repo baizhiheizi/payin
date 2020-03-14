@@ -46,8 +46,22 @@ export type MultisigAccount = {
   id: Scalars['ID'],
   introduction?: Maybe<Scalars['String']>,
   memberUuids: Array<Scalars['String']>,
+  members: Array<User>,
   name: Scalars['String'],
   threshold: Scalars['Int'],
+};
+
+export type MultisigAccountConnection = {
+   __typename?: 'MultisigAccountConnection',
+  edges?: Maybe<Array<Maybe<MultisigAccountEdge>>>,
+  nodes?: Maybe<Array<Maybe<MultisigAccount>>>,
+  pageInfo: PageInfo,
+};
+
+export type MultisigAccountEdge = {
+   __typename?: 'MultisigAccountEdge',
+  cursor: Scalars['String'],
+  node?: Maybe<MultisigAccount>,
 };
 
 export type Mutation = {
@@ -60,15 +74,38 @@ export type MutationCreateMultisigAccountArgs = {
   input: CreateMultisigAccountInput
 };
 
+export type PageInfo = {
+   __typename?: 'PageInfo',
+  endCursor?: Maybe<Scalars['String']>,
+  hasNextPage: Scalars['Boolean'],
+  hasPreviousPage: Scalars['Boolean'],
+  startCursor?: Maybe<Scalars['String']>,
+};
+
 export type Query = {
    __typename?: 'Query',
   currentGroup?: Maybe<MixinGroup>,
   currentUser?: Maybe<User>,
+  multisigAccount?: Maybe<MultisigAccount>,
+  multisigAccounts: MultisigAccountConnection,
 };
 
 
 export type QueryCurrentGroupArgs = {
   conversationId?: Maybe<Scalars['String']>
+};
+
+
+export type QueryMultisigAccountArgs = {
+  id: Scalars['ID']
+};
+
+
+export type QueryMultisigAccountsArgs = {
+  after?: Maybe<Scalars['String']>,
+  before?: Maybe<Scalars['String']>,
+  first?: Maybe<Scalars['Int']>,
+  last?: Maybe<Scalars['Int']>
 };
 
 export type User = {
@@ -127,6 +164,40 @@ export type CurrentUserQuery = (
   )> }
 );
 
+export type MultisigAccountQueryVariables = {
+  id: Scalars['ID']
+};
+
+
+export type MultisigAccountQuery = (
+  { __typename?: 'Query' }
+  & { multisigAccount: Maybe<(
+    { __typename?: 'MultisigAccount' }
+    & Pick<MultisigAccount, 'id' | 'hash' | 'name' | 'introduction' | 'memberUuids' | 'threshold'>
+    & { members: Array<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name' | 'avatar' | 'mixinUuid' | 'mixinId'>
+    )> }
+  )> }
+);
+
+export type MultisigAccountsQueryVariables = {};
+
+
+export type MultisigAccountsQuery = (
+  { __typename?: 'Query' }
+  & { multisigAccounts: (
+    { __typename?: 'MultisigAccountConnection' }
+    & { edges: Maybe<Array<Maybe<(
+      { __typename?: 'MultisigAccountEdge' }
+      & { node: Maybe<(
+        { __typename?: 'MultisigAccount' }
+        & Pick<MultisigAccount, 'id' | 'hash' | 'name' | 'introduction' | 'memberUuids' | 'threshold'>
+      )> }
+    )>>> }
+  ) }
+);
+
 import gql from 'graphql-tag';
 
 export const CreateMultisigAccount = gql`
@@ -162,6 +233,41 @@ export const CurrentUser = gql`
     mixinId
     mixinUuid
     avatar
+  }
+}
+    `;
+export const MultisigAccount = gql`
+    query MultisigAccount($id: ID!) {
+  multisigAccount(id: $id) {
+    id
+    hash
+    name
+    introduction
+    memberUuids
+    threshold
+    members {
+      id
+      name
+      avatar
+      mixinUuid
+      mixinId
+    }
+  }
+}
+    `;
+export const MultisigAccounts = gql`
+    query MultisigAccounts {
+  multisigAccounts {
+    edges {
+      node {
+        id
+        hash
+        name
+        introduction
+        memberUuids
+        threshold
+      }
+    }
   }
 }
     `;

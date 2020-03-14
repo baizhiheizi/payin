@@ -11,5 +11,6 @@ module Types
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
 
     field :creator, Types::UserType, null: false
+    field :members, [Types::UserType], null: false
   end
 end

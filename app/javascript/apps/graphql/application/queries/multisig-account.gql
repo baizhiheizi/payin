@@ -1,0 +1,17 @@
+query MultisigAccount($id: ID!) {
+  multisigAccount(id: $id) {
+    id
+    hash
+    name
+    introduction
+    memberUuids
+    threshold
+    members {
+      id
+      name
+      avatar
+      mixinUuid
+      mixinId
+    }
+  }
+}
