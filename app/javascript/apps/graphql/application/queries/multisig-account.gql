@@ -13,6 +13,27 @@ query MultisigAccount($id: ID!) {
       mixinUuid
       mixinId
     }
+    utxos {
+      id
+      type
+      userId
+      assetId
+      transactionHash
+      outputIndex
+      amount
+      threshold
+      members
+      state
+      memo
+      signedBy
+      signedTx
+    }
+    assets {
+      assetId
+      name
+      symbol
+      iconUrl
+    }
   }
   assets(first: 100) {
     edges {

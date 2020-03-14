@@ -69,6 +69,7 @@ export type MixinGroup = {
 export type MultisigAccount = {
    __typename?: 'MultisigAccount',
   accountHash: Scalars['String'],
+  assets: Array<Asset>,
   createdAt: Scalars['ISO8601DateTime'],
   creator: User,
   id: Scalars['ID'],
@@ -77,6 +78,7 @@ export type MultisigAccount = {
   members: Array<User>,
   name: Scalars['String'],
   threshold: Scalars['Int'],
+  utxos: Array<MultisigUtxo>,
 };
 
 export type MultisigAccountConnection = {
@@ -90,6 +92,26 @@ export type MultisigAccountEdge = {
    __typename?: 'MultisigAccountEdge',
   cursor: Scalars['String'],
   node?: Maybe<MultisigAccount>,
+};
+
+export type MultisigUtxo = {
+   __typename?: 'MultisigUtxo',
+  amount: Scalars['Float'],
+  asset: Asset,
+  assetId: Scalars['String'],
+  createdAt: Scalars['ISO8601DateTime'],
+  id: Scalars['ID'],
+  members: Array<Scalars['String']>,
+  memo?: Maybe<Scalars['String']>,
+  outputIndex: Scalars['Int'],
+  signedBy?: Maybe<Scalars['String']>,
+  signedTx?: Maybe<Scalars['String']>,
+  state: Scalars['String'],
+  threshold: Scalars['Int'],
+  transactionHash: Scalars['String'],
+  type: Scalars['String'],
+  user: User,
+  userId: Scalars['String'],
 };
 
 export type Mutation = {
@@ -234,6 +256,12 @@ export type MultisigAccountQuery = (
     & { members: Array<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'name' | 'avatar' | 'mixinUuid' | 'mixinId'>
+    )>, utxos: Array<(
+      { __typename?: 'MultisigUtxo' }
+      & Pick<MultisigUtxo, 'id' | 'type' | 'userId' | 'assetId' | 'transactionHash' | 'outputIndex' | 'amount' | 'threshold' | 'members' | 'state' | 'memo' | 'signedBy' | 'signedTx'>
+    )>, assets: Array<(
+      { __typename?: 'Asset' }
+      & Pick<Asset, 'assetId' | 'name' | 'symbol' | 'iconUrl'>
     )> }
   )>, assets: (
     { __typename?: 'AssetConnection' }
@@ -341,6 +369,27 @@ export const MultisigAccount = gql`
       avatar
       mixinUuid
       mixinId
+    }
+    utxos {
+      id
+      type
+      userId
+      assetId
+      transactionHash
+      outputIndex
+      amount
+      threshold
+      members
+      state
+      memo
+      signedBy
+      signedTx
+    }
+    assets {
+      assetId
+      name
+      symbol
+      iconUrl
     }
   }
   assets(first: 100) {

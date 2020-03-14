@@ -12,6 +12,8 @@ module Types
 
     field :creator, Types::UserType, null: false
     field :members, [Types::UserType], null: false
+    field :utxos, [Types::MultisigUtxoType], null: false
+    field :assets, [Types::AssetType], null: false
 
     def creator
       BatchLoader::GraphQL.for(object.creator_id).batch do |creator_ids, loader|
