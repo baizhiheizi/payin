@@ -197,6 +197,10 @@ export type MultisigAccountsQuery = (
       & { node: Maybe<(
         { __typename?: 'MultisigAccount' }
         & Pick<MultisigAccount, 'id' | 'accountHash' | 'name' | 'introduction' | 'memberUuids' | 'threshold'>
+        & { members: Array<(
+          { __typename?: 'User' }
+          & Pick<User, 'id' | 'avatar' | 'name' | 'mixinUuid' | 'mixinId'>
+        )> }
       )> }
     )>>> }
   ) }
@@ -276,6 +280,13 @@ export const MultisigAccounts = gql`
         introduction
         memberUuids
         threshold
+        members {
+          id
+          avatar
+          name
+          mixinUuid
+          mixinId
+        }
       }
     }
   }

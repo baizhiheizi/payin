@@ -20,8 +20,8 @@ module Types
     end
 
     def members
-      BatchLoader::GraphQL.for(object.id).batch(default_value: []) do |_multisig_account_ids, loader|
-        MultisigAccountMember.includes(:user).where(multisig_account_id: multisig_transaction_ids).each do |member|
+      BatchLoader::GraphQL.for(object.id).batch(default_value: []) do |multisig_account_ids, loader|
+        MultisigAccountMember.includes(:user).where(multisig_account_id: multisig_account_ids).each do |member|
           loader.call(member.multisig_account_id) { |arr| arr << member.user }
         end
       end

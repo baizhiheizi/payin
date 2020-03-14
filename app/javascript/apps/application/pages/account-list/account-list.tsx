@@ -1,10 +1,27 @@
-import { MultisigAccounts } from '@/graphql/application';
+import { MixinGroup, MultisigAccounts, User } from '@/graphql/application';
+import { IStyles } from '@/shared';
 import { useQuery } from '@apollo/react-hooks';
-import { Button, Empty, Result, Spin } from 'antd';
+import { Avatar, Button, Card, Empty, List, Result, Spin } from 'antd';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-export function AccountList(props: any) {
+interface IProps {
+  currentGroup?: Partial<MixinGroup>;
+  currentUser: Partial<User>;
+  conversationId?: string;
+}
+
+const styles: IStyles = {
+  avatar: {
+    marginLeft: '-0.5rem',
+  },
+  avatarList: {
+    marginTop: '1rem',
+    paddingLeft: '0.5rem',
+  },
+};
+
+export function AccountList(props: IProps) {
   const history = useHistory();
   const { loading, error, data } = useQuery(MultisigAccounts, {
     variables: {
@@ -20,11 +37,11 @@ export function AccountList(props: any) {
   }
 
   const {
-    multisigAccounts: { edges: accounts },
+    multisigAccounts: { edges: nodes },
     pageInfo,
   } = data;
 
-  if (accounts.length === 0) {
+  if (nodes.length === 0) {
     return (
       <Empty
         image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -38,5 +55,30 @@ export function AccountList(props: any) {
     );
   }
 
-  return <div></div>;
+  return (
+    <List
+      itemLayout='vertical'
+      dataSource={nodes}
+      renderItem={({ node: account }) => (
+        <List.Item key={account.id}>
+          <Card size='small'>
+            <Card.Meta
+              title={`${account.name} - ${account.threshold} / ${account.memberUuids.length}`}
+              description={account.introduction}
+            />
+            <div style={styles.avatarList}>
+              {account.members.map((user: User) => (
+                <Avatar
+                  key={user.id}
+                  src={user.avatar}
+                  size='small'
+                  style={styles.avatar}
+                />
+              ))}
+            </div>
+          </Card>
+        </List.Item>
+      )}
+    />
+  );
 }

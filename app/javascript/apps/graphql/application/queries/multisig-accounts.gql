@@ -8,6 +8,13 @@ query MultisigAccounts {
         introduction
         memberUuids
         threshold
+        members {
+          id
+          avatar
+          name
+          mixinUuid
+          mixinId
+        }
       }
     }
   }
