@@ -6,6 +6,7 @@ import {
   MultisigAccount,
   CreateMultisigPayment,
   CreateMultisigPaymentInput,
+  MultisigPayment,
 } from '@/graphql/application';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
@@ -20,6 +21,8 @@ import {
   InputNumber,
   Form,
   message,
+  List,
+  Avatar,
 } from 'antd';
 
 interface IProps {
@@ -80,7 +83,7 @@ export function Account(props: IProps) {
             onChange={() => {}}
           >
             {assetOptions.map(({ node: asset }) => (
-              <Select.Option value={asset.assetId}>
+              <Select.Option key={asset.id} value={asset.assetId}>
                 {asset.symbol}
               </Select.Option>
             ))}
@@ -92,6 +95,19 @@ export function Account(props: IProps) {
               New
             </Button>
           </div>
+          <List
+            itemLayout='horizontal'
+            dataSource={multisigAccount.multisigPayments}
+            renderItem={(payment: Partial<MultisigPayment>) => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={<Avatar src={payment.asset.iconUrl} />}
+                  title={`${payment.amount} ${payment.asset.symbol}`}
+                  description={`creator: ${payment.creator.name}`}
+                />
+              </List.Item>
+            )}
+          />
           <Drawer
             placement='bottom'
             height='70%'
@@ -123,7 +139,7 @@ export function Account(props: IProps) {
                   onChange={() => {}}
                 >
                   {assetOptions.map(({ node: asset }) => (
-                    <Select.Option value={asset.assetId}>
+                    <Select.Option key={asset.id} value={asset.assetId}>
                       {asset.symbol}
                     </Select.Option>
                   ))}

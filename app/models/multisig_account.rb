@@ -25,6 +25,7 @@ class MultisigAccount < ApplicationRecord
 
   has_many :multisig_account_members, dependent: :nullify
   has_many :members, through: :multisig_account_members, source: :user
+  has_many :multisig_payments, dependent: :nullify
 
   before_validation :set_hash
 

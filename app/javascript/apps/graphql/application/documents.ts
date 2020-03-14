@@ -92,6 +92,7 @@ export type MultisigAccount = {
   introduction?: Maybe<Scalars['String']>,
   memberUuids: Array<Scalars['String']>,
   members: Array<User>,
+  multisigPayments: Array<MultisigPayment>,
   name: Scalars['String'],
   threshold: Scalars['Int'],
   utxos: Array<MultisigUtxo>,
@@ -318,6 +319,16 @@ export type MultisigAccountQuery = (
     )>, assets: Array<(
       { __typename?: 'Asset' }
       & Pick<Asset, 'assetId' | 'name' | 'symbol' | 'iconUrl'>
+    )>, multisigPayments: Array<(
+      { __typename?: 'MultisigPayment' }
+      & Pick<MultisigPayment, 'status' | 'codeId' | 'traceId' | 'amount'>
+      & { asset: (
+        { __typename?: 'Asset' }
+        & Pick<Asset, 'assetId' | 'name' | 'symbol' | 'iconUrl'>
+      ), creator: (
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'name' | 'avatar' | 'mixinUuid' | 'mixinId'>
+      ) }
     )> }
   )>, assets: (
     { __typename?: 'AssetConnection' }
@@ -458,6 +469,25 @@ export const MultisigAccount = gql`
       name
       symbol
       iconUrl
+    }
+    multisigPayments {
+      status
+      codeId
+      traceId
+      amount
+      asset {
+        assetId
+        name
+        symbol
+        iconUrl
+      }
+      creator {
+        id
+        name
+        avatar
+        mixinUuid
+        mixinId
+      }
     }
   }
   assets(first: 100) {

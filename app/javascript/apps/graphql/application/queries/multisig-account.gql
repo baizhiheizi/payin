@@ -34,6 +34,25 @@ query MultisigAccount($id: ID!) {
       symbol
       iconUrl
     }
+    multisigPayments {
+      status
+      codeId
+      traceId
+      amount
+      asset {
+        assetId
+        name
+        symbol
+        iconUrl
+      }
+      creator {
+        id
+        name
+        avatar
+        mixinUuid
+        mixinId
+      }
+    }
   }
   assets(first: 100) {
     edges {
