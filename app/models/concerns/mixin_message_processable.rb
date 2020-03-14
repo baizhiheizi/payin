@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module MixinMessageProccessable
+module MixinMessageProcessable
   def process!
     return if processed?
 
