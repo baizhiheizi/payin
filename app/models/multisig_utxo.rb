@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class MultisigUtxo
-  attr_accessor :type, :user_id, :utxo_id, :asset_id, :transaction_hash, :output_index, :amount, :threshold, :members, :memo, :state, :created_at, :signed_by, :signed_tx
+  attr_accessor :type, :user_id, :id, :asset_id, :transaction_hash, :output_index, :amount, :threshold, :members, :memo, :state, :created_at, :signed_by, :signed_tx
 
   def initialize(record = {})
     @type = record['type']

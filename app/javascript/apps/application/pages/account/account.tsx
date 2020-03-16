@@ -23,6 +23,12 @@ import {
   message,
   List,
   Avatar,
+  Alert,
+  Badge,
+  Row,
+  Col,
+  Statistic,
+  Divider,
 } from 'antd';
 
 interface IProps {
@@ -31,9 +37,23 @@ interface IProps {
   conversationId?: string;
 }
 
+function PaymentStatusComponent(props: { status: string }) {
+  const { status } = props;
+  if (status === 'pending') {
+    return <Badge status='processing' text='pending' />;
+  } else if (status === 'paid') {
+    return <Badge status='success' text='paid' />;
+  }
+}
+
 export function Account(props: IProps) {
   const { id } = useParams();
   const [incomeFormVisible, setIncomFormVisible] = useState(false);
+  const [currentAsset, setCurrentAsset] = useState({
+    assetId: '965e5c6e-434c-3fa9-b780-c50f43cd955c',
+    balance: 0.0,
+    utxos: [],
+  });
   const { loading, error, data, refetch } = useQuery(MultisigAccount, {
     variables: { id },
   });
@@ -44,7 +64,7 @@ export function Account(props: IProps) {
         _proxy,
         {
           data: {
-            createMultisigPayment: { multisigPayment, errors },
+            createMultisigPayment: { errors },
           },
         },
       ) {
@@ -71,23 +91,49 @@ export function Account(props: IProps) {
     multisigAccount,
     assets: { edges: assetOptions },
   } = data;
+
+  const updateCurrentAsset = (assetId: string) => {
+    const { utxos } = multisigAccount;
+    const balance = utxos
+      .filter((utxo: any) => utxo.assetId === assetId)
+      .reduce((a: number, b: number) => a + b, 0);
+    setCurrentAsset({
+      assetId,
+      balance,
+      utxos,
+    })
+  };
+
   return (
     <React.Fragment>
       <Tabs defaultActiveKey='1'>
         <Tabs.TabPane tab='Balance' key='1'>
-          <Select
-            showSearch
-            style={{ width: '100%' }}
-            placeholder='Select a asset'
-            optionFilterProp='children'
-            onChange={() => {}}
-          >
-            {assetOptions.map(({ node: asset }) => (
-              <Select.Option key={asset.id} value={asset.assetId}>
-                {asset.symbol}
-              </Select.Option>
-            ))}
-          </Select>
+          <Row>
+            <Select
+              showSearch
+              style={{ width: '100%' }}
+              placeholder='Select a asset'
+              optionFilterProp='children'
+              onChange={assetId => {
+                updateCurrentAsset(assetId);
+              }}
+            >
+              {assetOptions.map(({ node: asset }) => (
+                <Select.Option key={asset.id} value={asset.assetId}>
+                  {asset.symbol}
+                </Select.Option>
+              ))}
+            </Select>
+          </Row>
+          <Divider />
+          <Row gutter={16}>
+            <Col span={12}>
+              <Statistic title='Utxos' value={1} />
+            </Col>
+            <Col span={12}>
+              <Statistic title='Balance' value={currentAsset.balance} />
+            </Col>
+          </Row>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Income' key='2'>
           <div>
@@ -96,15 +142,30 @@ export function Account(props: IProps) {
             </Button>
           </div>
           <List
-            itemLayout='horizontal'
+            itemLayout='vertical'
             dataSource={multisigAccount.multisigPayments}
             renderItem={(payment: Partial<MultisigPayment>) => (
-              <List.Item>
+              <List.Item
+                actions={[
+                  <a>Copy Pay Link</a>,
+                  <a
+                    href={`https://mixin.one/codes/${payment.codeId}`}
+                    target='_blank'
+                  >
+                    Pay
+                  </a>,
+                ]}
+              >
                 <List.Item.Meta
                   avatar={<Avatar src={payment.asset.iconUrl} />}
                   title={`${payment.amount} ${payment.asset.symbol}`}
-                  description={`creator: ${payment.creator.name}`}
+                  description={
+                    <PaymentStatusComponent status={payment.status} />
+                  }
                 />
+                {payment.memo && (
+                  <Alert type='info' showIcon message={payment.memo} />
+                )}
               </List.Item>
             )}
           />

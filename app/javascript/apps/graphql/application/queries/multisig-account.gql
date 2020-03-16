@@ -39,6 +39,7 @@ query MultisigAccount($id: ID!) {
       codeId
       traceId
       amount
+      memo
       asset {
         assetId
         name

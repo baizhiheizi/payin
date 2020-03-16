@@ -33,6 +33,13 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :data, presence: true
 
+  def ensure_access_token
+    return if access_token.blank?
+
+    r = MixinBot.api.read_assets access_token
+    update access_token: nil if r['error'].present?
+  end
+
   private
 
   def set_attributes

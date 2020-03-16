@@ -321,7 +321,7 @@ export type MultisigAccountQuery = (
       & Pick<Asset, 'assetId' | 'name' | 'symbol' | 'iconUrl'>
     )>, multisigPayments: Array<(
       { __typename?: 'MultisigPayment' }
-      & Pick<MultisigPayment, 'status' | 'codeId' | 'traceId' | 'amount'>
+      & Pick<MultisigPayment, 'status' | 'codeId' | 'traceId' | 'amount' | 'memo'>
       & { asset: (
         { __typename?: 'Asset' }
         & Pick<Asset, 'assetId' | 'name' | 'symbol' | 'iconUrl'>
@@ -475,6 +475,7 @@ export const MultisigAccount = gql`
       codeId
       traceId
       amount
+      memo
       asset {
         assetId
         name
