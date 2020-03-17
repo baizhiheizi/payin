@@ -21,7 +21,7 @@ module Mutations
         receivers: account.member_uuids,
         threshold: account.threshold
       )
-      raise res['error'] if res['error'].present?
+      raise res['error'].inspect if res['error'].present?
 
       payment = MultisigPayment.new(
         creator: current_user,

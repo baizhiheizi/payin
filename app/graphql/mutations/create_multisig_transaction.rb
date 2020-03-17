@@ -19,7 +19,7 @@ module Mutations
         receiver_uuids: [params[:receiver_uuid]],
         asset_id: params[:asset_id],
         amount: params[:amount],
-        memo: params[:memo],
+        memo: params[:memo]
       )
 
       if transaction.save

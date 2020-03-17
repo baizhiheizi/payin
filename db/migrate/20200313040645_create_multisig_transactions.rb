@@ -11,6 +11,7 @@ class CreateMultisigTransactions < ActiveRecord::Migration[6.0]
       t.uuid :receiver_uuids, array: true, index: true, using: 'gin'
       t.uuid :signer_uuids, array: true, default: []
       t.string :raw_transaction
+      t.string :transaction_hash, index: true, unique: true
       t.string :status
 
       t.timestamps

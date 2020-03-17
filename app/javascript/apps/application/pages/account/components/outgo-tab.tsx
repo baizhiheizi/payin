@@ -5,6 +5,7 @@ import {
   CreateMultisigTransactionInput,
   User,
   MultisigTransactions,
+  CreateMultisigRequest,
 } from '@/graphql/application';
 import {
   Row,
@@ -21,6 +22,7 @@ import {
   List,
   Dropdown,
   Menu,
+  Modal,
 } from 'antd';
 import { TransactionDetail } from '@/application/components/transaction-detail';
 
@@ -33,6 +35,12 @@ interface IProps {
 export function OutgoTab(props: IProps) {
   const [form] = Form.useForm();
   const { multisigAccount, assetOptions, currentUser } = props;
+  const [
+    multisigTransactionFormVisible,
+    setMultisigTransactionFormVisible,
+  ] = useState(false);
+  const [currentTransaction, setCurrentTransaction] = useState(null);
+  const [currentRequest, setCurrentRequest] = useState(null);
   const { error, loading, data, refetch } = useQuery(MultisigTransactions, {
     variables: {
       accountId: multisigAccount.id,
@@ -46,11 +54,42 @@ export function OutgoTab(props: IProps) {
       refetch();
     },
   });
-  const [
-    multisigTransactionFormVisible,
-    setMultisigTransactionFormVisible,
-  ] = useState(false);
-  const [currentTransaction, setCurrentTransaction] = useState(null);
+  const [createMultisigRequest] = useMutation(CreateMultisigRequest, {
+    update(
+      _proxy,
+      {
+        data: {
+          createMultisigRequest: {
+            multisigRequest: { codeId, signers, state, action },
+          },
+        },
+      },
+    ) {
+      if (state === 'paid') {
+        message.warn('You have signed!');
+        return;
+      }
+
+      if (action === 'sign' && signers.includes(currentUser.mixinUuid)) {
+        message.warn('You have signed!');
+        return;
+      }
+
+      setCurrentRequest({
+        action,
+        codeId,
+        state,
+        signers,
+      });
+      Modal.confirm({
+        title: 'Sign',
+        content: 'Please sign in Mixin Messenger',
+        maskClosable: false,
+        onOk: () => {},
+      });
+      location.href = `mixin://codes/${codeId}`;
+    },
+  });
 
   if (loading) {
     return <Spin />;
@@ -165,6 +204,17 @@ export function OutgoTab(props: IProps) {
                       disabled={transaction.signerUuids.includes(
                         currentUser.mixinUuid,
                       )}
+                      onClick={() =>
+                        createMultisigRequest({
+                          variables: {
+                            input: {
+                              action: 'sign',
+                              accountId: multisigAccount.id,
+                              transactionId: transaction.id,
+                            },
+                          },
+                        })
+                      }
                     >
                       Sign
                     </Menu.Item>
@@ -172,6 +222,17 @@ export function OutgoTab(props: IProps) {
                       key='1'
                       disabled={
                         !transaction.signerUuids.includes(currentUser.mixinUuid)
+                      }
+                      onClick={() =>
+                        createMultisigRequest({
+                          variables: {
+                            input: {
+                              action: 'unlock',
+                              accountId: multisigAccount.id,
+                              transactionId: transaction.id,
+                            },
+                          },
+                        })
                       }
                     >
                       Unlock

@@ -28,10 +28,16 @@ module Mutations
         raise 'Unvalid action'
       end
 
-      raise res['error'] if res['error'].present?
+      raise res['error'].inspect if res['error'].present?
+
+      request = res['data']
+      transaction.update(
+        transaction_hash: request['transaction_hash'],
+        signer_uuids: request['signers']
+      )
 
       {
-        multisig_request: res['data']
+        multisig_request: request
       }
     end
   end

@@ -163,13 +163,20 @@ export type MultisigPayment = {
 export type MultisigRequest = {
    __typename?: 'MultisigRequest';
   action?: Maybe<Scalars['String']>;
+  amount: Scalars['Float'];
+  assetId: Scalars['String'];
   codeId: Scalars['String'];
   createdAt: Scalars['ISO8601DateTime'];
-  id: Scalars['ID'];
-  multisigTransaction: MultisigTransaction;
+  memo?: Maybe<Scalars['String']>;
+  rawTransaction: Scalars['String'];
+  receivers: Array<Scalars['String']>;
   requestId: Scalars['String'];
+  senders: Array<Scalars['String']>;
+  signers: Array<Scalars['String']>;
   state: Scalars['String'];
-  user: User;
+  threshold: Scalars['Int'];
+  transactionHash: Scalars['String'];
+  userId: Scalars['String'];
 };
 
 export type MultisigTransaction = {
@@ -366,6 +373,22 @@ export type CreateMultisigPaymentMutation = (
     & { multisigPayment: Maybe<(
       { __typename?: 'MultisigPayment' }
       & Pick<MultisigPayment, 'id' | 'codeId' | 'status'>
+    )> }
+  )> }
+);
+
+export type CreateMultisigRequestMutationVariables = {
+  input: CreateMultisigRequestInput;
+};
+
+
+export type CreateMultisigRequestMutation = (
+  { __typename?: 'Mutation' }
+  & { createMultisigRequest: Maybe<(
+    { __typename?: 'CreateMultisigRequestPayload' }
+    & { multisigRequest: Maybe<(
+      { __typename?: 'MultisigRequest' }
+      & Pick<MultisigRequest, 'action' | 'codeId' | 'requestId' | 'state' | 'signers' | 'transactionHash'>
     )> }
   )> }
 );
@@ -580,6 +603,20 @@ export const CreateMultisigPayment = gql`
       status
     }
     errors
+  }
+}
+    `;
+export const CreateMultisigRequest = gql`
+    mutation CreateMultisigRequest($input: CreateMultisigRequestInput!) {
+  createMultisigRequest(input: $input) {
+    multisigRequest {
+      action
+      codeId
+      requestId
+      state
+      signers
+      transactionHash
+    }
   }
 }
     `;

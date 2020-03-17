@@ -111,21 +111,6 @@ ActiveRecord::Schema.define(version: 2020_03_13_073024) do
     t.index ["receivers"], name: "index_multisig_payments_on_receivers"
   end
 
-  create_table "multisig_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "multisig_transaction_id"
-    t.uuid "user_id"
-    t.string "action"
-    t.string "state"
-    t.uuid "request_id"
-    t.uuid "code_id"
-    t.json "data"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["code_id"], name: "index_multisig_requests_on_code_id"
-    t.index ["multisig_transaction_id"], name: "index_multisig_requests_on_multisig_transaction_id"
-    t.index ["user_id"], name: "index_multisig_requests_on_user_id"
-  end
-
   create_table "multisig_transactions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id"
     t.uuid "multisig_account_id"
@@ -137,12 +122,14 @@ ActiveRecord::Schema.define(version: 2020_03_13_073024) do
     t.uuid "receiver_uuids", array: true
     t.uuid "signer_uuids", default: [], array: true
     t.string "raw_transaction"
+    t.string "transaction_hash"
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["multisig_account_id"], name: "index_multisig_transactions_on_multisig_account_id"
     t.index ["receiver_uuids"], name: "index_multisig_transactions_on_receiver_uuids"
     t.index ["sender_uuids"], name: "index_multisig_transactions_on_sender_uuids"
+    t.index ["transaction_hash"], name: "index_multisig_transactions_on_transaction_hash"
     t.index ["user_id"], name: "index_multisig_transactions_on_user_id"
   end
 

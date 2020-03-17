@@ -1,9 +1,9 @@
+import { UtxoDetail } from '@/application/components';
 import { MultisigUtxo } from '@/graphql/application';
 import {
   Avatar,
   Button,
   Col,
-  Descriptions,
   Divider,
   Drawer,
   List,
@@ -105,49 +105,7 @@ export function DashboardTab(props: IProps) {
         visible={currentUtxo}
         onClose={() => setCurrentUtxo(null)}
       >
-        {currentUtxo && (
-          <Descriptions title='Utxo Detail'>
-            <Descriptions.Item label='Id'>{currentUtxo.id}</Descriptions.Item>
-            <Descriptions.Item label='Type'>
-              {currentUtxo.type}
-            </Descriptions.Item>
-            <Descriptions.Item label='UserId'>
-              {currentUtxo.userId}
-            </Descriptions.Item>
-            <Descriptions.Item label='assetId'>
-              {currentUtxo.assetId}
-            </Descriptions.Item>
-            <Descriptions.Item label='transactionHash'>
-              <span style={{ wordBreak: 'break-all' }}>
-                {currentUtxo.transactionHash}
-              </span>
-            </Descriptions.Item>
-            <Descriptions.Item label='outputIndex'>
-              {currentUtxo.outputIndex}
-            </Descriptions.Item>
-            <Descriptions.Item label='amount'>
-              {currentUtxo.amount}
-            </Descriptions.Item>
-            <Descriptions.Item label='threshold'>
-              {currentUtxo.threshold}
-            </Descriptions.Item>
-            <Descriptions.Item label='members'>
-              {currentUtxo.members.join('\n')}
-            </Descriptions.Item>
-            <Descriptions.Item label='state'>
-              {currentUtxo.state}
-            </Descriptions.Item>
-            <Descriptions.Item label='memo'>
-              {currentUtxo.memo}
-            </Descriptions.Item>
-            <Descriptions.Item label='signedBy'>
-              {currentUtxo.signedBy}
-            </Descriptions.Item>
-            <Descriptions.Item label='signedTx'>
-              {currentUtxo.signedTx}
-            </Descriptions.Item>
-          </Descriptions>
-        )}
+        {currentUtxo && <UtxoDetail utxo={currentUtxo} />}
       </Drawer>
     </React.Fragment>
   );
