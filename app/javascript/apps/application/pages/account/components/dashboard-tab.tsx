@@ -20,17 +20,13 @@ interface IProps {
 
 export function DashboardTab(props: IProps) {
   const { assetOptions, multisigAccount } = props;
-  const [currentAccount, setCurrentAccount] = useState({
-    utxos: [],
-    balance: 0.0,
-    asset: null,
-  });
+  const [currentAccount, setCurrentAccount] = useState(null);
   const [currentUtxo, setCurrentUtxo] = useState(null);
 
   const updateCurrentAccount = (assetId: string) => {
     const { utxos } = multisigAccount;
     const currentAsset = assetOptions.find(
-      ({ node: asset }) => asset.assetId == assetId,
+      ({ node: asset }) => asset.assetId === assetId,
     );
     const balance = utxos
       .filter((utxo: any) => utxo.assetId === assetId)
@@ -56,26 +52,31 @@ export function DashboardTab(props: IProps) {
           }}
         >
           {assetOptions.map(({ node: asset }) => (
-            <Select.Option key={asset.id} value={asset.assetId}>
+            <Select.Option key={asset.assetId} value={asset.assetId}>
               {asset.symbol}
             </Select.Option>
           ))}
         </Select>
       </Row>
       <Divider />
-      <Row gutter={16}>
-        <Col span={12}>
-          <Statistic title='Utxos' value={currentAccount.utxos.length} />
-        </Col>
-        <Col span={12}>
-          <Statistic title='Balance' value={currentAccount.balance} />
-        </Col>
-      </Row>
+      {currentAccount && (
+        <Row gutter={16}>
+          <Col span={12}>
+            <Statistic title='Utxos' value={currentAccount.utxos.length} />
+          </Col>
+          <Col span={12}>
+            <Statistic title='Balance' value={currentAccount.balance} />
+          </Col>
+        </Row>
+      )}
       <List
         itemLayout='horizontal'
-        dataSource={currentAccount.utxos}
+        dataSource={
+          currentAccount ? currentAccount.utxos : multisigAccount.utxos
+        }
         renderItem={(utxo: Partial<MultisigUtxo>) => (
           <List.Item
+            key={utxo.id}
             actions={[
               <Button type='link' onClick={() => setCurrentUtxo(utxo)}>
                 Detail
@@ -84,9 +85,13 @@ export function DashboardTab(props: IProps) {
           >
             <List.Item.Meta
               avatar={
-                <Avatar src={currentAccount.asset.iconUrl}>
-                  {currentAccount.asset.name[0]}
-                </Avatar>
+                <Avatar
+                  src={
+                    assetOptions.find(
+                      ({ node: asset }) => asset.assetId === utxo.assetId,
+                    ).node.iconUrl
+                  }
+                ></Avatar>
               }
               title={utxo.amount}
               description={utxo.state}

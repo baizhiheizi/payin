@@ -84,6 +84,7 @@ export function IncomeTab(props: IProps) {
         dataSource={multisigAccount.multisigPayments}
         renderItem={(payment: Partial<MultisigPayment>) => (
           <List.Item
+            key={payment.codeId}
             actions={[
               <a onClick={() => setCurrentPayment(payment)}>Detail</a>,
               <Dropdown
@@ -200,7 +201,7 @@ export function IncomeTab(props: IProps) {
               onChange={() => {}}
             >
               {assetOptions.map(({ node: asset }) => (
-                <Select.Option key={asset.id} value={asset.assetId}>
+                <Select.Option key={asset.assetId} value={asset.assetId}>
                   {asset.symbol}
                 </Select.Option>
               ))}

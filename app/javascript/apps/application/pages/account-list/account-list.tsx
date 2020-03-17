@@ -93,7 +93,6 @@ export function AccountList(props: IProps) {
             key={account.id}
             actions={[
               <a onClick={() => setCurrentAccount(account)}>Detail</a>,
-              <a>Edit</a>,
               <Link to={`/accounts/${account.id}`}>Manage</Link>,
             ]}
           >
@@ -126,7 +125,9 @@ export function AccountList(props: IProps) {
             </Descriptions.Item>
             <Descriptions.Item label='Members'>
               {currentAccount.members.map((member: Partial<User>) => (
-                <Avatar src={member.avatar}>{member.name[0]}</Avatar>
+                <Avatar key={member.id} src={member.avatar}>
+                  {member.name[0]}
+                </Avatar>
               ))}
             </Descriptions.Item>
             <Descriptions.Item label='Account Hash'>
