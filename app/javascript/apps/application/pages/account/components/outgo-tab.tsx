@@ -22,6 +22,7 @@ import {
   Dropdown,
   Menu,
 } from 'antd';
+import { TransactionDetail } from '@/application/components/transaction-detail';
 
 interface IProps {
   multisigAccount: any;
@@ -49,6 +50,7 @@ export function OutgoTab(props: IProps) {
     multisigTransactionFormVisible,
     setMultisigTransactionFormVisible,
   ] = useState(false);
+  const [currentTransaction, setCurrentTransaction] = useState(null);
 
   if (loading) {
     return <Spin />;
@@ -154,7 +156,7 @@ export function OutgoTab(props: IProps) {
           <List.Item
             key={transaction.id}
             actions={[
-              <a>Detail</a>,
+              <a onClick={() => setCurrentTransaction(transaction)}>Detail</a>,
               <Dropdown
                 overlay={
                   <Menu>
@@ -190,6 +192,16 @@ export function OutgoTab(props: IProps) {
           </List.Item>
         )}
       />
+      <Drawer
+        placement='bottom'
+        height='70%'
+        visible={Boolean(currentTransaction)}
+        onClose={() => setCurrentTransaction(null)}
+      >
+        {currentTransaction && (
+          <TransactionDetail transaction={currentTransaction} />
+        )}
+      </Drawer>
     </React.Fragment>
   );
 }
