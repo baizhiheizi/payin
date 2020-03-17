@@ -7,6 +7,7 @@ import {
 import { useMutation } from '@apollo/react-hooks';
 import {
   Avatar,
+  Breadcrumb,
   Button,
   Form,
   Input,
@@ -16,7 +17,7 @@ import {
   Result,
 } from 'antd';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 interface IProps {
   currentGroup?: Partial<MixinGroup>;
@@ -62,69 +63,79 @@ export function AccountNew(props: IProps) {
     );
   }
   return (
-    <Form
-      name='multisig-account-form'
-      initialValues={{
-        name: currentGroup.name,
-        threshold: currentGroup.users.length,
-      }}
-      onFinish={(values: CreateMultisigAccountInput) => {
-        createMultisigAccount({
-          variables: {
-            input: {
-              conversationId: currentGroup.conversationId,
-              memberUuids: currentGroup.users.map(user => user.mixinUuid),
-              ...values,
+    <React.Fragment>
+      <Breadcrumb>
+        <Breadcrumb.Item>
+          <Link to='/'>Home</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>New Account</Breadcrumb.Item>
+      </Breadcrumb>
+      <Form
+        name='multisig-account-form'
+        initialValues={{
+          name: currentGroup.name,
+          threshold: currentGroup.users.length,
+        }}
+        onFinish={(values: CreateMultisigAccountInput) => {
+          createMultisigAccount({
+            variables: {
+              input: {
+                conversationId: currentGroup.conversationId,
+                memberUuids: currentGroup.users.map(user => user.mixinUuid),
+                ...values,
+              },
             },
-          },
-        });
-      }}
-      onFinishFailed={errorInfo => message.error(errorInfo)}
-    >
-      <Form.Item
-        label='Name'
-        name='name'
-        rules={[{ required: true, message: 'Please input your account name!' }]}
+          });
+        }}
+        onFinishFailed={errorInfo => message.error(errorInfo)}
       >
-        <Input placeholder='e.g. PayinTeam(2/3)' />
-      </Form.Item>
-      <Form.Item label='Introduction' name='introduction'>
-        <Input.TextArea placeholder='Add some introduction?' />
-      </Form.Item>
-      <Form.Item
-        label='Threshold'
-        name='threshold'
-        rules={[
-          { required: true, message: 'Please input threshold!' },
-          {
-            type: 'number',
-            min: 1,
-            max: currentGroup.users.length,
-          },
-        ]}
-      >
-        <InputNumber />
-      </Form.Item>
-      <Form.Item label='Members'>
-        <List
-          itemLayout='horizontal'
-          dataSource={currentGroup.users}
-          renderItem={(user: Partial<User>) => (
-            <List.Item>
-              <List.Item.Meta
-                avatar={<Avatar src={user.avatar}>{user.name[0]}</Avatar>}
-                title={user.name}
-                description={user.mixinUuid}
-              />
-            </List.Item>
-          )}
-        />
-      </Form.Item>
-      <Form.Item>
-        <Button type='primary' htmlType='submit'>
-          Create
-        </Button>
-      </Form.Item>
-    </Form>
+        <Form.Item
+          label='Name'
+          name='name'
+          rules={[
+            { required: true, message: 'Please input your account name!' },
+          ]}
+        >
+          <Input placeholder='e.g. PayinTeam(2/3)' />
+        </Form.Item>
+        <Form.Item label='Introduction' name='introduction'>
+          <Input.TextArea placeholder='Add some introduction?' />
+        </Form.Item>
+        <Form.Item
+          label='Threshold'
+          name='threshold'
+          rules={[
+            { required: true, message: 'Please input threshold!' },
+            {
+              type: 'number',
+              min: 1,
+              max: currentGroup.users.length,
+            },
+          ]}
+        >
+          <InputNumber />
+        </Form.Item>
+        <Form.Item label='Members'>
+          <List
+            itemLayout='horizontal'
+            dataSource={currentGroup.users}
+            renderItem={(user: Partial<User>) => (
+              <List.Item key={user.mixinUuid}>
+                <List.Item.Meta
+                  avatar={<Avatar src={user.avatar}>{user.name[0]}</Avatar>}
+                  title={user.name}
+                  description={user.mixinUuid}
+                />
+              </List.Item>
+            )}
+          />
+        </Form.Item>
+        <Form.Item>
+          <Button type='primary' htmlType='submit'>
+            Create
+          </Button>
+        </Form.Item>
+      </Form>
+    </React.Fragment>
   );
 }

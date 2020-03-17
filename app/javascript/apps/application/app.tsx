@@ -1,7 +1,7 @@
 import { Account, AccountList, AccountNew } from '@/application/pages';
 import { apolloClient, IStyles, mixinUtils } from '@/shared';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
-import { Button, Layout, Menu, Result, Spin } from 'antd';
+import { Button, Layout, Result, Spin } from 'antd';
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { CurrentGroup } from '@/graphql/application';
@@ -21,7 +21,7 @@ const style: IStyles = {
     lineHeight: 'inherit',
   },
   page: {
-    minHeight: 'calc(100vh - 64px)',
+    minHeight: '100vh',
     padding: '1rem',
   },
 };
@@ -36,7 +36,7 @@ interface IProps {
 }
 
 function App(props: any) {
-  const { currentUser, conversationId } = props;
+  const { conversationId } = props;
   const { error, loading, data } = useQuery(CurrentGroup, {
     variables: { conversationId },
   });
@@ -51,25 +51,6 @@ function App(props: any) {
   return (
     <Router>
       <Layout>
-        <Layout.Header style={style.header}>
-          <Menu
-            style={style.menu}
-            defaultSelectedKeys={['home']}
-            mode='horizontal'
-          >
-            <Menu.Item key='home'>Home</Menu.Item>
-            {currentUser && (
-              <Menu.Item
-                key='logout'
-                onClick={() => {
-                  location.href = '/logout';
-                }}
-              >
-                Logout
-              </Menu.Item>
-            )}
-          </Menu>
-        </Layout.Header>
         <Layout style={style.page}>
           <Layout.Content style={style.content}>
             <Route path='/' exact>

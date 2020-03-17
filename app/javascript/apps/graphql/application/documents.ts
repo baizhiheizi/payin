@@ -152,6 +152,7 @@ export type Mutation = {
    __typename?: 'Mutation',
   createMultisigAccount?: Maybe<CreateMultisigAccountPayload>,
   createMultisigPayment?: Maybe<CreateMultisigPaymentPayload>,
+  verifyMultisigPayment?: Maybe<VerifyMultisigPaymentPayload>,
 };
 
 
@@ -162,6 +163,11 @@ export type MutationCreateMultisigAccountArgs = {
 
 export type MutationCreateMultisigPaymentArgs = {
   input: CreateMultisigPaymentInput
+};
+
+
+export type MutationVerifyMultisigPaymentArgs = {
+  input: VerifyMultisigPaymentInput
 };
 
 export type PageInfo = {
@@ -218,6 +224,18 @@ export type User = {
   name: Scalars['String'],
 };
 
+export type VerifyMultisigPaymentInput = {
+  conversationId?: Maybe<Scalars['String']>,
+  codeId: Scalars['String'],
+  clientMutationId?: Maybe<Scalars['String']>,
+};
+
+export type VerifyMultisigPaymentPayload = {
+   __typename?: 'VerifyMultisigPaymentPayload',
+  clientMutationId?: Maybe<Scalars['String']>,
+  multisigPayment?: Maybe<MultisigPayment>,
+};
+
 export type CreateMultisigAccountMutationVariables = {
   input: CreateMultisigAccountInput
 };
@@ -245,6 +263,22 @@ export type CreateMultisigPaymentMutation = (
   & { createMultisigPayment: Maybe<(
     { __typename?: 'CreateMultisigPaymentPayload' }
     & Pick<CreateMultisigPaymentPayload, 'errors'>
+    & { multisigPayment: Maybe<(
+      { __typename?: 'MultisigPayment' }
+      & Pick<MultisigPayment, 'id' | 'codeId' | 'status'>
+    )> }
+  )> }
+);
+
+export type VerifyMultisigPaymentMutationVariables = {
+  input: VerifyMultisigPaymentInput
+};
+
+
+export type VerifyMultisigPaymentMutation = (
+  { __typename?: 'Mutation' }
+  & { verifyMultisigPayment: Maybe<(
+    { __typename?: 'VerifyMultisigPaymentPayload' }
     & { multisigPayment: Maybe<(
       { __typename?: 'MultisigPayment' }
       & Pick<MultisigPayment, 'id' | 'codeId' | 'status'>
@@ -385,6 +419,17 @@ export const CreateMultisigPayment = gql`
       status
     }
     errors
+  }
+}
+    `;
+export const VerifyMultisigPayment = gql`
+    mutation VerifyMultisigPayment($input: VerifyMultisigPaymentInput!) {
+  verifyMultisigPayment(input: $input) {
+    multisigPayment {
+      id
+      codeId
+      status
+    }
   }
 }
     `;

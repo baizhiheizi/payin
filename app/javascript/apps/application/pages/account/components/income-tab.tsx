@@ -2,6 +2,7 @@ import {
   CreateMultisigPayment,
   CreateMultisigPaymentInput,
   MultisigPayment,
+  VerifyMultisigPayment,
 } from '@/graphql/application';
 import { useMutation } from '@apollo/react-hooks';
 import {
@@ -41,6 +42,12 @@ export function IncomeTab(props: IProps) {
   const { multisigAccount, assetOptions, refechMultisiAccount } = props;
   const [incomeFormVisible, setIncomFormVisible] = useState(false);
   const [currentPayment, setCurrentPayment] = useState(null);
+  const [verifyMultisigPayment] = useMutation(VerifyMultisigPayment, {
+    update() {
+      message.success('Status Refreshed!');
+      refechMultisiAccount();
+    },
+  });
   const [createMultisigPayment, { error: createPaymentError }] = useMutation(
     CreateMultisigPayment,
     {
@@ -96,6 +103,17 @@ export function IncomeTab(props: IProps) {
                         target='_blank'
                       >
                         Click to Pay
+                      </a>
+                    </Menu.Item>
+                    <Menu.Item key='2' disabled={payment.status === 'paid'}>
+                      <a
+                        onClick={() =>
+                          verifyMultisigPayment({
+                            variables: { input: { codeId: payment.codeId } },
+                          })
+                        }
+                      >
+                        Verify
                       </a>
                     </Menu.Item>
                   </Menu>
