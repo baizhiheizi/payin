@@ -106,16 +106,16 @@ export function IncomeTab(props: IProps) {
                         Click to Pay
                       </a>
                     </Menu.Item>
-                    <Menu.Item key='2' disabled={payment.status === 'paid'}>
-                      <a
-                        onClick={() =>
-                          verifyMultisigPayment({
-                            variables: { input: { codeId: payment.codeId } },
-                          })
-                        }
-                      >
-                        Verify
-                      </a>
+                    <Menu.Item
+                      key='2'
+                      onClick={() =>
+                        verifyMultisigPayment({
+                          variables: { input: { codeId: payment.codeId } },
+                        })
+                      }
+                      disabled={payment.status === 'paid'}
+                    >
+                      {payment.status === 'paid' ? 'Verify' : <a>Verify</a>}
                     </Menu.Item>
                   </Menu>
                 }
