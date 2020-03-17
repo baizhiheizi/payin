@@ -11,7 +11,8 @@ interface IProps {
   conversationId?: string;
 }
 
-export function Account(_props: IProps) {
+export function Account(props: IProps) {
+  const { currentUser } = props;
   const { id } = useParams();
   const { loading, error, data, refetch } = useQuery(MultisigAccount, {
     variables: { id },
@@ -54,6 +55,7 @@ export function Account(_props: IProps) {
           <OutgoTab
             multisigAccount={multisigAccount}
             assetOptions={assetOptions}
+            currentUser={currentUser}
           />
         </Tabs.TabPane>
       </Tabs>

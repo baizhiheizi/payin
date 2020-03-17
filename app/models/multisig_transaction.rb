@@ -56,7 +56,8 @@ class MultisigTransaction < ApplicationRecord
   private
 
   def set_attributes
-    self.senders = multisig_account.member_uuids
+    self.sender_uuids = multisig_account.member_uuids
+    self.threshold = multisig_account.threshold
     self.raw_transaction = MixinBot.api.build_transaction_raw(
       payers: sender_uuids,
       receivers: receiver_uuids,

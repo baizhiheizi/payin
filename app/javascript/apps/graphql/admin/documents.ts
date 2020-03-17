@@ -1,58 +1,59 @@
+import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string,
-  String: string,
-  Boolean: boolean,
-  Int: number,
-  Float: number,
+  ID: string;
+  String: string;
+  Boolean: boolean;
+  Int: number;
+  Float: number;
 };
 
 export type AdminLoginInput = {
-  name: Scalars['String'],
-  password: Scalars['String'],
-  clientMutationId?: Maybe<Scalars['String']>,
+  name: Scalars['String'];
+  password: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 export type AdminLoginPayload = {
-   __typename?: 'AdminLoginPayload',
-  clientMutationId?: Maybe<Scalars['String']>,
-  msg?: Maybe<Scalars['String']>,
+   __typename?: 'AdminLoginPayload';
+  clientMutationId?: Maybe<Scalars['String']>;
+  msg?: Maybe<Scalars['String']>;
 };
 
 export type AdminLogoutInput = {
-  clientMutationId?: Maybe<Scalars['String']>,
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 export type AdminLogoutPayload = {
-   __typename?: 'AdminLogoutPayload',
-  clientMutationId?: Maybe<Scalars['String']>,
-  msg: Scalars['String'],
+   __typename?: 'AdminLogoutPayload';
+  clientMutationId?: Maybe<Scalars['String']>;
+  msg: Scalars['String'];
 };
 
 export type Mutation = {
-   __typename?: 'Mutation',
-  adminLogin?: Maybe<AdminLoginPayload>,
-  adminLogout?: Maybe<AdminLogoutPayload>,
+   __typename?: 'Mutation';
+  adminLogin?: Maybe<AdminLoginPayload>;
+  adminLogout?: Maybe<AdminLogoutPayload>;
 };
 
 
 export type MutationAdminLoginArgs = {
-  input: AdminLoginInput
+  input: AdminLoginInput;
 };
 
 
 export type MutationAdminLogoutArgs = {
-  input: AdminLogoutInput
+  input: AdminLogoutInput;
 };
 
 export type Query = {
-   __typename?: 'Query',
-  testField: Scalars['String'],
+   __typename?: 'Query';
+  testField: Scalars['String'];
 };
 
 export type AdminLoginMutationVariables = {
-  input: AdminLoginInput
+  input: AdminLoginInput;
 };
 
 
@@ -65,7 +66,7 @@ export type AdminLoginMutation = (
 );
 
 export type AdminLogoutMutationVariables = {
-  input: AdminLogoutInput
+  input: AdminLogoutInput;
 };
 
 
@@ -77,7 +78,6 @@ export type AdminLogoutMutation = (
   )> }
 );
 
-import gql from 'graphql-tag';
 
 export const AdminLogin = gql`
     mutation AdminLogin($input: AdminLoginInput!) {

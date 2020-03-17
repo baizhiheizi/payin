@@ -10,6 +10,7 @@ module Types
     field :current_group, resolver: Resolvers::CurrentGroup
     field :multisig_accounts, resolver: Resolvers::MultisigAccounts
     field :multisig_account, resolver: Resolvers::MultisigAccount
+    field :multisig_transactions, resolver: Resolvers::MultisigTransactions
     field :assets, resolver: Resolvers::Assets
   end
 end

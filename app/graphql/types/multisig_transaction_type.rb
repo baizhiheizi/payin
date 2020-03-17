@@ -14,6 +14,7 @@ module Types
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
 
     field :user, Types::UserType, null: false
+    field :asset, Types::AssetType, null: false
     field :receivers, [Types::UserType], null: false
     field :senders, [Types::UserType], null: false
     field :signers, [Types::UserType], null: false

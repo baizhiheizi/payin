@@ -1,0 +1,42 @@
+query MultisigTransactions($accountId: ID!) {
+  multisigTransactions(accountId: $accountId) {
+    edges {
+      node {
+        id
+        amount
+        memo
+        rawTransaction
+        threshold
+        createdAt
+        signerUuids
+        receiverUuids
+        asset {
+          assetId
+          iconUrl
+          name
+          symbol
+        }
+        user {
+          avatar
+          mixinUuid
+          name
+        }
+        senders {
+          avatar
+          mixinUuid
+          name
+        }
+        receivers {
+          avatar
+          mixinUuid
+          name
+        }
+        signers {
+          avatar
+          mixinUuid
+          name
+        }
+      }
+    }
+  }
+}
