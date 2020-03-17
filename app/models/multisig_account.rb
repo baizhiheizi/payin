@@ -54,6 +54,24 @@ class MultisigAccount < ApplicationRecord
     utxos.select(&->(utxo) { utxo.asset_id == asset_id }).map(&:amount).sum
   end
 
+  def recover_signed_trequestnsaction
+    signed_utxo = utxos.select(&->(utxo) { utxo.state == 'signed' }).first
+
+    res = MixinBot.api.create_sign_multisig_request(
+      signed_utxo.raw_transaction,
+      access_token: creator.access_token
+    )
+    multisig_transactions.find_or_create_by(
+      transaction_hash: signed_utxos.signed_by,
+      raw_transaction: signed_utxo.signed_tx,
+      threshold: res['data']['threshold'],
+      amount: res['data']['amount'],
+      memo: res['data']['memo'],
+      asset_id: res['data']['asset_id'],
+      receiver_uuids: res['data']['receivers']
+    )
+  end
+
   private
 
   def threshold_must_not_greater_than_members_size
