@@ -1,5 +1,4 @@
-import { DashboardTab } from '@/application/pages/account/dashboard-tab';
-import { IncomeTab } from '@/application/pages/account/income-tab';
+import { DashboardTab, IncomeTab, OutgoTab } from './components';
 import { MixinGroup, MultisigAccount, User } from '@/graphql/application';
 import { useQuery } from '@apollo/react-hooks';
 import { Result, Spin, Tabs } from 'antd';
@@ -46,7 +45,10 @@ export function Account(_props: IProps) {
           />
         </Tabs.TabPane>
         <Tabs.TabPane tab='Outgo' key='3'>
-          outgo
+          <OutgoTab
+            multisigAccount={multisigAccount}
+            assetOptions={assetOptions}
+          />
         </Tabs.TabPane>
       </Tabs>
     </React.Fragment>

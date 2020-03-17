@@ -101,7 +101,7 @@ export function DashboardTab(props: IProps) {
         onClose={() => setCurrentUtxo(null)}
       >
         {currentUtxo && (
-          <Descriptions title='Uxto Detail'>
+          <Descriptions title='Utxo Detail'>
             <Descriptions.Item label='Id'>{currentUtxo.id}</Descriptions.Item>
             <Descriptions.Item label='Type'>
               {currentUtxo.type}
@@ -113,7 +113,9 @@ export function DashboardTab(props: IProps) {
               {currentUtxo.assetId}
             </Descriptions.Item>
             <Descriptions.Item label='transactionHash'>
-              {currentUtxo.transactionHash}
+              <span style={{ wordBreak: 'break-all' }}>
+                {currentUtxo.transactionHash}
+              </span>
             </Descriptions.Item>
             <Descriptions.Item label='outputIndex'>
               {currentUtxo.outputIndex}
@@ -125,7 +127,7 @@ export function DashboardTab(props: IProps) {
               {currentUtxo.threshold}
             </Descriptions.Item>
             <Descriptions.Item label='members'>
-              {currentUtxo.members}
+              {currentUtxo.members.join('\n')}
             </Descriptions.Item>
             <Descriptions.Item label='state'>
               {currentUtxo.state}

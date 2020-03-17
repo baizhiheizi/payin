@@ -5,7 +5,6 @@ import {
 } from '@/graphql/application';
 import { useMutation } from '@apollo/react-hooks';
 import {
-  Alert,
   Avatar,
   Badge,
   Button,
@@ -16,7 +15,11 @@ import {
   List,
   message,
   Select,
+  Dropdown,
+  Menu,
+  Descriptions,
 } from 'antd';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import React, { useState } from 'react';
 
 interface IProps {
@@ -37,6 +40,7 @@ function PaymentStatusComponent(props: { status: string }) {
 export function IncomeTab(props: IProps) {
   const { multisigAccount, assetOptions, refechMultisiAccount } = props;
   const [incomeFormVisible, setIncomFormVisible] = useState(false);
+  const [currentPayment, setCurrentPayment] = useState(null);
   const [createMultisigPayment, { error: createPaymentError }] = useMutation(
     CreateMultisigPayment,
     {
@@ -69,18 +73,36 @@ export function IncomeTab(props: IProps) {
         </Button>
       </div>
       <List
-        itemLayout='vertical'
+        itemLayout='horizontal'
         dataSource={multisigAccount.multisigPayments}
         renderItem={(payment: Partial<MultisigPayment>) => (
           <List.Item
             actions={[
-              <a>Copy Pay Link</a>,
-              <a
-                href={`https://mixin.one/codes/${payment.codeId}`}
-                target='_blank'
+              <a onClick={() => setCurrentPayment(payment)}>Detail</a>,
+              <Dropdown
+                overlay={
+                  <Menu>
+                    <Menu.Item key='0'>
+                      <CopyToClipboard
+                        text={`https://mixin.one/codes/${payment.codeId}`}
+                        onCopy={() => message.success('Pay link Copied!')}
+                      >
+                        <a>Copy Pay Link</a>
+                      </CopyToClipboard>
+                    </Menu.Item>
+                    <Menu.Item key='1'>
+                      <a
+                        href={`https://mixin.one/codes/${payment.codeId}`}
+                        target='_blank'
+                      >
+                        Click to Pay
+                      </a>
+                    </Menu.Item>
+                  </Menu>
+                }
               >
-                Pay
-              </a>,
+                <a>Options</a>
+              </Dropdown>,
             ]}
           >
             <List.Item.Meta
@@ -88,12 +110,47 @@ export function IncomeTab(props: IProps) {
               title={`${payment.amount} ${payment.asset.symbol}`}
               description={<PaymentStatusComponent status={payment.status} />}
             />
-            {payment.memo && (
-              <Alert type='info' showIcon message={payment.memo} />
-            )}
           </List.Item>
         )}
       />
+      <Drawer
+        placement='bottom'
+        height='70%'
+        visible={currentPayment}
+        onClose={() => setCurrentPayment(null)}
+      >
+        {currentPayment && (
+          <Descriptions title='Payment Detail'>
+            <Descriptions.Item label='traceId'>
+              {currentPayment.traceId}
+            </Descriptions.Item>
+            <Descriptions.Item label='codeId'>
+              {currentPayment.codeId}
+            </Descriptions.Item>
+            <Descriptions.Item label='amount'>
+              {currentPayment.amount} {currentPayment.asset.symbol}
+            </Descriptions.Item>
+            <Descriptions.Item label='status'>
+              <PaymentStatusComponent status={currentPayment.status} />
+            </Descriptions.Item>
+            <Descriptions.Item label='Pay Link'>
+              <a
+                href={`https://mixin.one/codes/${currentPayment.codeId}`}
+                target='_blank'
+              >{`https://mixin.one/codes/${currentPayment.codeId}`}</a>
+            </Descriptions.Item>
+            <Descriptions.Item label='creator'>
+              <Avatar src={currentPayment.creator.avatar}>
+                {currentPayment.creator.name[0]}
+              </Avatar>{' '}
+              {currentPayment.creator.name}
+            </Descriptions.Item>
+            <Descriptions.Item label='memo'>
+              {currentPayment.memo}
+            </Descriptions.Item>
+          </Descriptions>
+        )}
+      </Drawer>
       <Drawer
         placement='bottom'
         height='70%'
