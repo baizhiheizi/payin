@@ -129,10 +129,10 @@ class MultisigTransaction < ApplicationRecord
   end
 
   def send_raw_transaction
-    return unless sender_uuids.sort == signer_uuids.sort
+    return unless signer_uuids.size >= threshold
 
     update! raw_transaction: build_raw_transaction
-    MixinBot.api.send_raw_transaction raw_transaction, user.access_token
+    MixinBot.api.send_raw_transaction raw_transaction, access_token: user.access_token
   end
 
   private
