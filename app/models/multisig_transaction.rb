@@ -60,7 +60,7 @@ class MultisigTransaction < ApplicationRecord
     create_request 'sign', user
   end
 
-  def create_request(action:, user:)
+  def create_request(action, user)
     case action
     when 'sign'
       res = MixinBot.api.create_sign_multisig_request(
@@ -76,7 +76,7 @@ class MultisigTransaction < ApplicationRecord
       raise 'Unvalid action'
     end
 
-    multisig_account.recover_signed_trequestnsaction if res['error']&.[]('extra')&.[]('reason') == 'UTXO signed by another transaction'
+    multisig_account.recover_signed_transaction if res['error']&.[]('extra')&.[]('reason') == 'UTXO signed by another transaction'
 
     update(
       transaction_hash: res['data']['transaction_hash'],
