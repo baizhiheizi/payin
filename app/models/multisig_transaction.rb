@@ -31,13 +31,10 @@ class MultisigTransaction < ApplicationRecord
   belongs_to :multisig_account
   belongs_to :asset, primary_key: :asset_id, foreign_key: :asset_id, inverse_of: false
 
-  has_many :multisig_requests, dependent: :nullify
-
   before_validation :set_attributes, on: :create
 
   validates :amount, presence: true, numericality: { equal_or_greater_than: 1e-8 }
-  validates :transaction_hash, presence: true, uniqueness: true
-  validates :raw_transaction, presence: true
+  validates :transaction_hash, presence: true, uniqueness: true, unless: -> { new_record? }
   validates :receiver_uuids, presence: true
   validates :sender_uuids, presence: true
   validates :threshold, presence: true, numericality: { greater_than: 0 }
@@ -60,40 +57,57 @@ class MultisigTransaction < ApplicationRecord
     create_request 'sign', user
   end
 
-  def create_request(action, user)
+  def create_request(action, signer)
     case action
     when 'sign'
       res = MixinBot.api.create_sign_multisig_request(
-        raw_transaction,
-        access_token: user.access_token
+        build_raw_transaction,
+        access_token: signer.access_token
       )
     when 'unlock'
       res = MixinBot.api.create_unlock_multisig_request(
-        raw_transaction,
-        access_token: user.access_token
+        build_raw_transaction,
+        access_token: signer.access_token
       )
     else
       raise 'Invalid action'
     end
 
-    multisig_account.recover_signed_transaction if res['error']&.[]('extra')&.[]('reason') == 'UTXO signed by another transaction'
+    if res['data'].blank?
+      Rails.logger.error res['error'].inspect
+      return
+    end
 
     update(
       transaction_hash: res['data']['transaction_hash'],
+      raw_transaction: res['data']['raw_transaction'],
       signer_uuids: res['data']['signers']
     )
 
     res['data']
   end
 
-  private
+  def verify_request(code_id)
+    res = MixinBot.api.verify_multisig code_id
 
-  def set_attributes
-    self.sender_uuids = multisig_account.member_uuids
-    self.threshold = multisig_account.threshold
-    if raw_transaction.blank?
-      self.raw_transaction = MixinBot.api.build_transaction_raw(
-        payers: sender_uuids,
+    if res['data'].blank?
+      Rails.logger.error res['error'].inspect
+      return
+    end
+
+    update(
+      signer_uuids: res['data']['signers'],
+      raw_transaction: res['data']['raw_transaction']
+    )
+
+    res['data']
+  end
+
+  def build_raw_transaction
+    signed_utxos&.first&.signed_tx ||
+      MixinBot.api.build_raw_transaction(
+        senders: multisig_account.member_uuids,
+        threshold: multisig_account.threshold,
         receivers: receiver_uuids,
         asset_mixin_id: asset.mixin_id,
         asset_id: asset_id,
@@ -101,6 +115,32 @@ class MultisigTransaction < ApplicationRecord
         memo: memo,
         access_token: user.access_token
       )
-    end
+  end
+
+  def signed_utxos
+    multisig_account
+      .utxos
+      .select(
+        &lambda { |utxo|
+          utxo.state == 'signed' &&
+          utxo.signed_by == transaction_hash
+        }
+      )
+  end
+
+  def send_raw_transaction
+    return unless sender_uuids.sort == signer_uuids.sort
+
+    update! raw_transaction: build_raw_transaction
+    MixinBot.api.send_raw_transaction raw_transaction, user.access_token
+  end
+
+  private
+
+  def set_attributes
+    assign_attributes(
+      sender_uuids: multisig_account.member_uuids,
+      threshold: multisig_account.threshold
+    )
   end
 end

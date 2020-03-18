@@ -40,10 +40,19 @@ class MultisigAccount < ApplicationRecord
   after_create :create_mutisig_account_members!
 
   def utxos
-    records = MixinBot.api.get_all_multisigs access_token: creator.access_token
-    records
-      .select(&->(utxo) { utxo['members'].sort == member_uuids.sort })
-      .map(&->(record) { MultisigUtxo.new(record) })
+    MixinBot.api.filter_utxos(
+      members: member_uuids,
+      threshold: threshold,
+      access_token: creator.access_token
+    ).map(
+      &lambda { |record|
+        MultisigUtxo.new(record)
+      }
+    )
+  end
+
+  def signed_utxos
+    utxos.filter(&->(utxo) { utxo.state == 'signed' })
   end
 
   def assets
@@ -55,21 +64,22 @@ class MultisigAccount < ApplicationRecord
   end
 
   def recover_signed_transaction
-    signed_utxo = utxos.select(&->(utxo) { utxo.state == 'signed' }).first
+    signed_utxo = signed_utxos.first
+    return if signed_utxo.blank?
 
-    res = MixinBot.api.create_sign_multisig_request(
+    res = MixinBot.api.create_unlock_multisig_request(
       signed_utxo.signed_tx,
       access_token: creator.access_token
     )
-    multisig_transactions.find_or_create_by!(
+    multisig_transactions.create_with!(
       user: User.find_by(mixin_uuid: res['data']['user_id']),
-      transaction_hash: signed_utxo.signed_by,
-      raw_transaction: signed_utxo.signed_tx,
       threshold: res['data']['threshold'],
       amount: res['data']['amount'],
       memo: res['data']['memo'],
       asset_id: res['data']['asset_id'],
       receiver_uuids: res['data']['receivers']
+    ).find_or_create_by(
+      transaction_hash: signed_utxo.signed_by
     )
   end
 

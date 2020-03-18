@@ -4,22 +4,15 @@ module Mutations
   class VerifyMultisigRequest < BaseMutation
     argument :conversation_id, String, required: false
     argument :code_id, String, required: true
+    argument :transaction_id, ID, required: true
 
-    field :multisig_request, Types::MultisigRequestType, null: true
+    field :state, String, null: true
 
-    def resolve(code_id:)
-      r = MixinBot.api.verify_multisig(code_id)
-      raise r['error'].inspect if r['error'].present?
-
-      request = r['data']
-      transaction = MultisigTransaction.find_by(transaction_hash: request['transaction_hash'])
-      transaction&.update(
-        transaction_hash: request['transaction_hash'],
-        signer_uuids: request['signers']
-      )
+    def resolve(transaction_id:, code_id:)
+      res = MultisigTransaction.find(transaction_id).verify_request(code_id)
 
       {
-        multisig_request: request
+        state: res&.[]('state')
       }
     end
   end

@@ -8,6 +8,7 @@ module Mutations
     argument :transaction_id, ID, required: true
 
     field :multisig_request, Types::MultisigRequestType, null: true
+    field :transaction_id, String, null: false
 
     def resolve(params)
       account = current_user.multisig_accounts.find(params[:account_id])
@@ -16,7 +17,8 @@ module Mutations
       request = transaction.create_request(params[:action], current_user)
 
       {
-        multisig_request: request
+        multisig_request: request,
+        transaction_id: params[:transaction_id]
       }
     end
   end

@@ -24,7 +24,7 @@ class MixinGroup < ApplicationRecord
   belongs_to :creator, class_name: 'User', primary_key: :mixin_uuid, foreign_key: :creator_id, inverse_of: false
 
   before_validation :set_attributes
-  after_create :find_or_create_participants_async
+  after_create :find_or_create_participants!
 
   validates :category, presence: true
   validates :code_id, presence: true

@@ -6,6 +6,7 @@ import {
   User,
   MultisigTransactions,
   CreateMultisigRequest,
+  VerifyMultisigRequest,
 } from '@/graphql/application';
 import {
   Row,
@@ -40,7 +41,6 @@ export function OutgoTab(props: IProps) {
     setMultisigTransactionFormVisible,
   ] = useState(false);
   const [currentTransaction, setCurrentTransaction] = useState(null);
-  const [currentRequest, setCurrentRequest] = useState(null);
   const { error, loading, data, refetch } = useQuery(MultisigTransactions, {
     variables: {
       accountId: multisigAccount.id,
@@ -54,38 +54,56 @@ export function OutgoTab(props: IProps) {
       refetch();
     },
   });
+
+  const [verifyMultisigRequest] = useMutation(VerifyMultisigRequest, {
+    update(
+      _proxy,
+      {
+        data: {
+          verifyMultisigRequest: { state },
+        },
+      },
+    ) {
+      if (state === 'signed') {
+        message.success('signed');
+      } else {
+        message.warn('not signed');
+      }
+      Modal.destroyAll();
+    },
+  });
+
   const [createMultisigRequest] = useMutation(CreateMultisigRequest, {
     update(
       _proxy,
       {
         data: {
           createMultisigRequest: {
-            multisigRequest: { codeId, signers, state, action },
+            multisigRequest: { codeId, signers, action },
+            transactionId,
           },
         },
       },
     ) {
-      if (state === 'paid') {
-        message.warn('You have signed!');
-        return;
-      }
-
       if (action === 'sign' && signers.includes(currentUser.mixinUuid)) {
         message.warn('You have signed!');
         return;
       }
 
-      setCurrentRequest({
-        action,
-        codeId,
-        state,
-        signers,
-      });
       Modal.confirm({
-        title: 'Sign',
+        title: action,
         content: 'Please sign in Mixin Messenger',
         maskClosable: false,
-        onOk: () => {},
+        cancelText: false,
+        onOk: () =>
+          verifyMultisigRequest({
+            variables: {
+              input: {
+                transactionId,
+                codeId,
+              },
+            },
+          }),
       });
       location.href = `mixin://codes/${codeId}`;
     },

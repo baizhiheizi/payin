@@ -1,0 +1,5 @@
+mutation VerifyMultisigRequest($input: VerifyMultisigRequestInput!) {
+  verifyMultisigRequest(input: $input) {
+    state
+  }
+}

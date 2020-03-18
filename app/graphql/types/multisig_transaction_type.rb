@@ -6,7 +6,8 @@ module Types
     field :amount, Float, null: false
     field :memo, String, null: true
     field :status, String, null: true
-    field :raw_transaction, String, null: false
+    field :transaction_hash, String, null: true
+    field :raw_transaction, String, null: true
     field :receiver_uuids, [String], null: false
     field :sender_uuids, [String], null: false
     field :signer_uuids, [String], null: false

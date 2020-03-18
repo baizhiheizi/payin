@@ -81,6 +81,7 @@ export type CreateMultisigRequestPayload = {
    __typename?: 'CreateMultisigRequestPayload';
   clientMutationId?: Maybe<Scalars['String']>;
   multisigRequest?: Maybe<MultisigRequest>;
+  transactionId: Scalars['String'];
 };
 
 export type CreateMultisigTransactionInput = {
@@ -188,7 +189,7 @@ export type MultisigTransaction = {
   memo?: Maybe<Scalars['String']>;
   multisigAccount: MultisigAccount;
   multisigRequests: MultisigRequest;
-  rawTransaction: Scalars['String'];
+  rawTransaction?: Maybe<Scalars['String']>;
   receiverUuids: Array<Scalars['String']>;
   receivers: Array<User>;
   senderUuids: Array<Scalars['String']>;
@@ -197,6 +198,7 @@ export type MultisigTransaction = {
   signers: Array<User>;
   status?: Maybe<Scalars['String']>;
   threshold: Scalars['Int'];
+  transactionHash?: Maybe<Scalars['String']>;
   user: User;
 };
 
@@ -240,6 +242,7 @@ export type Mutation = {
   createMultisigRequest?: Maybe<CreateMultisigRequestPayload>;
   createMultisigTransaction?: Maybe<CreateMultisigTransactionPayload>;
   verifyMultisigPayment?: Maybe<VerifyMultisigPaymentPayload>;
+  verifyMultisigRequest?: Maybe<VerifyMultisigRequestPayload>;
 };
 
 
@@ -265,6 +268,11 @@ export type MutationCreateMultisigTransactionArgs = {
 
 export type MutationVerifyMultisigPaymentArgs = {
   input: VerifyMultisigPaymentInput;
+};
+
+
+export type MutationVerifyMultisigRequestArgs = {
+  input: VerifyMultisigRequestInput;
 };
 
 export type PageInfo = {
@@ -343,6 +351,18 @@ export type VerifyMultisigPaymentPayload = {
   multisigPayment?: Maybe<MultisigPayment>;
 };
 
+export type VerifyMultisigRequestInput = {
+  conversationId?: Maybe<Scalars['String']>;
+  codeId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+export type VerifyMultisigRequestPayload = {
+   __typename?: 'VerifyMultisigRequestPayload';
+  clientMutationId?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+};
+
 export type CreateMultisigAccountMutationVariables = {
   input: CreateMultisigAccountInput;
 };
@@ -386,6 +406,7 @@ export type CreateMultisigRequestMutation = (
   { __typename?: 'Mutation' }
   & { createMultisigRequest: Maybe<(
     { __typename?: 'CreateMultisigRequestPayload' }
+    & Pick<CreateMultisigRequestPayload, 'transactionId'>
     & { multisigRequest: Maybe<(
       { __typename?: 'MultisigRequest' }
       & Pick<MultisigRequest, 'action' | 'codeId' | 'requestId' | 'state' | 'signers' | 'transactionHash'>
@@ -433,6 +454,19 @@ export type VerifyMultisigPaymentMutation = (
       { __typename?: 'MultisigPayment' }
       & Pick<MultisigPayment, 'id' | 'codeId' | 'status'>
     )> }
+  )> }
+);
+
+export type VerifyMultisigRequestMutationVariables = {
+  input: VerifyMultisigRequestInput;
+};
+
+
+export type VerifyMultisigRequestMutation = (
+  { __typename?: 'Mutation' }
+  & { verifyMultisigRequest: Maybe<(
+    { __typename?: 'VerifyMultisigRequestPayload' }
+    & Pick<VerifyMultisigRequestPayload, 'state'>
   )> }
 );
 
@@ -617,6 +651,7 @@ export const CreateMultisigRequest = gql`
       signers
       transactionHash
     }
+    transactionId
   }
 }
     `;
@@ -659,6 +694,13 @@ export const VerifyMultisigPayment = gql`
       codeId
       status
     }
+  }
+}
+    `;
+export const VerifyMultisigRequest = gql`
+    mutation VerifyMultisigRequest($input: VerifyMultisigRequestInput!) {
+  verifyMultisigRequest(input: $input) {
+    state
   }
 }
     `;

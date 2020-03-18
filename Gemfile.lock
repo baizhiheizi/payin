@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/an-lee/mixin_bot.git
-  revision: 5013aeb1c646a27e66a041d2d1d72155a334fcec
+  revision: 7e0e5f3b36ccbd449a1c39fb847ba197572092da
   branch: master
   specs:
     mixin_bot (0.1.4)
@@ -164,7 +164,7 @@ GEM
     graphiql-rails (1.7.0)
       railties
       sprockets-rails
-    graphql (1.10.4)
+    graphql (1.10.5)
     hamster (3.0.0)
       concurrent-ruby (~> 1.0)
     hashdiff (1.0.1)
@@ -359,7 +359,7 @@ GEM
     ruby_dep (1.5.0)
     ruby_parser (3.14.2)
       sexp_processor (~> 4.9)
-    rubyzip (2.2.0)
+    rubyzip (2.3.0)
     safe_yaml (1.0.5)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
