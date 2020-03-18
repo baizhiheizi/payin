@@ -73,7 +73,7 @@ class MultisigTransaction < ApplicationRecord
         access_token: user.access_token
       )
     else
-      raise 'Unvalid action'
+      raise 'Invalid action'
     end
 
     multisig_account.recover_signed_transaction if res['error']&.[]('extra')&.[]('reason') == 'UTXO signed by another transaction'
