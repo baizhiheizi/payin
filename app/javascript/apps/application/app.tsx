@@ -37,14 +37,28 @@ interface IProps {
 
 function App(props: any) {
   const { conversationId } = props;
-  const { error, loading, data } = useQuery(CurrentGroup, {
+  const { error, loading, data, refetch } = useQuery(CurrentGroup, {
     variables: { conversationId },
   });
   if (loading) {
-    return <Spin />;
+    return (
+      <div style={{ width: '100%', margin: '3rem auto', textAlign: 'center' }}>
+        <Spin />
+      </div>
+    );
   }
   if (error) {
-    return <Result status='error' title='Something went wrong' />;
+    return (
+      <Result
+        status='error'
+        title='Something went wrong'
+        extra={
+          <Button type='primary' onClick={() => refetch()}>
+            Refresh
+          </Button>
+        }
+      />
+    );
   }
   const currentGroup = data.currentGroup;
 
@@ -76,11 +90,21 @@ function App(props: any) {
 
 export default function AppNode(props: IProps) {
   /** Production */
-  /* const conversationId = mixinUtils.conversationId(); */
+  const conversationId = mixinUtils.conversationId();
   /** Development */
-  const conversationId = '0c233319-52b3-4c84-8e47-15e8a3694e45';
+  /* const conversationId = '0c233319-52b3-4c84-8e47-15e8a3694e45'; */
 
-  if (!props.currentUser) {
+  if (props.currentUser) {
+    return (
+      <ApolloProvider client={apolloClient()}>
+        {conversationId ? (
+          <App {...props} conversationId={conversationId} />
+        ) : (
+          <Result status='warning' title='Please open in Mixin Messenger.' />
+        )}
+      </ApolloProvider>
+    );
+  } else {
     return (
       <Result
         title='Please login.'
@@ -92,14 +116,4 @@ export default function AppNode(props: IProps) {
       />
     );
   }
-
-  return (
-    <ApolloProvider client={apolloClient()}>
-      {conversationId ? (
-        <App {...props} conversationId={conversationId} />
-      ) : (
-        <Result status='warning' title='Please open in Mixin Messenger.' />
-      )}
-    </ApolloProvider>
-  );
 }

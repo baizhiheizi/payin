@@ -23,17 +23,22 @@ interface IProps {
   conversationId?: string;
 }
 
-export function AccountList(props: IProps) {
+export function AccountList(_props: IProps) {
   const history = useHistory();
   const [currentAccount, setCurrentAccount] = useState(null);
   const { loading, error, data } = useQuery(MultisigAccounts, {
     variables: {
       first: 10,
     },
+    fetchPolicy: 'network-only',
   });
 
   if (loading) {
-    return <Spin />;
+    return (
+      <div style={{ width: '100%', margin: '3rem auto', textAlign: 'center' }}>
+        <Spin />
+      </div>
+    );
   }
   if (error) {
     return <Result status='error' />;

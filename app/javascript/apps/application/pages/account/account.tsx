@@ -16,9 +16,14 @@ export function Account(props: IProps) {
   const { id } = useParams();
   const { loading, error, data, refetch } = useQuery(MultisigAccount, {
     variables: { id },
+    fetchPolicy: 'network-only',
   });
   if (loading) {
-    return <Spin />;
+    return (
+      <div style={{ width: '100%', margin: '3rem auto', textAlign: 'center' }}>
+        <Spin />
+      </div>
+    );
   }
   if (error) {
     return (
