@@ -63,7 +63,6 @@ class MultisigTransaction < ApplicationRecord
     end
   end
 
-
   def receivers
     @receivers = User.where(mixin_uuid: receiver_uuids)
   end
