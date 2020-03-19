@@ -34,9 +34,9 @@ export function TransactionDetail(props: { transaction: any }) {
         ))}
       </Descriptions.Item>
       <Descriptions.Item label='Raw Transaction'>
-        <span style={{ wordBreak: 'break-all' }}>
+        <blockquote style={{ wordBreak: 'break-all' }}>
           {transaction.rawTransaction}
-        </span>
+        </blockquote>
       </Descriptions.Item>
     </Descriptions>
   );

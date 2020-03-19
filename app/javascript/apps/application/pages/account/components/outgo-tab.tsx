@@ -31,11 +31,17 @@ interface IProps {
   multisigAccount: any;
   assetOptions: any;
   currentUser: any;
+  refetchMultisiAccount: any;
 }
 
 export function OutgoTab(props: IProps) {
   const [form] = Form.useForm();
-  const { multisigAccount, assetOptions, currentUser } = props;
+  const {
+    multisigAccount,
+    assetOptions,
+    currentUser,
+    refetchMultisiAccount,
+  } = props;
   const [
     multisigTransactionFormVisible,
     setMultisigTransactionFormVisible,
@@ -66,10 +72,13 @@ export function OutgoTab(props: IProps) {
     ) {
       if (state === 'signed') {
         message.success('signed');
+      } else if (state === 'unlocked') {
+        message.success('unlocked');
       } else {
         message.warn('not signed');
       }
       Modal.destroyAll();
+      refetchMultisiAccount();
     },
   });
 
@@ -255,7 +264,9 @@ export function OutgoTab(props: IProps) {
                     >
                       Unlock
                     </Menu.Item>
-                    <Menu.Item key='2'>Refresh</Menu.Item>
+                    <Menu.Item key='2' onClick={() => refetchMultisiAccount}>
+                      Refresh
+                    </Menu.Item>
                   </Menu>
                 }
               >

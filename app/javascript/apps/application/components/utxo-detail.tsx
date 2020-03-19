@@ -18,7 +18,11 @@ export function UtxoDetail(props: { utxo: any }) {
       <Descriptions.Item label='amount'>{utxo.amount}</Descriptions.Item>
       <Descriptions.Item label='threshold'>{utxo.threshold}</Descriptions.Item>
       <Descriptions.Item label='members'>
-        {utxo.members.join('\n')}
+        <ul>
+          {utxo.members.map((member: string) => (
+            <li key={member}>{member}</li>
+          ))}
+        </ul>
       </Descriptions.Item>
       <Descriptions.Item label='state'>{utxo.state}</Descriptions.Item>
       <Descriptions.Item label='memo'>{utxo.memo}</Descriptions.Item>
@@ -26,11 +30,17 @@ export function UtxoDetail(props: { utxo: any }) {
         <span style={{ wordBreak: 'break-all' }}>{utxo.signedBy}</span>
       </Descriptions.Item>
       <Descriptions.Item label='signedTx'>
-        <blockquote
-          style={{ wordBreak: 'break-all', padding: 10, background: '#efefef' }}
-        >
-          {utxo.signedTx}
-        </blockquote>
+        {Boolean(utxo.signedTx) && (
+          <blockquote
+            style={{
+              wordBreak: 'break-all',
+              padding: 10,
+              background: '#efefef',
+            }}
+          >
+            {utxo.signedTx}
+          </blockquote>
+        )}
       </Descriptions.Item>
     </Descriptions>
   );

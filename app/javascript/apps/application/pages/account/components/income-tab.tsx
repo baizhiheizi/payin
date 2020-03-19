@@ -26,7 +26,7 @@ import React, { useState } from 'react';
 interface IProps {
   assetOptions: any;
   multisigAccount: any;
-  refechMultisiAccount: any;
+  refetchMultisiAccount: any;
 }
 
 function PaymentStatusComponent(props: { status: string }) {
@@ -39,13 +39,13 @@ function PaymentStatusComponent(props: { status: string }) {
 }
 
 export function IncomeTab(props: IProps) {
-  const { multisigAccount, assetOptions, refechMultisiAccount } = props;
+  const { multisigAccount, assetOptions, refetchMultisiAccount } = props;
   const [incomeFormVisible, setIncomFormVisible] = useState(false);
   const [currentPayment, setCurrentPayment] = useState(null);
   const [verifyMultisigPayment] = useMutation(VerifyMultisigPayment, {
     update() {
       message.success('Status Refreshed!');
-      refechMultisiAccount();
+      refetchMultisiAccount();
     },
   });
   const [createMultisigPayment, { error: createPaymentError }] = useMutation(
@@ -63,7 +63,7 @@ export function IncomeTab(props: IProps) {
           message.error(errors);
         } else {
           setIncomFormVisible(false);
-          refechMultisiAccount();
+          refetchMultisiAccount();
         }
       },
     },

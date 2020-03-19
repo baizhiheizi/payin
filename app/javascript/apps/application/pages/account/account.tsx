@@ -1,7 +1,7 @@
 import { DashboardTab, IncomeTab, OutgoTab } from './components';
 import { MixinGroup, MultisigAccount, User } from '@/graphql/application';
 import { useQuery } from '@apollo/react-hooks';
-import { Result, Spin, Tabs, Breadcrumb } from 'antd';
+import { Result, Spin, Tabs, Breadcrumb, Button } from 'antd';
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 
@@ -21,7 +21,17 @@ export function Account(props: IProps) {
     return <Spin />;
   }
   if (error) {
-    return <Result status='error' />;
+    return (
+      <Result
+        status='error'
+        title='timeout'
+        extra={
+          <Button type='primary' onClick={() => refetch()} loading={loading}>
+            Refresh
+          </Button>
+        }
+      />
+    );
   }
 
   const {
@@ -48,7 +58,7 @@ export function Account(props: IProps) {
           <IncomeTab
             multisigAccount={multisigAccount}
             assetOptions={assetOptions}
-            refechMultisiAccount={refetch}
+            refetchMultisiAccount={refetch}
           />
         </Tabs.TabPane>
         <Tabs.TabPane tab='Outgo' key='3'>
@@ -56,6 +66,7 @@ export function Account(props: IProps) {
             multisigAccount={multisigAccount}
             assetOptions={assetOptions}
             currentUser={currentUser}
+            refetchMultisiAccount={refetch}
           />
         </Tabs.TabPane>
       </Tabs>

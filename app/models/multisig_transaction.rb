@@ -84,6 +84,8 @@ class MultisigTransaction < ApplicationRecord
       signer_uuids: res['data']['signers']
     )
 
+    Rails.logger.info res
+
     res['data']
   end
 
@@ -96,9 +98,12 @@ class MultisigTransaction < ApplicationRecord
     end
 
     update(
-      signer_uuids: res['data']['signers'],
+      signer_uuids: res['data']&.[]('action') == 'unlocked' ? [] : res['data']['signers'],
       raw_transaction: res['data']['raw_transaction']
     )
+    send_raw_transaction if res['signers'] >= threshold
+
+    Rails.logger.info res
 
     res['data']
   end
