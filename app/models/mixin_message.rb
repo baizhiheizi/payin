@@ -24,7 +24,7 @@
 #  index_mixin_messages_on_user_id     (user_id)
 #
 class MixinMessage < ApplicationRecord
-  include MixinMessageProccessable
+  include MixinMessageProcessable
 
   belongs_to :user, primary_key: :mixin_uuid, optional: true
 
