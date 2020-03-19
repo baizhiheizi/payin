@@ -52,7 +52,7 @@ export function Account(props: IProps) {
         </Breadcrumb.Item>
         <Breadcrumb.Item>{multisigAccount.name}</Breadcrumb.Item>
       </Breadcrumb>
-      <Tabs defaultActiveKey='1'>
+      <Tabs defaultActiveKey='1' onTabClick={() => refetch()}>
         <Tabs.TabPane tab='Dashboard' key='1'>
           <DashboardTab
             multisigAccount={multisigAccount}

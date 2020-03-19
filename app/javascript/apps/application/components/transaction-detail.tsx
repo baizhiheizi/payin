@@ -26,6 +26,7 @@ export function TransactionDetail(props: { transaction: any }) {
       <Descriptions.Item label='Threshold'>
         {transaction.threshold}
       </Descriptions.Item>
+      <Descriptions.Item label='Status'>{transaction.status}</Descriptions.Item>
       <Descriptions.Item label='Signers'>
         {transaction.signers.map((signer: any) => (
           <Avatar key={signer.mixinUuid} src={signer.avatar}>

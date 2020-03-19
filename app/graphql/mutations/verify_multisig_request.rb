@@ -6,13 +6,16 @@ module Mutations
     argument :code_id, String, required: true
     argument :transaction_id, ID, required: true
 
-    field :state, String, null: true
+    field :multisig_request, Types::MultisigRequestType, null: true
+    field :multisig_transaction, Types::MultisigTransactionType, null: true
 
     def resolve(transaction_id:, code_id:)
-      res = MultisigTransaction.find(transaction_id).verify_request(code_id)
+      transaction = MultisigTransaction.find(transaction_id)
+      request = transaction.verify_request(code_id)
 
       {
-        state: res&.[]('state')
+        multisig_request: request,
+        multisig_transaction: transaction
       }
     end
   end

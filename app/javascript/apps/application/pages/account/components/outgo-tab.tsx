@@ -1,31 +1,32 @@
-import React, { useState } from 'react';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { TransactionDetail } from '@/application/components/transaction-detail';
 import {
+  CreateMultisigRequest,
   CreateMultisigTransaction,
   CreateMultisigTransactionInput,
-  User,
   MultisigTransactions,
-  CreateMultisigRequest,
+  User,
   VerifyMultisigRequest,
 } from '@/graphql/application';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import {
-  Row,
+  Avatar,
+  Badge,
   Button,
   Drawer,
-  Form,
-  Select,
-  InputNumber,
-  Input,
-  Avatar,
-  message,
-  Spin,
-  Result,
-  List,
   Dropdown,
+  Form,
+  Input,
+  InputNumber,
+  List,
   Menu,
+  message,
   Modal,
+  Result,
+  Row,
+  Select,
+  Spin,
 } from 'antd';
-import { TransactionDetail } from '@/application/components/transaction-detail';
+import React, { useState } from 'react';
 
 interface IProps {
   multisigAccount: any;
@@ -51,6 +52,7 @@ export function OutgoTab(props: IProps) {
     variables: {
       accountId: multisigAccount.id,
     },
+    fetchPolicy: 'network-only',
   });
   const [createMultisigTransaction] = useMutation(CreateMultisigTransaction, {
     update() {
@@ -66,7 +68,9 @@ export function OutgoTab(props: IProps) {
       _proxy,
       {
         data: {
-          verifyMultisigRequest: { state },
+          verifyMultisigRequest: {
+            multisigRequest: { state },
+          },
         },
       },
     ) {
@@ -89,7 +93,7 @@ export function OutgoTab(props: IProps) {
         data: {
           createMultisigRequest: {
             multisigRequest: { codeId, signers, action },
-            transactionId,
+            multisigTransaction: { id },
           },
         },
       },
@@ -108,7 +112,7 @@ export function OutgoTab(props: IProps) {
           verifyMultisigRequest({
             variables: {
               input: {
-                transactionId,
+                transactionId: id,
                 codeId,
               },
             },
@@ -119,10 +123,24 @@ export function OutgoTab(props: IProps) {
   });
 
   if (loading) {
-    return <Spin />;
+    return (
+      <div style={{ width: '100%', margin: '3rem auto', textAlign: 'center' }}>
+        <Spin />
+      </div>
+    );
   }
   if (error) {
-    return <Result status='error' />;
+    return (
+      <Result
+        status='error'
+        title='timeout'
+        extra={
+          <Button type='primary' onClick={() => refetch()} loading={loading}>
+            Refresh
+          </Button>
+        }
+      />
+    );
   }
 
   const {
@@ -224,6 +242,7 @@ export function OutgoTab(props: IProps) {
             actions={[
               <a onClick={() => setCurrentTransaction(transaction)}>Detail</a>,
               <Dropdown
+                disabled={transaction.status === 'completed'}
                 overlay={
                   <Menu>
                     <Menu.Item
@@ -247,9 +266,7 @@ export function OutgoTab(props: IProps) {
                     </Menu.Item>
                     <Menu.Item
                       key='1'
-                      disabled={
-                        !transaction.signerUuids.includes(currentUser.mixinUuid)
-                      }
+                      disabled={transaction.signerUuids.length === 0}
                       onClick={() =>
                         createMultisigRequest({
                           variables: {
@@ -277,7 +294,17 @@ export function OutgoTab(props: IProps) {
             <List.Item.Meta
               avatar={<Avatar src={transaction.asset.iconUrl}></Avatar>}
               title={transaction.amount}
-              description={`signed: ${transaction.signers.length} / ${transaction.threshold}`}
+              description={
+                transaction.status === 'completed' ? (
+                  <Badge status='success' text='Completed' />
+                ) : (
+                  <Badge
+                    status='processing'
+                    text={`signed:
+                  ${transaction.signers.length} / ${transaction.threshold}`}
+                  />
+                )
+              }
             />
           </List.Item>
         )}

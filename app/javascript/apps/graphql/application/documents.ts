@@ -80,8 +80,8 @@ export type CreateMultisigRequestInput = {
 export type CreateMultisigRequestPayload = {
    __typename?: 'CreateMultisigRequestPayload';
   clientMutationId?: Maybe<Scalars['String']>;
-  multisigRequest?: Maybe<MultisigRequest>;
-  transactionId: Scalars['String'];
+  multisigRequest: MultisigRequest;
+  multisigTransaction: MultisigTransaction;
 };
 
 export type CreateMultisigTransactionInput = {
@@ -354,13 +354,15 @@ export type VerifyMultisigPaymentPayload = {
 export type VerifyMultisigRequestInput = {
   conversationId?: Maybe<Scalars['String']>;
   codeId: Scalars['String'];
+  transactionId: Scalars['ID'];
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
 export type VerifyMultisigRequestPayload = {
    __typename?: 'VerifyMultisigRequestPayload';
   clientMutationId?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
+  multisigRequest?: Maybe<MultisigRequest>;
+  multisigTransaction?: Maybe<MultisigTransaction>;
 };
 
 export type CreateMultisigAccountMutationVariables = {
@@ -406,11 +408,13 @@ export type CreateMultisigRequestMutation = (
   { __typename?: 'Mutation' }
   & { createMultisigRequest: Maybe<(
     { __typename?: 'CreateMultisigRequestPayload' }
-    & Pick<CreateMultisigRequestPayload, 'transactionId'>
-    & { multisigRequest: Maybe<(
+    & { multisigRequest: (
       { __typename?: 'MultisigRequest' }
       & Pick<MultisigRequest, 'action' | 'codeId' | 'requestId' | 'state' | 'signers' | 'transactionHash'>
-    )> }
+    ), multisigTransaction: (
+      { __typename?: 'MultisigTransaction' }
+      & Pick<MultisigTransaction, 'id' | 'signerUuids' | 'status'>
+    ) }
   )> }
 );
 
@@ -466,7 +470,13 @@ export type VerifyMultisigRequestMutation = (
   { __typename?: 'Mutation' }
   & { verifyMultisigRequest: Maybe<(
     { __typename?: 'VerifyMultisigRequestPayload' }
-    & Pick<VerifyMultisigRequestPayload, 'state'>
+    & { multisigRequest: Maybe<(
+      { __typename?: 'MultisigRequest' }
+      & Pick<MultisigRequest, 'state'>
+    )>, multisigTransaction: Maybe<(
+      { __typename?: 'MultisigTransaction' }
+      & Pick<MultisigTransaction, 'id' | 'signerUuids' | 'status'>
+    )> }
   )> }
 );
 
@@ -594,7 +604,7 @@ export type MultisigTransactionsQuery = (
       { __typename?: 'MultisigTransactionEdge' }
       & { node: Maybe<(
         { __typename?: 'MultisigTransaction' }
-        & Pick<MultisigTransaction, 'id' | 'amount' | 'memo' | 'rawTransaction' | 'threshold' | 'createdAt' | 'signerUuids' | 'receiverUuids'>
+        & Pick<MultisigTransaction, 'id' | 'amount' | 'memo' | 'rawTransaction' | 'threshold' | 'createdAt' | 'signerUuids' | 'receiverUuids' | 'status'>
         & { asset: (
           { __typename?: 'Asset' }
           & Pick<Asset, 'assetId' | 'iconUrl' | 'name' | 'symbol'>
@@ -651,7 +661,11 @@ export const CreateMultisigRequest = gql`
       signers
       transactionHash
     }
-    transactionId
+    multisigTransaction {
+      id
+      signerUuids
+      status
+    }
   }
 }
     `;
@@ -700,7 +714,14 @@ export const VerifyMultisigPayment = gql`
 export const VerifyMultisigRequest = gql`
     mutation VerifyMultisigRequest($input: VerifyMultisigRequestInput!) {
   verifyMultisigRequest(input: $input) {
-    state
+    multisigRequest {
+      state
+    }
+    multisigTransaction {
+      id
+      signerUuids
+      status
+    }
   }
 }
     `;
@@ -855,6 +876,7 @@ export const MultisigTransactions = gql`
         createdAt
         signerUuids
         receiverUuids
+        status
         asset {
           assetId
           iconUrl

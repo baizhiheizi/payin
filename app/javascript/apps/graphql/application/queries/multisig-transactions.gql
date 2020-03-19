@@ -10,6 +10,7 @@ query MultisigTransactions($accountId: ID!) {
         createdAt
         signerUuids
         receiverUuids
+        status
         asset {
           assetId
           iconUrl

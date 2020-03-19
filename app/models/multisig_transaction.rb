@@ -27,6 +27,8 @@
 #  index_multisig_transactions_on_user_id              (user_id)
 #
 class MultisigTransaction < ApplicationRecord
+  include AASM
+
   belongs_to :user
   belongs_to :multisig_account
   belongs_to :asset, primary_key: :asset_id, foreign_key: :asset_id, inverse_of: false
@@ -40,6 +42,27 @@ class MultisigTransaction < ApplicationRecord
   validates :threshold, presence: true, numericality: { greater_than: 0 }
 
   after_create :create_first_request
+
+  aasm column: :status do
+    state :pending, initial: true
+    state :signed
+    state :unlocked
+    state :completed
+
+    event :sign, guard: :ensure_signers_present, after_commit: :check_signers_and_threshold do
+      transitions from: :pending, to: :signed
+      transitions from: :unlocked, to: :signed
+    end
+
+    event :unlock, guard: :ensure_signers_empty do
+      transitions from: :signed, to: :unlocked
+    end
+
+    event :complete, guard: :ensure_raw_transaction_sent do
+      transitions from: :signed, to: :completed
+    end
+  end
+
 
   def receivers
     @receivers = User.where(mixin_uuid: receiver_uuids)
@@ -101,7 +124,17 @@ class MultisigTransaction < ApplicationRecord
       signer_uuids: res['data']&.[]('action') == 'unlocked' ? [] : res['data']['signers'],
       raw_transaction: res['data']['raw_transaction']
     )
-    send_raw_transaction if res['signers'] >= threshold
+
+    case res['data']&.[]('state')
+    when 'signed'
+      if signed?
+        check_signers_and_threshold
+      else
+        sign!
+      end
+    when 'unlocked'
+      unlock!
+    end
 
     Rails.logger.info res
 
@@ -133,13 +166,6 @@ class MultisigTransaction < ApplicationRecord
       )
   end
 
-  def send_raw_transaction
-    return unless signer_uuids.size >= threshold
-
-    update! raw_transaction: build_raw_transaction
-    MixinBot.api.send_raw_transaction raw_transaction, access_token: user.access_token
-  end
-
   private
 
   def set_attributes
@@ -147,5 +173,27 @@ class MultisigTransaction < ApplicationRecord
       sender_uuids: multisig_account.member_uuids,
       threshold: multisig_account.threshold
     )
+  end
+
+  def ensure_signers_empty
+    signer_uuids.blank?
+  end
+
+  def ensure_signers_present
+    signer_uuids.present?
+  end
+
+  def check_signers_and_threshold
+    complete! if signer_uuids.size >= threshold
+  end
+
+  def ensure_raw_transaction_sent
+    return unless signer_uuids.size >= threshold
+
+    update! raw_transaction: build_raw_transaction
+    r = MixinBot.api.send_raw_transaction raw_transaction, access_token: user.access_token
+    raise r['error'].inspect if r['error'].present?
+
+    update! transaction_hash: r['data']['hash']
   end
 end

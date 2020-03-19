@@ -90,9 +90,9 @@ function App(props: any) {
 
 export default function AppNode(props: IProps) {
   /** Production */
-  const conversationId = mixinUtils.conversationId();
+  /* const conversationId = mixinUtils.conversationId(); */
   /** Development */
-  /* const conversationId = '0c233319-52b3-4c84-8e47-15e8a3694e45'; */
+  const conversationId = '0c233319-52b3-4c84-8e47-15e8a3694e45';
 
   if (props.currentUser) {
     return (

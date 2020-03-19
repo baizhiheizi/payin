@@ -8,6 +8,10 @@ mutation CreateMultisigRequest($input: CreateMultisigRequestInput!) {
       signers
       transactionHash
     }
-    transactionId
+    multisigTransaction {
+      id
+      signerUuids
+      status
+    }
   }
 }
