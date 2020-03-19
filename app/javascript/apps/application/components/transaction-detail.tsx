@@ -34,7 +34,13 @@ export function TransactionDetail(props: { transaction: any }) {
         ))}
       </Descriptions.Item>
       <Descriptions.Item label='Raw Transaction'>
-        <blockquote style={{ wordBreak: 'break-all' }}>
+        <blockquote
+          style={{
+            wordBreak: 'break-all',
+            padding: 10,
+            background: '#efefef',
+          }}
+        >
           {transaction.rawTransaction}
         </blockquote>
       </Descriptions.Item>
