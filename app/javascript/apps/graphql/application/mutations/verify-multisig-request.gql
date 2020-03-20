@@ -1,0 +1,12 @@
+mutation VerifyMultisigRequest($input: VerifyMultisigRequestInput!) {
+  verifyMultisigRequest(input: $input) {
+    multisigRequest {
+      state
+    }
+    multisigTransaction {
+      id
+      signerUuids
+      status
+    }
+  }
+}

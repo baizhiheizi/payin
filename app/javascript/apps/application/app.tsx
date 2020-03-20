@@ -1,7 +1,10 @@
-import { apolloClient, IStyles } from '@/shared';
-import { ApolloProvider } from '@apollo/react-hooks';
-import { Layout, Menu, Result, Button } from 'antd';
+import { Account, AccountList, AccountNew } from '@/application/pages';
+import { apolloClient, IStyles, mixinUtils } from '@/shared';
+import { ApolloProvider, useQuery } from '@apollo/react-hooks';
+import { Button, Layout, Result, Spin } from 'antd';
 import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { CurrentGroup } from '@/graphql/application';
 
 const style: IStyles = {
   content: {
@@ -18,7 +21,7 @@ const style: IStyles = {
     lineHeight: 'inherit',
   },
   page: {
-    minHeight: 'calc(100vh - 64px)',
+    minHeight: '100vh',
     padding: '1rem',
   },
 };
@@ -32,50 +35,85 @@ interface IProps {
   };
 }
 
-export default function App(props: IProps) {
-  const { currentUser } = props;
+function App(props: any) {
+  const { conversationId } = props;
+  const { error, loading, data, refetch } = useQuery(CurrentGroup, {
+    variables: { conversationId },
+  });
+  if (loading) {
+    return (
+      <div style={{ width: '100%', margin: '3rem auto', textAlign: 'center' }}>
+        <Spin />
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <Result
+        status='error'
+        title='Something went wrong'
+        extra={
+          <Button type='primary' onClick={() => refetch()}>
+            Refresh
+          </Button>
+        }
+      />
+    );
+  }
+  const currentGroup = data.currentGroup;
+
   return (
-    <ApolloProvider client={apolloClient()}>
-      {currentUser ? (
-        <Layout>
-          <Layout.Header style={style.header}>
-            <Menu
-              style={style.menu}
-              defaultSelectedKeys={['home']}
-              mode='horizontal'
-            >
-              <Menu.Item key='home'>Home</Menu.Item>
-              {currentUser && (
-                <Menu.Item
-                  key='logout'
-                  onClick={() => {
-                    location.href = '/logout';
-                  }}
-                >
-                  Logout
-                </Menu.Item>
-              )}
-            </Menu>
-          </Layout.Header>
-          <Layout style={style.page}>
-            <Layout.Content style={style.content}>
-              hello world from antd.
-            </Layout.Content>
-            <Layout.Footer style={style.footer}>
-              Payin created by an-lee
-            </Layout.Footer>
-          </Layout>
+    <Router>
+      <Layout>
+        <Layout style={style.page}>
+          <Layout.Content style={style.content}>
+            <Route path='/' exact>
+              <AccountList {...props} currentGroup={currentGroup} />
+            </Route>
+            <Switch>
+              <Route path='/accounts/new' exact>
+                <AccountNew {...props} currentGroup={currentGroup} />
+              </Route>
+              <Route path='/accounts/:id' exact>
+                <Account {...props} currentGroup={currentGroup} />
+              </Route>
+            </Switch>
+          </Layout.Content>
+          <Layout.Footer style={style.footer}>
+            Payin created by an-lee
+          </Layout.Footer>
         </Layout>
-      ) : (
-        <Result
-          title='Please login.'
-          extra={
-            <Button type='primary' href='/login'>
-              Log In
-            </Button>
-          }
-        />
-      )}
-    </ApolloProvider>
+      </Layout>
+    </Router>
   );
+}
+
+export default function AppNode(props: IProps) {
+  /** Production */
+  /* const conversationId = mixinUtils.conversationId(); */
+  /** Development */
+  const conversationId = '0c233319-52b3-4c84-8e47-15e8a3694e45';
+
+  if (props.currentUser) {
+    return (
+      <ApolloProvider client={apolloClient()}>
+        {conversationId ? (
+          <App {...props} conversationId={conversationId} />
+        ) : (
+          <Result status='warning' title='Please open in Mixin Messenger.' />
+        )}
+      </ApolloProvider>
+    );
+  } else {
+    return (
+      <Result
+        title='Please login.'
+        extra={
+          <Button type='primary' href='/login'>
+            Log In
+          </Button>
+        }
+      />
+    );
+  }
 }

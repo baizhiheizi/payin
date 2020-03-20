@@ -2,11 +2,11 @@
 
 module Types
   class MutationType < Types::BaseObject
-    # TODO: remove me
-    field :test_field, String, null: false,
-                               description: 'An example field added by the generator'
-    def test_field
-      'Hello World'
-    end
+    field :create_multisig_account, mutation: Mutations::CreateMultisigAccount
+    field :create_multisig_payment, mutation: Mutations::CreateMultisigPayment
+    field :create_multisig_transaction, mutation: Mutations::CreateMultisigTransaction
+    field :create_multisig_request, mutation: Mutations::CreateMultisigRequest
+    field :verify_multisig_request, mutation: Mutations::VerifyMultisigRequest
+    field :verify_multisig_payment, mutation: Mutations::VerifyMultisigPayment
   end
 end

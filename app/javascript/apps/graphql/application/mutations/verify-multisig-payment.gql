@@ -1,0 +1,9 @@
+mutation VerifyMultisigPayment($input: VerifyMultisigPaymentInput!) {
+  verifyMultisigPayment(input: $input) {
+    multisigPayment {
+      id
+      codeId
+      status
+    }
+  }
+}

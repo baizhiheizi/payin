@@ -1,0 +1,17 @@
+mutation CreateMultisigRequest($input: CreateMultisigRequestInput!) {
+  createMultisigRequest(input: $input) {
+    multisigRequest {
+      action
+      codeId
+      requestId
+      state
+      signers
+      transactionHash
+    }
+    multisigTransaction {
+      id
+      signerUuids
+      status
+    }
+  }
+}

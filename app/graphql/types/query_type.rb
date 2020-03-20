@@ -6,5 +6,11 @@ module Types
     def current_user
       context[:current_user]
     end
+
+    field :current_group, resolver: Resolvers::CurrentGroup
+    field :multisig_accounts, resolver: Resolvers::MultisigAccounts
+    field :multisig_account, resolver: Resolvers::MultisigAccount
+    field :multisig_transactions, resolver: Resolvers::MultisigTransactions
+    field :assets, resolver: Resolvers::Assets
   end
 end

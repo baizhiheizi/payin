@@ -1,0 +1,68 @@
+query MultisigAccount($id: ID!) {
+  multisigAccount(id: $id) {
+    id
+    accountHash
+    name
+    introduction
+    memberUuids
+    threshold
+    members {
+      id
+      name
+      avatar
+      mixinUuid
+      mixinId
+    }
+    utxos {
+      id
+      type
+      userId
+      assetId
+      transactionHash
+      outputIndex
+      amount
+      threshold
+      members
+      state
+      memo
+      signedBy
+      signedTx
+    }
+    assets {
+      assetId
+      name
+      symbol
+      iconUrl
+    }
+    multisigPayments {
+      status
+      codeId
+      traceId
+      amount
+      memo
+      asset {
+        assetId
+        name
+        symbol
+        iconUrl
+      }
+      creator {
+        id
+        name
+        avatar
+        mixinUuid
+        mixinId
+      }
+    }
+  }
+  assets(first: 100) {
+    edges {
+      node {
+        assetId
+        name
+        symbol
+        iconUrl
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
 #
 # Table name: administrators
 #
-#  id              :bigint           not null, primary key
+#  id              :uuid             not null, primary key
 #  name            :string           not null
 #  password_digest :string           not null
 #  created_at      :datetime         not null
@@ -17,8 +17,6 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+admin:
+  name: admin
+  password_digest: $2a$12$aFka0TBWcFZOjkdIyaFpDeiZ3x9xJSPflaU3VNKX1nxd2FJjWmZ7y

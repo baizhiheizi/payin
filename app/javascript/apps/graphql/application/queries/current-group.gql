@@ -1,0 +1,19 @@
+query CurrentGroup($conversationId: String) {
+  currentGroup(conversationId: $conversationId) {
+    conversationId
+    name
+    participantUuids
+    users {
+      id
+      name
+      avatar
+      mixinUuid
+    }
+    creator {
+      id
+      name
+      avatar
+      mixinUuid
+    }
+  }
+}

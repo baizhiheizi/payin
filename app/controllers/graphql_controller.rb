@@ -11,7 +11,7 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
     context = {
-      session: seesion,
+      session: session,
       current_user: current_user
     }
     result = PayinSchema.execute(query, variables: variables, context: context, operation_name: operation_name)

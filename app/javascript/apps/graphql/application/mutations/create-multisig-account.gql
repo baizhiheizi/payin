@@ -1,0 +1,9 @@
+mutation CreateMultisigAccount($input: CreateMultisigAccountInput!) {
+  createMultisigAccount(input: $input) {
+    multisigAccount {
+      id
+      name
+    }
+    errors
+  }
+}

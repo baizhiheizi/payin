@@ -1,0 +1,29 @@
+mutation CreateMultisigTransaction($input: CreateMultisigTransactionInput!) {
+  createMultisigTransaction(input: $input) {
+    multisigTransaction {
+      id
+      status
+      amount
+      memo
+      rawTransaction
+      threshold
+      createdAt
+      senders {
+        avatar
+        mixinUuid
+        name
+      }
+      receivers {
+        avatar
+        mixinUuid
+        name
+      }
+      signers {
+        avatar
+        mixinUuid
+        name
+      }
+    }
+    errors
+  }
+}

@@ -1,0 +1,12 @@
+query Assets {
+  assets {
+    edges {
+      node {
+        assetId
+        symbol
+        name
+        iconUrl
+      }
+    }
+  }
+}
