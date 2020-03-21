@@ -25,9 +25,9 @@
 /config/credentials/development.key
 
 # Ingore development & test packs
-/public/packs-dev
-/public/packs-test
-/public/assets-dev
+/public/packs
+/public/packs
+/public/assets
 
 # test result
 /coverage

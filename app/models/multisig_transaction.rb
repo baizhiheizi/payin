@@ -13,6 +13,7 @@
 #  signer_uuids        :uuid             default("{}"), is an Array
 #  status              :string
 #  threshold           :integer
+#  transaction_hash    :string
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  asset_id            :uuid
@@ -24,6 +25,7 @@
 #  index_multisig_transactions_on_multisig_account_id  (multisig_account_id)
 #  index_multisig_transactions_on_receiver_uuids       (receiver_uuids)
 #  index_multisig_transactions_on_sender_uuids         (sender_uuids)
+#  index_multisig_transactions_on_transaction_hash     (transaction_hash)
 #  index_multisig_transactions_on_user_id              (user_id)
 #
 class MultisigTransaction < ApplicationRecord

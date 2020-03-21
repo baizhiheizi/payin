@@ -105,7 +105,7 @@ task :sidekiq_log do
   command %(journalctl -f -u sidekiq)
 end
 
-desc 'Precompile locally'
+desc 'Rsync precompiled assets from local to remote /temp'
 task :rsync_packs_from_local_to_tmp do
   run :local do
     command %(echo "-----> rsync public/assets to #{fetch(:tmp_path)}/public/assets")
@@ -116,7 +116,7 @@ task :rsync_packs_from_local_to_tmp do
   end
 end
 
-desc 'Rsync packs from tmp'
+desc 'Rsync packs from /tmp to /current'
 task :rsync_from_tmp_to_current do
   command %(echo "-----> rsync #{fetch(:tmp_path)}/public/assets/ to #{fetch(:current_path)}/public/assets")
   command %(rsync #{fetch(:tmp_path)}/public/assets/ #{fetch(:current_path)}/public/assets/)
@@ -124,7 +124,6 @@ task :rsync_from_tmp_to_current do
   command %(echo "-----> rsync #{fetch(:tmp_path)}/public/packs/ to #{fetch(:current_path)}/public/assets")
   command %(rsync #{fetch(:tmp_path)}/public/packs/ #{fetch(:current_path)}/public/packs/)
 end
-
 
 desc 'Deploys the current version to the server.'
 task :deploy do
