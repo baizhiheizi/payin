@@ -2,8 +2,9 @@ name: Lint
 
 on:
   push:
-    branches-ignore:
-      - 'release'
+    branches:
+      - develop
+      - master
 
 jobs:
   linter:
