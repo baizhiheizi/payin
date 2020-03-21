@@ -75,9 +75,6 @@ gem 'logstash-event'
 # Daemonization
 gem 'daemons'
 
-# Simple Rails app configuration
-gem 'figaro'
-
 # I18n and L10n
 gem 'rails-i18n', '~> 6.0'
 

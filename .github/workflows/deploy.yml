@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - release
+      - master
 
 jobs:
   deploy:
@@ -16,14 +16,39 @@ jobs:
         with:
           ruby-version: 2.7
 
+      - name: Setup Nodejs
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Use cached node_modules
+        uses: actions/cache@v1
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
       - name: Increasing the amount of inotify watchers
         run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 
-      - name: Deploy
+      - name: Precompile
+        env:
+          RAILS_ENV: production
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
           sudo apt-get -yqq install libpq-dev
-          sudo apt-get install expect
           gem install bundler:2.1.4
-          bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
-          bin/exp ${{ secrets.PAYIN_SSH_PWD }} bundle exec mina deploy production
+          yarn install
+          bin/rails assets:precompile
+
+      - name: Deploy
+        run: |
+          sudo apt-get install expect
+          bin/deploy ${{ secrets.PAYIN_SSH_PWD }} bundle exec mina deploy production

@@ -25,6 +25,7 @@ set :shared_files, fetch(:shared_files, []).push('config/master.key')
 
 set :puma_config, -> { "#{fetch(:current_path)}/config/puma.rb" }
 set :clockwork_file, -> { "#{fetch(:current_path)}/config/clock.rb" }
+set :tmp_path, -> { "#{fetch(:deploy_to)}/tmp" }
 
 # This task is the environment that is loaded for all remote run commands, such as
 # `mina deploy` or `mina rake`.
@@ -104,10 +105,33 @@ task :sidekiq_log do
   command %(journalctl -f -u sidekiq)
 end
 
+desc 'Rsync precompiled assets from local to remote /temp'
+task :rsync_packs_from_local_to_tmp do
+  run :local do
+    command %(echo "-----> rsync public/assets to #{fetch(:tmp_path)}/public/assets")
+    command %(rsync -avzh public/assets/ #{fetch(:user)}@#{fetch(:domain)}:#{fetch(:tmp_path)}/public/assets/)
+
+    command %(echo "-----> rsync public/packs to #{fetch(:tmp_path)}/public/packs")
+    command %(rsync -avzh public/packs/ #{fetch(:user)}@#{fetch(:domain)}:#{fetch(:tmp_path)}/public/packs/)
+  end
+end
+
+desc 'Rsync packs from /tmp to /current'
+task :rsync_from_tmp_to_current do
+  command %(echo "-----> rsync #{fetch(:tmp_path)}/public/assets/ to #{fetch(:current_path)}/public/assets")
+  command %(rsync #{fetch(:tmp_path)}/public/assets/ #{fetch(:current_path)}/public/assets/)
+
+  command %(echo "-----> rsync #{fetch(:tmp_path)}/public/packs/ to #{fetch(:current_path)}/public/assets")
+  command %(rsync #{fetch(:tmp_path)}/public/packs/ #{fetch(:current_path)}/public/packs/)
+end
+
 desc 'Deploys the current version to the server.'
 task :deploy do
   # uncomment this line to make sure you pushed your local branch to the remote origin
   # invoke :'git:ensure_pushed'
+
+  invoke :rsync_packs_from_local_to_tmp
+
   deploy do
     # Put things that will set up an empty directory into a fully set-up
     # instance of your project.
@@ -120,6 +144,7 @@ task :deploy do
     invoke :'deploy:cleanup'
 
     on :launch do
+      invoke :rsync_from_tmp_to_current
       invoke :'rbenv:load'
       invoke :'puma:smart_restart'
       invoke :sidekiq_restart
