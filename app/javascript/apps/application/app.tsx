@@ -2,7 +2,7 @@ import { Account, AccountList, AccountNew } from '@/application/pages';
 import { apolloClient, IStyles, mixinUtils } from '@/shared';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
 import { Button, Layout, Result, Spin } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { CurrentGroup } from '@/graphql/application';
 
@@ -89,10 +89,8 @@ function App(props: any) {
 }
 
 export default function AppNode(props: IProps) {
-  /** Production */
-  /* const conversationId = mixinUtils.conversationId(); */
-  /** Development */
-  const conversationId = '0c233319-52b3-4c84-8e47-15e8a3694e45';
+  const conversationId = mixinUtils.conversationId();
+  const [loading, setLoading] = useState(false);
 
   if (props.currentUser) {
     return (
@@ -109,7 +107,12 @@ export default function AppNode(props: IProps) {
       <Result
         title='Please login.'
         extra={
-          <Button type='primary' href='/login'>
+          <Button
+            type='primary'
+            loading={loading}
+            onClick={() => setLoading(true)}
+            href='/login'
+          >
             Log In
           </Button>
         }
