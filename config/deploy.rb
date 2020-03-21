@@ -118,11 +118,11 @@ end
 
 desc 'Rsync packs from /tmp to /current'
 task :rsync_from_tmp_to_current do
-  command %(echo "-----> rsync #{fetch(:tmp_path)}/public/assets/ to #{fetch(:current_path)}/public/assets")
-  command %(rsync #{fetch(:tmp_path)}/public/assets/ #{fetch(:current_path)}/public/assets/)
+  command %(echo "-----> rsync #{fetch(:tmp_path)}/public/assets/ to #{fetch(:current_path)}/public/assets/")
+  command %(rsync -avzh #{fetch(:tmp_path)}/public/assets/ #{fetch(:current_path)}/public/assets/)
 
-  command %(echo "-----> rsync #{fetch(:tmp_path)}/public/packs/ to #{fetch(:current_path)}/public/assets")
-  command %(rsync #{fetch(:tmp_path)}/public/packs/ #{fetch(:current_path)}/public/packs/)
+  command %(echo "-----> rsync #{fetch(:tmp_path)}/public/packs/ to #{fetch(:current_path)}/public/packs")
+  command %(rsync -avzh #{fetch(:tmp_path)}/public/packs/ #{fetch(:current_path)}/public/packs/)
 end
 
 desc 'Deploys the current version to the server.'
