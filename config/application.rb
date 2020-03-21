@@ -21,7 +21,7 @@ module Payin
     config.generators.helper = false
     config.time_zone = 'Asia/Hong_Kong'
     config.i18n.available_locales = %i[en zh-CN]
-    config.i18n.default_locale = :'zh-CN'
+    config.i18n.default_locale = :en
     config.lograge.enabled = true
 
     # reference:
