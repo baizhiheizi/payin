@@ -48,26 +48,26 @@ export function IncomeTab(props: IProps) {
       refetchMultisiAccount();
     },
   });
-  const [createMultisigPayment, { error: createPaymentError }] = useMutation(
-    CreateMultisigPayment,
-    {
-      update(
-        _proxy,
-        {
-          data: {
-            createMultisigPayment: { errors },
-          },
+  const [
+    createMultisigPayment,
+    { error: createPaymentError, loading: createPaymentLoading },
+  ] = useMutation(CreateMultisigPayment, {
+    update(
+      _proxy,
+      {
+        data: {
+          createMultisigPayment: { errors },
         },
-      ) {
-        if (errors) {
-          message.error(errors);
-        } else {
-          setIncomFormVisible(false);
-          refetchMultisiAccount();
-        }
       },
+    ) {
+      if (errors) {
+        message.error(errors);
+      } else {
+        setIncomFormVisible(false);
+        refetchMultisiAccount();
+      }
     },
-  );
+  });
   if (createPaymentError) {
     message.error(createPaymentError.message);
   }
@@ -222,7 +222,11 @@ export function IncomeTab(props: IProps) {
             <Input.TextArea />
           </Form.Item>
           <Form.Item>
-            <Button type='primary' htmlType='submit'>
+            <Button
+              type='primary'
+              htmlType='submit'
+              loading={createPaymentLoading}
+            >
               Create
             </Button>
           </Form.Item>

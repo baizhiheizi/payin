@@ -97,7 +97,6 @@ class MultisigTransaction < ApplicationRecord
     end
 
     if res['data'].blank?
-      Rails.logger.error '=' * 10 + 'create_request failed'
       Rails.logger.error res['error'].inspect
       return
     end
