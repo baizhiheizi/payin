@@ -32,17 +32,12 @@ interface IProps {
   multisigAccount: any;
   assetOptions: any;
   currentUser: any;
-  refetchMultisiAccount: any;
+  refetchMultisiAccount?: any;
 }
 
 export function OutgoTab(props: IProps) {
   const [form] = Form.useForm();
-  const {
-    multisigAccount,
-    assetOptions,
-    currentUser,
-    refetchMultisiAccount,
-  } = props;
+  const { multisigAccount, assetOptions, currentUser } = props;
   const [
     multisigTransactionFormVisible,
     setMultisigTransactionFormVisible,
@@ -54,7 +49,10 @@ export function OutgoTab(props: IProps) {
     },
     fetchPolicy: 'network-only',
   });
-  const [createMultisigTransaction] = useMutation(CreateMultisigTransaction, {
+  const [
+    createMultisigTransaction,
+    { loading: creatingMultiTransaction },
+  ] = useMutation(CreateMultisigTransaction, {
     update() {
       setMultisigTransactionFormVisible(false);
       message.success('Success!');
@@ -82,7 +80,7 @@ export function OutgoTab(props: IProps) {
         message.warn('not signed');
       }
       Modal.destroyAll();
-      refetchMultisiAccount();
+      refetch();
     },
   });
 
@@ -103,11 +101,10 @@ export function OutgoTab(props: IProps) {
         return;
       }
 
-      Modal.confirm({
+      Modal.warning({
         title: action,
         content: 'Please sign in Mixin Messenger',
         maskClosable: false,
-        cancelText: false,
         onOk: () =>
           verifyMultisigRequest({
             variables: {
@@ -226,7 +223,11 @@ export function OutgoTab(props: IProps) {
               <Input.TextArea />
             </Form.Item>
             <Form.Item>
-              <Button type='primary' htmlType='submit'>
+              <Button
+                type='primary'
+                htmlType='submit'
+                loading={creatingMultiTransaction}
+              >
                 Create
               </Button>
             </Form.Item>
@@ -242,7 +243,9 @@ export function OutgoTab(props: IProps) {
             actions={[
               <a onClick={() => setCurrentTransaction(transaction)}>Detail</a>,
               <Dropdown
-                disabled={transaction.status === 'completed'}
+                disabled={['completed', 'unlocked'].includes(
+                  transaction.status,
+                )}
                 overlay={
                   <Menu>
                     <Menu.Item
@@ -281,7 +284,7 @@ export function OutgoTab(props: IProps) {
                     >
                       Unlock
                     </Menu.Item>
-                    <Menu.Item key='2' onClick={() => refetchMultisiAccount}>
+                    <Menu.Item key='2' onClick={() => refetch()}>
                       Refresh
                     </Menu.Item>
                   </Menu>
@@ -297,6 +300,8 @@ export function OutgoTab(props: IProps) {
               description={
                 transaction.status === 'completed' ? (
                   <Badge status='success' text='Completed' />
+                ) : transaction.status === 'unlocked' ? (
+                  <Badge status='warning' text='Unlocked' />
                 ) : (
                   <Badge
                     status='processing'

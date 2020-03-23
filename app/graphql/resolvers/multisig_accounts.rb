@@ -6,6 +6,6 @@ class Resolvers::MultisigAccounts < Resolvers::BaseResolver
   type Types::MultisigAccountType.connection_type, null: false
 
   def resolve
-    current_user.multisig_accounts
+    current_user.multisig_accounts.order(created_at: :desc)
   end
 end
