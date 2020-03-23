@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/an-lee/mixin_bot.git
-  revision: df9189218d3f96e4a49a819accedbce3acacb321
+  revision: 814b51c52af21d00d0e8acc2037dc6a172d98de4
   branch: master
   specs:
     mixin_bot (0.1.4)
