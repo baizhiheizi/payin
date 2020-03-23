@@ -27,7 +27,6 @@ class MixinGroup < ApplicationRecord
   after_create :find_or_create_participants!
 
   validates :category, presence: true
-  validates :code_id, presence: true
   validates :conversation_id, presence: true, uniqueness: true
 
   def multisig_account
