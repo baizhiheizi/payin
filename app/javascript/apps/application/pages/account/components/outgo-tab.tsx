@@ -51,7 +51,10 @@ export function OutgoTab(props: IProps) {
   });
   const [
     createMultisigTransaction,
-    { loading: creatingMultiTransaction },
+    {
+      error: createMultisigTransactionError,
+      loading: createMultisigTransactionLoading,
+    },
   ] = useMutation(CreateMultisigTransaction, {
     update() {
       setMultisigTransactionFormVisible(false);
@@ -140,6 +143,10 @@ export function OutgoTab(props: IProps) {
     );
   }
 
+  if (createMultisigTransactionError) {
+    message.error('Failed to create transaction');
+  }
+
   const {
     multisigTransactions: { edges: transactions },
   } = data;
@@ -226,7 +233,7 @@ export function OutgoTab(props: IProps) {
               <Button
                 type='primary'
                 htmlType='submit'
-                loading={creatingMultiTransaction}
+                loading={createMultisigTransactionLoading}
               >
                 Create
               </Button>
