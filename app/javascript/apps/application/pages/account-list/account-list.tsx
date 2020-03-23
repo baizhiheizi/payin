@@ -26,7 +26,7 @@ interface IProps {
 export function AccountList(_props: IProps) {
   const history = useHistory();
   const [currentAccount, setCurrentAccount] = useState(null);
-  const { loading, error, data } = useQuery(MultisigAccounts, {
+  const { loading, error, data, refetch } = useQuery(MultisigAccounts, {
     variables: {
       first: 10,
     },
@@ -41,7 +41,17 @@ export function AccountList(_props: IProps) {
     );
   }
   if (error) {
-    return <Result status='error' />;
+    return (
+      <Result
+        status='error'
+        title='Something went wrong'
+        extra={
+          <Button type='primary' onClick={() => refetch()} loading={loading}>
+            Refresh
+          </Button>
+        }
+      />
+    );
   }
 
   const {

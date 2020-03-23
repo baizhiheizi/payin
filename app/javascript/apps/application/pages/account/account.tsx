@@ -59,18 +59,18 @@ export function Account(props: IProps) {
             assetOptions={assetOptions}
           />
         </Tabs.TabPane>
-        <Tabs.TabPane tab='Income' key='2'>
-          <IncomeTab
-            multisigAccount={multisigAccount}
-            assetOptions={assetOptions}
-            refetchMultisiAccount={refetch}
-          />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Outgo' key='3'>
+        <Tabs.TabPane tab='Outgo' key='2'>
           <OutgoTab
             multisigAccount={multisigAccount}
             assetOptions={assetOptions}
             currentUser={currentUser}
+            refetchMultisiAccount={refetch}
+          />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab='Income' key='3'>
+          <IncomeTab
+            multisigAccount={multisigAccount}
+            assetOptions={assetOptions}
             refetchMultisiAccount={refetch}
           />
         </Tabs.TabPane>

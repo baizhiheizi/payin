@@ -39,6 +39,8 @@ class MultisigPayment < ApplicationRecord
   validates :trace_id, presence: true, uniqueness: true
   validates :data, presence: true
 
+  default_scope { order(created_at: :desc) }
+
   def verify
     r = MixinBot.api.verify_multisig code_id
     update! status: r['data']['status'] if r['data'].present?

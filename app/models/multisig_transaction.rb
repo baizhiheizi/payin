@@ -53,7 +53,6 @@ class MultisigTransaction < ApplicationRecord
 
     event :sign, guard: :ensure_signers_present, after_commit: :check_signers_and_threshold do
       transitions from: :pending, to: :signed
-      transitions from: :unlocked, to: :signed
     end
 
     event :unlock, guard: :ensure_signers_empty do
@@ -121,8 +120,10 @@ class MultisigTransaction < ApplicationRecord
       return
     end
 
+    Rails.logger.info res.inspect
+
     update(
-      signer_uuids: res['data']&.[]('action') == 'unlocked' ? [] : res['data']['signers'],
+      signer_uuids: res['data']&.[]('state') == 'unlocked' ? [] : res['data']['signers'],
       raw_transaction: res['data']['raw_transaction']
     )
 
