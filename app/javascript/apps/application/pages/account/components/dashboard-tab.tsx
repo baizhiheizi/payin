@@ -24,12 +24,13 @@ export function DashboardTab(props: IProps) {
   const [currentUtxo, setCurrentUtxo] = useState(null);
 
   const updateCurrentAccount = (assetId: string) => {
-    const { utxos } = multisigAccount;
+    const utxos = multisigAccount.utxos.filter(
+      (utxo: any) => utxo.assetId === assetId,
+    );
     const currentAsset = assetOptions.find(
       ({ node: asset }) => asset.assetId === assetId,
     );
     const balance = utxos
-      .filter((utxo: any) => utxo.assetId === assetId)
       .map((utxo: any) => utxo.amount)
       .reduce((a: number, b: number) => a + b, 0);
     setCurrentAccount({
