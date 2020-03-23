@@ -97,6 +97,7 @@ class MultisigTransaction < ApplicationRecord
     end
 
     if res['data'].blank?
+      Rails.logger.error '=' * 10 + 'create_request failed'
       Rails.logger.error res['error'].inspect
       return
     end
@@ -124,7 +125,8 @@ class MultisigTransaction < ApplicationRecord
 
     update(
       signer_uuids: res['data']&.[]('state') == 'unlocked' ? [] : res['data']['signers'],
-      raw_transaction: res['data']['raw_transaction']
+      raw_transaction: res['data']['raw_transaction'],
+      transaction_hash: res['data']['transaction_hash'],
     )
 
     case res['data']&.[]('state')
