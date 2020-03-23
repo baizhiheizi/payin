@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/an-lee/mixin_bot.git
-  revision: 24f6690b439f57495d45b5ec6d30095378efefa5
+  revision: df9189218d3f96e4a49a819accedbce3acacb321
   branch: master
   specs:
     mixin_bot (0.1.4)
@@ -257,7 +257,7 @@ GEM
     order_as_specified (1.6)
       activerecord (>= 5.0.0)
     parallel (1.19.1)
-    parser (2.7.0.4)
+    parser (2.7.0.5)
       ast (~> 2.4.0)
     path_expander (1.1.0)
     pg (1.2.3)
