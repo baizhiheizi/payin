@@ -32,6 +32,7 @@ export function AccountNew(props: IProps) {
     CreateMultisigAccount,
     {
       update(_proxy, { data }) {
+        message.destroy();
         if (data && data.createMultisigAccount.multisigAccount) {
           message.success('success!');
           history.replace('/');
@@ -77,6 +78,7 @@ export function AccountNew(props: IProps) {
           threshold: currentGroup.users.length,
         }}
         onFinish={(values: CreateMultisigAccountInput) => {
+          message.loading('Submitting...', 0);
           createMultisigAccount({
             variables: {
               input: {

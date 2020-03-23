@@ -75,6 +75,7 @@ export function OutgoTab(props: IProps) {
         },
       },
     ) {
+      message.destroy();
       if (state === 'signed') {
         message.success('signed');
       } else if (state === 'unlocked') {
@@ -87,7 +88,13 @@ export function OutgoTab(props: IProps) {
     },
   });
 
-  const [createMultisigRequest] = useMutation(CreateMultisigRequest, {
+  const [
+    createMultisigRequest,
+    {
+      error: createMultisigRequestError,
+      loading: crecreateMultisigRequestLoading,
+    },
+  ] = useMutation(CreateMultisigRequest, {
     update(
       _proxy,
       {
@@ -99,6 +106,7 @@ export function OutgoTab(props: IProps) {
         },
       },
     ) {
+      message.destroy();
       if (action === 'sign' && signers.includes(currentUser.mixinUuid)) {
         message.warn('You have signed!');
         return;
@@ -108,7 +116,8 @@ export function OutgoTab(props: IProps) {
         title: action,
         content: 'Please sign in Mixin Messenger',
         maskClosable: false,
-        onOk: () =>
+        onOk: () => {
+          message.loading('Verifying...', 0);
           verifyMultisigRequest({
             variables: {
               input: {
@@ -116,7 +125,8 @@ export function OutgoTab(props: IProps) {
                 codeId,
               },
             },
-          }),
+          });
+        },
       });
       location.href = `mixin://codes/${codeId}`;
     },
@@ -144,7 +154,13 @@ export function OutgoTab(props: IProps) {
   }
 
   if (createMultisigTransactionError) {
-    message.error('Failed to create transaction');
+    message.error(
+      createMultisigTransactionError.message || 'Failed to create transaction',
+    );
+  }
+
+  if (createMultisigRequestError) {
+    message.error(createMultisigRequestError.message || 'Failed to request');
   }
 
   const {
@@ -170,13 +186,14 @@ export function OutgoTab(props: IProps) {
         >
           <Form
             form={form}
-            onFinish={(values: CreateMultisigTransactionInput) =>
+            onFinish={(values: CreateMultisigTransactionInput) => {
+              message.loading('Submitting...', 0);
               createMultisigTransaction({
                 variables: {
                   input: { accountId: multisigAccount.id, ...values },
                 },
-              })
-            }
+              });
+            }}
           >
             <Form.Item
               label='Receiver'
@@ -250,9 +267,10 @@ export function OutgoTab(props: IProps) {
             actions={[
               <a onClick={() => setCurrentTransaction(transaction)}>Detail</a>,
               <Dropdown
-                disabled={['completed', 'unlocked'].includes(
-                  transaction.status,
-                )}
+                disabled={
+                  ['completed', 'unlocked'].includes(transaction.status) ||
+                  crecreateMultisigRequestLoading
+                }
                 overlay={
                   <Menu>
                     <Menu.Item
@@ -260,7 +278,8 @@ export function OutgoTab(props: IProps) {
                       disabled={transaction.signerUuids.includes(
                         currentUser.mixinUuid,
                       )}
-                      onClick={() =>
+                      onClick={() => {
+                        message.loading('Requesting...', 0);
                         createMultisigRequest({
                           variables: {
                             input: {
@@ -269,15 +288,16 @@ export function OutgoTab(props: IProps) {
                               transactionId: transaction.id,
                             },
                           },
-                        })
-                      }
+                        });
+                      }}
                     >
                       Sign
                     </Menu.Item>
                     <Menu.Item
                       key='1'
                       disabled={transaction.signerUuids.length === 0}
-                      onClick={() =>
+                      onClick={() => {
+                        message.loading('Requesting...', 0);
                         createMultisigRequest({
                           variables: {
                             input: {
@@ -286,8 +306,8 @@ export function OutgoTab(props: IProps) {
                               transactionId: transaction.id,
                             },
                           },
-                        })
-                      }
+                        });
+                      }}
                     >
                       Unlock
                     </Menu.Item>
