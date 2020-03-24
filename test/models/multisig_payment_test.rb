@@ -21,9 +21,11 @@
 #
 # Indexes
 #
+#  index_multisig_payments_on_code_id              (code_id) UNIQUE
 #  index_multisig_payments_on_creator_id           (creator_id)
 #  index_multisig_payments_on_multisig_account_id  (multisig_account_id)
 #  index_multisig_payments_on_receivers            (receivers)
+#  index_multisig_payments_on_trace_id             (trace_id) UNIQUE
 #
 require 'test_helper'
 

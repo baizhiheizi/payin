@@ -17,7 +17,7 @@
 #
 # Indexes
 #
-#  index_mixin_groups_on_conversation_id  (conversation_id)
+#  index_mixin_groups_on_conversation_id  (conversation_id) UNIQUE
 #  index_mixin_groups_on_creator_id       (creator_id)
 #
 class MixinGroup < ApplicationRecord
