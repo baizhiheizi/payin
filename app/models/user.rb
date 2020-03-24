@@ -33,7 +33,7 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :data, presence: true
 
-  after_create :create_coversation
+  after_create :create_conversation
 
   def ensure_access_token
     return if access_token.blank?
@@ -42,7 +42,7 @@ class User < ApplicationRecord
     update access_token: nil if r['error'].present?
   end
 
-  def create_coversation
+  def create_conversation
     MixinBot.api.create_contact_conversation mixin_uuid
   end
 
