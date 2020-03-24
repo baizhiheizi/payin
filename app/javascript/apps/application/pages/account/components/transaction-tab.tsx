@@ -57,6 +57,7 @@ export function TransactionTab(props: IProps) {
     },
   ] = useMutation(CreateMultisigTransaction, {
     update() {
+      message.destroy();
       setMultisigTransactionFormVisible(false);
       message.success('Success!');
       form.resetFields();

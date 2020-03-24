@@ -43,7 +43,7 @@ class MultisigTransaction < ApplicationRecord
   validates :sender_uuids, presence: true
   validates :threshold, presence: true, numericality: { greater_than: 0 }
 
-  after_create :create_first_request
+  after_create :create_first_request, :notify_members_for_created
 
   aasm column: :status do
     state :pending, initial: true
@@ -55,11 +55,11 @@ class MultisigTransaction < ApplicationRecord
       transitions from: :pending, to: :signed
     end
 
-    event :unlock, guard: :ensure_signers_empty do
+    event :unlock, guard: :ensure_signers_empty, after_commit: :notify_members_for_unlocked do
       transitions from: :signed, to: :unlocked
     end
 
-    event :complete, guard: :ensure_raw_transaction_sent do
+    event :complete, guard: :ensure_raw_transaction_sent, after_commit: :notify_members_for_completed do
       transitions from: :signed, to: :completed
     end
   end
@@ -78,6 +78,48 @@ class MultisigTransaction < ApplicationRecord
 
   def create_first_request
     create_request 'sign', user
+  end
+
+  def notify_members_for_created
+    sender_uuids.each do |uuid|
+      MixinTextMessageService.new.call(
+        format(
+          'You have a pending transition to be signed. Check it now: %<host>s/accounts/%<account_id>s',
+          host: Rails.application.credentials.host,
+          account_id: multisig_account.id
+        ),
+        conversation_id: MixinBot.api.unique_conversation_id(uuid),
+        recipient_id: uuid
+      )
+    end
+  end
+
+  def notify_members_for_unlocked
+    sender_uuids.each do |uuid|
+      MixinTextMessageService.new.call(
+        format(
+          'Your transition has just been unlocked. Check it now: %<host>s/accounts/%<account_id>s',
+          host: Rails.application.credentials.host,
+          account_id: multisig_account.id
+        ),
+        conversation_id: MixinBot.api.unique_conversation_id(uuid),
+        recipient_id: uuid
+      )
+    end
+  end
+
+  def notify_members_for_completed
+    sender_uuids.each do |uuid|
+      MixinTextMessageService.new.call(
+        format(
+          'Your transition has just been signed and sent to Mainnet. Check it now: %<host>s/accounts/%<account_id>s',
+          host: Rails.application.credentials.host,
+          account_id: multisig_account.id
+        ),
+        conversation_id: MixinBot.api.unique_conversation_id(uuid),
+        recipient_id: uuid
+      )
+    end
   end
 
   def create_request(action, signer)
