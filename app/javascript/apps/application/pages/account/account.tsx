@@ -53,13 +53,7 @@ export function Account(props: IProps) {
         <Breadcrumb.Item>{multisigAccount.name}</Breadcrumb.Item>
       </Breadcrumb>
       <Tabs defaultActiveKey='1' onTabClick={() => refetch()}>
-        <Tabs.TabPane tab='Dashboard' key='1'>
-          <DashboardTab
-            multisigAccount={multisigAccount}
-            assetOptions={assetOptions}
-          />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Outgo' key='2'>
+        <Tabs.TabPane tab='Transactions' key='1'>
           <OutgoTab
             multisigAccount={multisigAccount}
             assetOptions={assetOptions}
@@ -67,7 +61,13 @@ export function Account(props: IProps) {
             refetchMultisiAccount={refetch}
           />
         </Tabs.TabPane>
-        <Tabs.TabPane tab='Income' key='3'>
+        <Tabs.TabPane tab='Balance' key='2'>
+          <DashboardTab
+            multisigAccount={multisigAccount}
+            assetOptions={assetOptions}
+          />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab='Payments' key='3'>
           <IncomeTab
             multisigAccount={multisigAccount}
             assetOptions={assetOptions}
