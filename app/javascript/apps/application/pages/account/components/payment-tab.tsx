@@ -38,7 +38,7 @@ function PaymentStatusComponent(props: { status: string }) {
   }
 }
 
-export function IncomeTab(props: IProps) {
+export function PaymentTab(props: IProps) {
   const { multisigAccount, assetOptions, refetchMultisiAccount } = props;
   const [incomeFormVisible, setIncomFormVisible] = useState(false);
   const [currentPayment, setCurrentPayment] = useState(null);

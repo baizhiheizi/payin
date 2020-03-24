@@ -18,7 +18,7 @@ interface IProps {
   multisigAccount: any;
 }
 
-export function DashboardTab(props: IProps) {
+export function BalanceTab(props: IProps) {
   const { assetOptions, multisigAccount } = props;
   const [currentAccount, setCurrentAccount] = useState(null);
   const [currentUtxo, setCurrentUtxo] = useState(null);

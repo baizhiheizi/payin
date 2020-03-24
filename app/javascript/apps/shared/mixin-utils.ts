@@ -1,7 +1,7 @@
 function MixinUtils() {}
 
 MixinUtils.prototype = {
-  environment: function() {
+  environment: function () {
     if (
       (<any>window).webkit &&
       (<any>window).webkit.messageHandlers &&
@@ -15,7 +15,7 @@ MixinUtils.prototype = {
     return undefined;
   },
 
-  conversationId: function() {
+  conversationId: function () {
     let ctx: any;
     switch (this.environment()) {
       case 'iOS':
@@ -29,7 +29,7 @@ MixinUtils.prototype = {
     }
   },
 
-  appVersion: function() {
+  appVersion: function () {
     let ctx: any;
     switch (this.environment()) {
       case 'iOS':
@@ -43,7 +43,7 @@ MixinUtils.prototype = {
     }
   },
 
-  immersive: function() {
+  immersive: function () {
     let ctx: any;
     switch (this.environment()) {
       case 'iOS':

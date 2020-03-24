@@ -35,7 +35,7 @@ interface IProps {
   refetchMultisiAccount?: any;
 }
 
-export function OutgoTab(props: IProps) {
+export function TransactionTab(props: IProps) {
   const [form] = Form.useForm();
   const { multisigAccount, assetOptions, currentUser } = props;
   const [
@@ -57,6 +57,7 @@ export function OutgoTab(props: IProps) {
     },
   ] = useMutation(CreateMultisigTransaction, {
     update() {
+      message.destroy();
       setMultisigTransactionFormVisible(false);
       message.success('Success!');
       form.resetFields();

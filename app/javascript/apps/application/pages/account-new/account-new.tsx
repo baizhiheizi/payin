@@ -83,13 +83,13 @@ export function AccountNew(props: IProps) {
             variables: {
               input: {
                 conversationId: currentGroup.conversationId,
-                memberUuids: currentGroup.users.map(user => user.mixinUuid),
+                memberUuids: currentGroup.users.map((user) => user.mixinUuid),
                 ...values,
               },
             },
           });
         }}
-        onFinishFailed={errorInfo => message.error(errorInfo)}
+        onFinishFailed={(errorInfo) => message.error(errorInfo)}
       >
         <Form.Item
           label='Name'

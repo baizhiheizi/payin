@@ -16,7 +16,7 @@
 #
 # Indexes
 #
-#  index_multisig_accounts_on_account_hash  (account_hash)
+#  index_multisig_accounts_on_account_hash  (account_hash) UNIQUE
 #  index_multisig_accounts_on_creator_id    (creator_id)
 #  index_multisig_accounts_on_member_uuids  (member_uuids)
 #

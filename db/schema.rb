@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_13_073024) do
+ActiveRecord::Schema.define(version: 2020_03_24_081819) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_073024) do
     t.json "data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["conversation_id"], name: "index_mixin_groups_on_conversation_id"
+    t.index ["conversation_id"], name: "index_mixin_groups_on_conversation_id", unique: true
     t.index ["creator_id"], name: "index_mixin_groups_on_creator_id"
   end
 
@@ -87,7 +87,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_073024) do
     t.string "account_hash"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["account_hash"], name: "index_multisig_accounts_on_account_hash"
+    t.index ["account_hash"], name: "index_multisig_accounts_on_account_hash", unique: true
     t.index ["creator_id"], name: "index_multisig_accounts_on_creator_id"
     t.index ["member_uuids"], name: "index_multisig_accounts_on_member_uuids"
   end
@@ -106,9 +106,11 @@ ActiveRecord::Schema.define(version: 2020_03_13_073024) do
     t.json "data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["code_id"], name: "index_multisig_payments_on_code_id", unique: true
     t.index ["creator_id"], name: "index_multisig_payments_on_creator_id"
     t.index ["multisig_account_id"], name: "index_multisig_payments_on_multisig_account_id"
     t.index ["receivers"], name: "index_multisig_payments_on_receivers"
+    t.index ["trace_id"], name: "index_multisig_payments_on_trace_id", unique: true
   end
 
   create_table "multisig_transactions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -129,7 +131,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_073024) do
     t.index ["multisig_account_id"], name: "index_multisig_transactions_on_multisig_account_id"
     t.index ["receiver_uuids"], name: "index_multisig_transactions_on_receiver_uuids"
     t.index ["sender_uuids"], name: "index_multisig_transactions_on_sender_uuids"
-    t.index ["transaction_hash"], name: "index_multisig_transactions_on_transaction_hash"
+    t.index ["transaction_hash"], name: "index_multisig_transactions_on_transaction_hash", unique: true
     t.index ["user_id"], name: "index_multisig_transactions_on_user_id"
   end
 
