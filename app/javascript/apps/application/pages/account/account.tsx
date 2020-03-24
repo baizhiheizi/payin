@@ -1,9 +1,9 @@
-import { DashboardTab, IncomeTab, OutgoTab } from './components';
 import { MixinGroup, MultisigAccount, User } from '@/graphql/application';
 import { useQuery } from '@apollo/react-hooks';
-import { Result, Spin, Tabs, Breadcrumb, Button } from 'antd';
+import { Breadcrumb, Button, Result, Spin, Tabs } from 'antd';
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { BalanceTab, PaymentTab, TransactionTab } from './components';
 
 interface IProps {
   currentGroup?: Partial<MixinGroup>;
@@ -54,7 +54,7 @@ export function Account(props: IProps) {
       </Breadcrumb>
       <Tabs defaultActiveKey='1' onTabClick={() => refetch()}>
         <Tabs.TabPane tab='Transactions' key='1'>
-          <OutgoTab
+          <TransactionTab
             multisigAccount={multisigAccount}
             assetOptions={assetOptions}
             currentUser={currentUser}
@@ -62,13 +62,13 @@ export function Account(props: IProps) {
           />
         </Tabs.TabPane>
         <Tabs.TabPane tab='Balance' key='2'>
-          <DashboardTab
+          <BalanceTab
             multisigAccount={multisigAccount}
             assetOptions={assetOptions}
           />
         </Tabs.TabPane>
         <Tabs.TabPane tab='Payments' key='3'>
-          <IncomeTab
+          <PaymentTab
             multisigAccount={multisigAccount}
             assetOptions={assetOptions}
             refetchMultisiAccount={refetch}

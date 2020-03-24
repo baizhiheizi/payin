@@ -35,7 +35,7 @@ interface IProps {
   refetchMultisiAccount?: any;
 }
 
-export function OutgoTab(props: IProps) {
+export function TransactionTab(props: IProps) {
   const [form] = Form.useForm();
   const { multisigAccount, assetOptions, currentUser } = props;
   const [

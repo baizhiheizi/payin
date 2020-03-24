@@ -1,3 +1,3 @@
-export * from './dashboard-tab';
-export * from './income-tab';
-export * from './outgo-tab';
+export * from './balance-tab';
+export * from './payment-tab';
+export * from './transaction-tab';
