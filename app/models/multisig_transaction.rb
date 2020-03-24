@@ -125,7 +125,7 @@ class MultisigTransaction < ApplicationRecord
     update(
       signer_uuids: res['data']&.[]('state') == 'unlocked' ? [] : res['data']['signers'],
       raw_transaction: res['data']['raw_transaction'],
-      transaction_hash: res['data']['transaction_hash'],
+      transaction_hash: res['data']['transaction_hash']
     )
 
     case res['data']&.[]('state')
