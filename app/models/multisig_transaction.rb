@@ -84,7 +84,7 @@ class MultisigTransaction < ApplicationRecord
     sender_uuids.each do |uuid|
       MixinTextMessageService.new.call(
         format(
-          'You have a pending transition to be signed. Check it now: %<host>s/accounts/%<account_id>s',
+          'You have a pending transaction to be signed. Check it now: %<host>s/accounts/%<account_id>s',
           host: Rails.application.credentials.host,
           account_id: multisig_account.id
         ),
@@ -98,7 +98,7 @@ class MultisigTransaction < ApplicationRecord
     sender_uuids.each do |uuid|
       MixinTextMessageService.new.call(
         format(
-          'Your transition has just been unlocked. Check it now: %<host>s/accounts/%<account_id>s',
+          'Your transaction has just been unlocked. Check it now: %<host>s/accounts/%<account_id>s',
           host: Rails.application.credentials.host,
           account_id: multisig_account.id
         ),
@@ -112,7 +112,7 @@ class MultisigTransaction < ApplicationRecord
     sender_uuids.each do |uuid|
       MixinTextMessageService.new.call(
         format(
-          'Your transition has just been signed and sent to Mainnet. Check it now: %<host>s/accounts/%<account_id>s',
+          'Your transaction has just been signed and sent to Mainnet. Check it now: %<host>s/accounts/%<account_id>s',
           host: Rails.application.credentials.host,
           account_id: multisig_account.id
         ),
