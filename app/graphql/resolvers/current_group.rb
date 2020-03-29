@@ -11,7 +11,7 @@ class Resolvers::CurrentGroup < Resolvers::BaseResolver
     return if conversation_id.blank?
     return if conversation_id == MixinBot.api.unique_conversation_id(current_user.mixin_uuid)
 
-    group = MixinGroup.find_or_create_by!(conversation_id: conversation_id)
+    group = MixinGroup.find_or_create_by(conversation_id: conversation_id)
     group&.refresh!
 
     group
