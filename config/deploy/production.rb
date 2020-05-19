@@ -2,6 +2,6 @@
 
 set :domain, 'payin.xin'
 set :deploy_to, '/data/www/payin'
-set :repository, 'git@github.com:an-lee/payin.git'
+set :repository, 'git@github.com:baizhiheizi/payin.git'
 set :branch, 'master'
 set :user, 'ruby'
