@@ -3,7 +3,7 @@ import {
   CreateMultisigPaymentInput,
   MultisigPayment,
   VerifyMultisigPayment,
-} from '@/graphql/application';
+} from '@application/graphql';
 import { useMutation } from '@apollo/react-hooks';
 import {
   Avatar,

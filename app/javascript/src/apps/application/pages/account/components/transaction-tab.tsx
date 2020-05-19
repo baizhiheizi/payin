@@ -1,4 +1,4 @@
-import { TransactionDetail } from '@/application/components/transaction-detail';
+import { TransactionDetail } from '@application/components';
 import {
   CreateMultisigRequest,
   CreateMultisigTransaction,
@@ -6,7 +6,7 @@ import {
   MultisigTransactions,
   User,
   VerifyMultisigRequest,
-} from '@/graphql/application';
+} from '@application/graphql';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import {
   Avatar,

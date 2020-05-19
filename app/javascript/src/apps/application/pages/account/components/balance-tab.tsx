@@ -1,5 +1,5 @@
-import { UtxoDetail } from '@/application/components';
-import { MultisigUtxo } from '@/graphql/application';
+import { UtxoDetail } from '@application/components';
+import { MultisigUtxo } from '@application/graphql';
 import {
   Avatar,
   Button,

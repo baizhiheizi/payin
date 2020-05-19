@@ -3,7 +3,7 @@ import {
   CreateMultisigAccountInput,
   MixinGroup,
   User,
-} from '@/graphql/application';
+} from '@application/graphql';
 import { useMutation } from '@apollo/react-hooks';
 import {
   Avatar,

@@ -1,5 +1,5 @@
-import { MixinGroup, MultisigAccounts, User } from '@/graphql/application';
-import { IStyles } from '@/shared';
+import { MixinGroup, MultisigAccounts, User } from '@application/graphql';
+import { IStyles } from '@shared';
 import { useQuery } from '@apollo/react-hooks';
 import {
   Avatar,
@@ -15,7 +15,7 @@ import {
 } from 'antd';
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { AccountDetail } from '@/application/components';
+import { AccountDetail } from '@application/components';
 
 interface IProps {
   currentGroup?: Partial<MixinGroup>;

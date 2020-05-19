@@ -14,7 +14,10 @@
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["app/javascript/apps/*"]
+      "@admin/*": ["app/javascript/src/apps/admin/*"],
+      "@application/*": ["app/javascript/src/apps/application/*"],
+      "@shared/*": ["app/javascript/src/shared/*"],
+      "@shared": ["app/javascript/src/shared"]
     }
   },
   "exclude": ["**/*.spec.ts", "node_modules", "vendor", "public"],

@@ -1,4 +1,4 @@
-import { MixinGroup, MultisigAccount, User } from '@/graphql/application';
+import { MixinGroup, MultisigAccount, User } from '@application/graphql';
 import { useQuery } from '@apollo/react-hooks';
 import { Breadcrumb, Button, Result, Spin, Tabs } from 'antd';
 import React from 'react';

@@ -1,6 +1,6 @@
-import { Login } from '@/admin/pages';
-import { AdminLogout } from '@/graphql/admin';
-import { apolloClient, IStyles } from '@/shared';
+import { Login } from '@admin/pages';
+import { AdminLogout } from '@admin/graphql';
+import { apolloClient, IStyles } from '@shared';
 import { ApolloProvider, useMutation } from '@apollo/react-hooks';
 import { Layout, Menu } from 'antd';
 import React from 'react';

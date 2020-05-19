@@ -1,4 +1,4 @@
-import { User } from '@/graphql/application';
+import { User } from '@application/graphql';
 import { Avatar, Descriptions } from 'antd';
 import React from 'react';
 
