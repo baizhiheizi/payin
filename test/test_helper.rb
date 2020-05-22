@@ -13,8 +13,8 @@ require 'rails/test_help'
 require 'webmock/minitest'
 
 class ActiveSupport::TestCase
-  ADMIN_GQL_PATH = Rails.root.join('app/javascript/apps/graphql/admin')
-  GQL_PATH = Rails.root.join('app/javascript/apps/graphql/application')
+  ADMIN_GQL_PATH = Rails.root.join('app/javascript/src/apps/admin/graphql')
+  GQL_PATH = Rails.root.join('app/javascript/src/apps/application/graphql')
 
   # Run tests in parallel with specified workers
   # parallelize(workers: :number_of_processors)
