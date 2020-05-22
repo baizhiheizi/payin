@@ -372,10 +372,10 @@ export type CreateMultisigAccountMutationVariables = {
 
 export type CreateMultisigAccountMutation = (
   { __typename?: 'Mutation' }
-  & { createMultisigAccount: Maybe<(
+  & { createMultisigAccount?: Maybe<(
     { __typename?: 'CreateMultisigAccountPayload' }
     & Pick<CreateMultisigAccountPayload, 'errors'>
-    & { multisigAccount: Maybe<(
+    & { multisigAccount?: Maybe<(
       { __typename?: 'MultisigAccount' }
       & Pick<MultisigAccount, 'id' | 'name'>
     )> }
@@ -389,10 +389,10 @@ export type CreateMultisigPaymentMutationVariables = {
 
 export type CreateMultisigPaymentMutation = (
   { __typename?: 'Mutation' }
-  & { createMultisigPayment: Maybe<(
+  & { createMultisigPayment?: Maybe<(
     { __typename?: 'CreateMultisigPaymentPayload' }
     & Pick<CreateMultisigPaymentPayload, 'errors'>
-    & { multisigPayment: Maybe<(
+    & { multisigPayment?: Maybe<(
       { __typename?: 'MultisigPayment' }
       & Pick<MultisigPayment, 'id' | 'codeId' | 'status'>
     )> }
@@ -406,7 +406,7 @@ export type CreateMultisigRequestMutationVariables = {
 
 export type CreateMultisigRequestMutation = (
   { __typename?: 'Mutation' }
-  & { createMultisigRequest: Maybe<(
+  & { createMultisigRequest?: Maybe<(
     { __typename?: 'CreateMultisigRequestPayload' }
     & { multisigRequest: (
       { __typename?: 'MultisigRequest' }
@@ -425,10 +425,10 @@ export type CreateMultisigTransactionMutationVariables = {
 
 export type CreateMultisigTransactionMutation = (
   { __typename?: 'Mutation' }
-  & { createMultisigTransaction: Maybe<(
+  & { createMultisigTransaction?: Maybe<(
     { __typename?: 'CreateMultisigTransactionPayload' }
     & Pick<CreateMultisigTransactionPayload, 'errors'>
-    & { multisigTransaction: Maybe<(
+    & { multisigTransaction?: Maybe<(
       { __typename?: 'MultisigTransaction' }
       & Pick<MultisigTransaction, 'id' | 'status' | 'amount' | 'memo' | 'rawTransaction' | 'threshold' | 'createdAt'>
       & { senders: Array<(
@@ -452,9 +452,9 @@ export type VerifyMultisigPaymentMutationVariables = {
 
 export type VerifyMultisigPaymentMutation = (
   { __typename?: 'Mutation' }
-  & { verifyMultisigPayment: Maybe<(
+  & { verifyMultisigPayment?: Maybe<(
     { __typename?: 'VerifyMultisigPaymentPayload' }
-    & { multisigPayment: Maybe<(
+    & { multisigPayment?: Maybe<(
       { __typename?: 'MultisigPayment' }
       & Pick<MultisigPayment, 'id' | 'codeId' | 'status'>
     )> }
@@ -468,12 +468,12 @@ export type VerifyMultisigRequestMutationVariables = {
 
 export type VerifyMultisigRequestMutation = (
   { __typename?: 'Mutation' }
-  & { verifyMultisigRequest: Maybe<(
+  & { verifyMultisigRequest?: Maybe<(
     { __typename?: 'VerifyMultisigRequestPayload' }
-    & { multisigRequest: Maybe<(
+    & { multisigRequest?: Maybe<(
       { __typename?: 'MultisigRequest' }
       & Pick<MultisigRequest, 'state'>
-    )>, multisigTransaction: Maybe<(
+    )>, multisigTransaction?: Maybe<(
       { __typename?: 'MultisigTransaction' }
       & Pick<MultisigTransaction, 'id' | 'signerUuids' | 'status'>
     )> }
@@ -487,9 +487,9 @@ export type AssetsQuery = (
   { __typename?: 'Query' }
   & { assets: (
     { __typename?: 'AssetConnection' }
-    & { edges: Maybe<Array<Maybe<(
+    & { edges?: Maybe<Array<Maybe<(
       { __typename?: 'AssetEdge' }
-      & { node: Maybe<(
+      & { node?: Maybe<(
         { __typename?: 'Asset' }
         & Pick<Asset, 'assetId' | 'symbol' | 'name' | 'iconUrl'>
       )> }
@@ -504,7 +504,7 @@ export type CurrentGroupQueryVariables = {
 
 export type CurrentGroupQuery = (
   { __typename?: 'Query' }
-  & { currentGroup: Maybe<(
+  & { currentGroup?: Maybe<(
     { __typename?: 'MixinGroup' }
     & Pick<MixinGroup, 'conversationId' | 'name' | 'participantUuids'>
     & { users: Array<(
@@ -522,7 +522,7 @@ export type CurrentUserQueryVariables = {};
 
 export type CurrentUserQuery = (
   { __typename?: 'Query' }
-  & { currentUser: Maybe<(
+  & { currentUser?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'name' | 'mixinId' | 'mixinUuid' | 'avatar'>
   )> }
@@ -535,7 +535,7 @@ export type MultisigAccountQueryVariables = {
 
 export type MultisigAccountQuery = (
   { __typename?: 'Query' }
-  & { multisigAccount: Maybe<(
+  & { multisigAccount?: Maybe<(
     { __typename?: 'MultisigAccount' }
     & Pick<MultisigAccount, 'id' | 'accountHash' | 'name' | 'introduction' | 'memberUuids' | 'threshold'>
     & { members: Array<(
@@ -560,9 +560,9 @@ export type MultisigAccountQuery = (
     )> }
   )>, assets: (
     { __typename?: 'AssetConnection' }
-    & { edges: Maybe<Array<Maybe<(
+    & { edges?: Maybe<Array<Maybe<(
       { __typename?: 'AssetEdge' }
-      & { node: Maybe<(
+      & { node?: Maybe<(
         { __typename?: 'Asset' }
         & Pick<Asset, 'assetId' | 'name' | 'symbol' | 'iconUrl'>
       )> }
@@ -577,9 +577,9 @@ export type MultisigAccountsQuery = (
   { __typename?: 'Query' }
   & { multisigAccounts: (
     { __typename?: 'MultisigAccountConnection' }
-    & { edges: Maybe<Array<Maybe<(
+    & { edges?: Maybe<Array<Maybe<(
       { __typename?: 'MultisigAccountEdge' }
-      & { node: Maybe<(
+      & { node?: Maybe<(
         { __typename?: 'MultisigAccount' }
         & Pick<MultisigAccount, 'id' | 'accountHash' | 'name' | 'introduction' | 'memberUuids' | 'threshold'>
         & { members: Array<(
@@ -600,9 +600,9 @@ export type MultisigTransactionsQuery = (
   { __typename?: 'Query' }
   & { multisigTransactions: (
     { __typename?: 'MultisigTransactionConnection' }
-    & { edges: Maybe<Array<Maybe<(
+    & { edges?: Maybe<Array<Maybe<(
       { __typename?: 'MultisigTransactionEdge' }
-      & { node: Maybe<(
+      & { node?: Maybe<(
         { __typename?: 'MultisigTransaction' }
         & Pick<MultisigTransaction, 'id' | 'amount' | 'memo' | 'rawTransaction' | 'threshold' | 'createdAt' | 'signerUuids' | 'receiverUuids' | 'status'>
         & { asset: (
