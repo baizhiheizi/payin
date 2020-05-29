@@ -1,10 +1,10 @@
-import { Account, AccountList, AccountNew } from '@/application/pages';
-import { apolloClient, IStyles, mixinUtils } from '@/shared';
+import { Account, AccountList, AccountNew } from '@application/pages';
+import { apolloClient, IStyles, mixinUtils } from '@shared';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
 import { Button, Layout, Result, Spin } from 'antd';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { CurrentGroup } from '@/graphql/application';
+import { CurrentGroup } from '@application/graphql';
 
 const style: IStyles = {
   content: {

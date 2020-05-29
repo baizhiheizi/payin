@@ -31,6 +31,6 @@ class Admin::BaseController < ActionController::Base
   end
 
   def from_graphql_introspection
-    Rails.env.development? && request.headers['Authorization'] == ENV['GRAPHQL_INTROSPECTION_TOKEN']
+    Rails.env.development? && request.headers['Authorization'] == Rails.application.credentials.dig(:graphql_introspection_token)
   end
 end

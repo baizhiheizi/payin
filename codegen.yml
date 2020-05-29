@@ -1,11 +1,11 @@
 overwrite: true
 generates:
-  app/javascript/apps/graphql/admin/documents.ts:
+  app/javascript/src/apps/admin/graphql/documents.ts:
     schema:
       - http://localhost:3000/admin/graphql:
           headers:
             Authorization: 9ac42e05e64ff49ee5cef1fc5ebc172ea6d7735f9fab0061f0463dc4e60393a1
-    documents: app/javascript/apps/graphql/admin/**/*.{gql,graphql}
+    documents: app/javascript/src/apps/admin/graphql/**/*.{gql,graphql}
     plugins:
       - "typescript"
       - "typescript-operations"
@@ -14,12 +14,12 @@ generates:
     ./graphql.schema.json:
       plugins:
         - "introspection"
-  app/javascript/apps/graphql/application/documents.ts:
+  app/javascript/src/apps/application/graphql/documents.ts:
     schema:
       - http://localhost:3000/graphql:
           headers:
             Authorization: 9ac42e05e64ff49ee5cef1fc5ebc172ea6d7735f9fab0061f0463dc4e60393a1
-    documents: app/javascript/apps/graphql/application/**/*.{gql,graphql}
+    documents: app/javascript/src/apps/application/graphql/**/*.{gql,graphql}
     plugins:
       - "typescript"
       - "typescript-operations"

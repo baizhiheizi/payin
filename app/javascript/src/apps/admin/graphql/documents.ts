@@ -59,7 +59,7 @@ export type AdminLoginMutationVariables = {
 
 export type AdminLoginMutation = (
   { __typename?: 'Mutation' }
-  & { adminLogin: Maybe<(
+  & { adminLogin?: Maybe<(
     { __typename?: 'AdminLoginPayload' }
     & Pick<AdminLoginPayload, 'msg'>
   )> }
@@ -72,7 +72,7 @@ export type AdminLogoutMutationVariables = {
 
 export type AdminLogoutMutation = (
   { __typename?: 'Mutation' }
-  & { adminLogout: Maybe<(
+  & { adminLogout?: Maybe<(
     { __typename?: 'AdminLogoutPayload' }
     & Pick<AdminLogoutPayload, 'msg'>
   )> }

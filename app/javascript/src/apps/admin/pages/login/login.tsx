@@ -1,4 +1,4 @@
-import { AdminLogin } from '@/graphql/admin';
+import { AdminLogin } from '@admin/graphql';
 import { ClockCircleOutlined, UserOutlined } from '@ant-design/icons';
 import { useMutation } from '@apollo/react-hooks';
 import { Button, Form, Input, Layout, message } from 'antd';
