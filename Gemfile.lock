@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/an-lee/mixin_bot.git
-  revision: 31f341107850f9970b758b115d0b482f38b246b6
+  revision: 4236cb71e67f5e42a451d8fdad681ecae5ac146b
   branch: master
   specs:
     mixin_bot (0.2.0)
@@ -79,14 +79,14 @@ GEM
       zeitwerk (~> 2.2, >= 2.2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
-    aliyun-sdk (0.7.1)
+    aliyun-sdk (0.7.2)
       nokogiri (~> 1.6)
       rest-client (~> 2.0)
     annotate (3.1.1)
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 14.0)
     arrayfields (4.9.2)
-    ast (2.4.0)
+    ast (2.4.1)
     attractor (2.0.3)
       churn (>= 1.0.4)
       descriptive_statistics
@@ -152,7 +152,7 @@ GEM
     faye-websocket (0.10.9)
       eventmachine (>= 0.12.0)
       websocket-driver (>= 0.5.1)
-    ffi (1.13.0)
+    ffi (1.13.1)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
@@ -165,7 +165,7 @@ GEM
     graphiql-rails (1.7.0)
       railties
       sprockets-rails
-    graphql (1.10.10)
+    graphql (1.10.11)
     hamster (3.0.0)
       concurrent-ruby (~> 1.0)
     hashdiff (1.0.1)
@@ -181,7 +181,7 @@ GEM
     http-form_data (2.3.0)
     http-parser (1.2.1)
       ffi-compiler (>= 1.0, < 2.0)
-    i18n (1.8.2)
+    i18n (1.8.3)
       concurrent-ruby (~> 1.0)
     image_processing (1.11.0)
       mini_magick (>= 4.9.5, < 5)
@@ -325,14 +325,14 @@ GEM
       execjs
       railties (>= 3.2)
       tilt
-    redis (4.1.4)
+    redis (4.2.1)
     redis-namespace (1.7.0)
       redis (>= 3.0.4)
     redis-objects (1.5.0)
       redis (~> 4.0)
     redlock (1.2.0)
       redis (>= 3.0.0, < 5.0)
-    regexp_parser (1.7.0)
+    regexp_parser (1.7.1)
     request_store (1.5.0)
       rack (>= 1.4)
     rest-client (2.1.0)
@@ -341,7 +341,7 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     rexml (3.2.4)
-    rubocop (0.85.0)
+    rubocop (0.85.1)
       parallel (~> 1.10)
       parser (>= 2.7.0.1)
       rainbow (>= 2.2.2, < 4.0)
@@ -352,10 +352,10 @@ GEM
       unicode-display_width (>= 1.4.0, < 2.0)
     rubocop-ast (0.0.3)
       parser (>= 2.7.0.1)
-    rubocop-rails (2.5.2)
-      activesupport
+    rubocop-rails (2.6.0)
+      activesupport (>= 4.2.0)
       rack (>= 1.1)
-      rubocop (>= 0.72.0)
+      rubocop (>= 0.82.0)
     ruby-progressbar (1.10.1)
     ruby-vips (2.0.17)
       ffi (~> 1.9)
@@ -380,7 +380,7 @@ GEM
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     semantic_range (2.3.0)
-    sexp_processor (4.14.1)
+    sexp_processor (4.15.0)
     sidekiq (6.0.7)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
