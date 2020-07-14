@@ -111,7 +111,7 @@ group :development do
   gem 'annotate', require: false
 
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'listen', '>= 3.0.5', '< 3.3'
   gem 'web-console', '>= 3.3.0'
 
   # A Ruby static code analyzer and formatter
