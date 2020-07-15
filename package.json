@@ -32,7 +32,7 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react_ujs": "^2.6.1",
-    "ts-loader": "^8.0.0",
+    "ts-loader": "^8.0.1",
     "turbolinks": "^5.2.0",
     "typescript": "^3.9.6"
   },
