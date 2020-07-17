@@ -34,7 +34,7 @@
     "react_ujs": "^2.6.1",
     "ts-loader": "^8.0.1",
     "turbolinks": "^5.2.0",
-    "typescript": "^3.9.6"
+    "typescript": "^3.9.7"
   },
   "version": "0.1.0",
   "devDependencies": {
