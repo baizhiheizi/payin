@@ -133,7 +133,7 @@ GEM
     clockwork (2.0.4)
       activesupport
       tzinfo
-    concurrent-ruby (1.1.6)
+    concurrent-ruby (1.1.7)
     connection_pool (2.2.3)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
@@ -263,7 +263,7 @@ GEM
     path_expander (1.1.0)
     pg (1.2.3)
     pg_query (1.2.0)
-    pghero (2.6.0)
+    pghero (2.7.0)
       activerecord (>= 5)
     polyamorous (2.3.2)
       activerecord (>= 5.2.1)
