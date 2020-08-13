@@ -17,7 +17,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    aasm (5.1.0)
+    aasm (5.1.1)
       concurrent-ruby (~> 1.0)
     actioncable (6.0.3.2)
       actionpack (= 6.0.3.2)
@@ -133,7 +133,7 @@ GEM
     clockwork (2.0.4)
       activesupport
       tzinfo
-    concurrent-ruby (1.1.6)
+    concurrent-ruby (1.1.7)
     connection_pool (2.2.3)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
