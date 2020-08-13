@@ -21,7 +21,7 @@
 #  index_multisig_accounts_on_member_uuids  (member_uuids)
 #
 class MultisigAccount < ApplicationRecord
-  belongs_to :creator, class_name: 'User', foreign_key: :creator_id, inverse_of: false
+  belongs_to :creator, class_name: 'User', inverse_of: false
 
   has_many :multisig_account_members, dependent: :nullify
   has_many :members, through: :multisig_account_members, source: :user

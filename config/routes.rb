@@ -36,6 +36,6 @@ Rails.application.routes.draw do
     # sidekiq
     mount Sidekiq::Web, at: 'sidekiq', constraints: AdminConstraint.new
 
-    match '*path' => redirect('/admin'), via: :get
+    get '*path' => redirect('/admin')
   end
 end

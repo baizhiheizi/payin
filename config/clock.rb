@@ -2,7 +2,7 @@
 
 # Initialize sidekiq
 require 'sidekiq'
-require_relative './initializers/sidekiq.rb'
+require_relative './initializers/sidekiq'
 def sidekiq_perform_async(worker_name)
   ::Sidekiq::Client.push('class' => worker_name, 'args' => [])
 end

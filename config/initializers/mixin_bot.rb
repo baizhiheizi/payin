@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-if Rails.application.credentials.dig(:mixin).present?
+if Rails.application.credentials[:mixin].present?
   MixinBot.client_id = Rails.application.credentials.dig(:mixin, :client_id)
   MixinBot.client_secret = Rails.application.credentials.dig(:mixin, :client_secret)
   MixinBot.session_id = Rails.application.credentials.dig(:mixin, :session_id)

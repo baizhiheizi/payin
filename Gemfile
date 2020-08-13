@@ -88,8 +88,8 @@ gem 'batch-loader'
 gem 'order_as_specified'
 
 # A performance dashboard for Postgres
-gem 'pg_query', '>= 0.9.0'
 gem 'pghero'
+gem 'pg_query', '>= 0.9.0'
 
 # deploy
 gem 'mina', require: false

@@ -28,9 +28,9 @@
 #  index_multisig_payments_on_trace_id             (trace_id) UNIQUE
 #
 class MultisigPayment < ApplicationRecord
-  belongs_to :creator, class_name: 'User', foreign_key: :creator_id, inverse_of: :created_payments
+  belongs_to :creator, class_name: 'User', inverse_of: :created_payments
   belongs_to :multisig_account
-  belongs_to :asset, primary_key: :asset_id, foreign_key: :asset_id, inverse_of: false
+  belongs_to :asset, primary_key: :asset_id, inverse_of: false
 
   before_validation :set_attributes, on: :create
 

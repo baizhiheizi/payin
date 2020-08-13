@@ -24,19 +24,19 @@ class ActiveSupport::TestCase
   fixtures :all
 
   def read_query(query)
-    File.read File.join(GQL_PATH, 'queries', query + '.gql')
+    File.read File.join(GQL_PATH, 'queries', "#{query}.gql")
   end
 
   def read_mutation(mutation)
-    File.read File.join(GQL_PATH, 'mutations', mutation + '.gql')
+    File.read File.join(GQL_PATH, 'mutations', "#{mutation}.gql")
   end
 
   def read_admin_query(query)
-    File.read File.join(ADMIN_GQL_PATH, 'queries', query + '.gql')
+    File.read File.join(ADMIN_GQL_PATH, 'queries', "#{query}.gql")
   end
 
   def read_admin_mutation(mutation)
-    File.read File.join(ADMIN_GQL_PATH, 'mutations', mutation + '.gql')
+    File.read File.join(ADMIN_GQL_PATH, 'mutations', "#{mutation}.gql")
   end
 
   def mixin_bot_mocking_read_asset
