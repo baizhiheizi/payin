@@ -21,7 +21,7 @@ gem 'puma', '~> 4.3'
 gem 'sass-rails', '~> 6'
 
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'webpacker', '~> 5.0'
+gem 'webpacker', '~> 5.2'
 
 # Integrate React.js with Rails views and controllers, the asset pipeline, or webpacker. https://github.com/reactjs/react-rails
 gem 'react-rails'
