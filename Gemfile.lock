@@ -263,7 +263,7 @@ GEM
     path_expander (1.1.0)
     pg (1.2.3)
     pg_query (1.2.0)
-    pghero (2.7.1)
+    pghero (2.7.2)
       activerecord (>= 5)
     polyamorous (2.3.2)
       activerecord (>= 5.2.1)
