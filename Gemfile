@@ -15,7 +15,7 @@ gem 'pg'
 gem 'aasm'
 
 # Use Puma as the app server
-gem 'puma', '~> 4.3'
+gem 'puma', '~> 5.0'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 6'
