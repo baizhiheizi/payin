@@ -1452,10 +1452,10 @@
   dependencies:
     mkdirp "^1.0.4"
 
-"@rails/actioncable@^6.0.3-3":
-  version "6.0.3-3"
-  resolved "https://registry.npm.taobao.org/@rails/actioncable/download/@rails/actioncable-6.0.3-3.tgz#fb1a46d3d353512764d5fa3cea2f492391601b7a"
-  integrity sha1-+xpG09NTUSdk1fo86i9JI5FgG3o=
+"@rails/actioncable@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-7.0.1.tgz#8f383b672e142d009f89b725d49b0832d99da74a"
+  integrity sha512-lbGc1z2RXdiWZJE/8o2GSe2gek82EoKd2YvjRrqV//0J3/JImONUYwZ2XPmS1R9R2oth1XlIG0YidqdeTty0TA==
 
 "@rails/activestorage@^6.0.3-3":
   version "6.0.3-3"
