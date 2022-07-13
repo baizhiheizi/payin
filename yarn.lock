@@ -1457,12 +1457,12 @@
   resolved "https://registry.npm.taobao.org/@rails/actioncable/download/@rails/actioncable-6.0.3-3.tgz#fb1a46d3d353512764d5fa3cea2f492391601b7a"
   integrity sha1-+xpG09NTUSdk1fo86i9JI5FgG3o=
 
-"@rails/activestorage@^6.0.3-3":
-  version "6.0.3-3"
-  resolved "https://registry.npm.taobao.org/@rails/activestorage/download/@rails/activestorage-6.0.3-3.tgz#0e1cb0f9e10ae5a043196d3a8f41e07062592fae"
-  integrity sha1-Dhyw+eEK5aBDGW06j0HgcGJZL64=
+"@rails/activestorage@^7.0.3":
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/@rails/activestorage/-/activestorage-7.0.3.tgz#516770d49f702bb2b746a826779465a513804003"
+  integrity sha512-pdIoQUNcimjbSlhUgnRyFimVvsp/J9C1yTxV3P40oQrRU81f3uM9tT4IY/wMfe691Zj7tJBiqsbThUoPT88TAA==
   dependencies:
-    spark-md5 "^3.0.0"
+    spark-md5 "^3.0.1"
 
 "@rails/ujs@^6.0.3":
   version "6.0.3"
@@ -10158,10 +10158,10 @@ source-map@~0.7.2:
   resolved "https://registry.npm.taobao.org/source-map/download/source-map-0.7.3.tgz?cache=0&sync_timestamp=1589682764497&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsource-map%2Fdownload%2Fsource-map-0.7.3.tgz#5302f8169031735226544092e64981f751750383"
   integrity sha1-UwL4FpAxc1ImVECS5kmB91F1A4M=
 
-spark-md5@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.npm.taobao.org/spark-md5/download/spark-md5-3.0.1.tgz#83a0e255734f2ab4e5c466e5a2cfc9ba2aa2124d"
-  integrity sha1-g6DiVXNPKrTlxGblos/JuiqiEk0=
+spark-md5@^3.0.1:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/spark-md5/-/spark-md5-3.0.2.tgz#7952c4a30784347abcee73268e473b9c0167e3fc"
+  integrity sha512-wcFzz9cDfbuqe0FZzfi2or1sgyIrsDwmPwfZC4hiNidPdPINjeUwNfv5kldczoEAcjl9Y1L3SM7Uz2PUEQzxQw==
 
 spdx-correct@^3.0.0:
   version "3.1.1"
